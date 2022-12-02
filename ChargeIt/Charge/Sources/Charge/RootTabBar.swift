@@ -15,4 +15,9 @@ public class RootTabBar: UITabBarController {
         view.backgroundColor = .systemBackground
         viewControllers = [Search.build()]
     }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        selectedIndex = 0
+    }
 }

@@ -9,13 +9,13 @@ import UIKit
 import MapKit
 import SnapKit
 
-class SearchViewController: UITabBarController {
+class SearchViewController: UIViewController {
     
     // MARK: Private Properties
     private let presenter: SearchPresenterProtocol
     
     // MARK: Visual Components
-    private lazy var map: MKMapView = MKMapView()
+    private var map: MKMapView = MKMapView()
     
     // MARK: Initializers
     init(presenter: SearchPresenterProtocol) {
