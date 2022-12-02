@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Charge
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,9 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let vc = UIViewController()
-        vc.view.backgroundColor = .orange
-        window?.rootViewController = vc
+        window?.rootViewController = RootTabBar()
         window?.makeKeyAndVisible()
     }
 

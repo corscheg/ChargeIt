@@ -11,6 +11,7 @@
 		035F1853293A7FDE0037B85C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F1852293A7FDE0037B85C /* SceneDelegate.swift */; };
 		035F185A293A7FDE0037B85C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 035F1859293A7FDE0037B85C /* Assets.xcassets */; };
 		035F185D293A7FDE0037B85C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035F185B293A7FDE0037B85C /* LaunchScreen.storyboard */; };
+		035F186C293A87830037B85C /* Charge in Frameworks */ = {isa = PBXBuildFile; productRef = 035F186B293A87830037B85C /* Charge */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		035F1859293A7FDE0037B85C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		035F185C293A7FDE0037B85C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		035F185E293A7FDE0037B85C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		035F1869293A86790037B85C /* Charge */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Charge; path = ../../Charge; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				035F186C293A87830037B85C /* Charge in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +41,7 @@
 			children = (
 				035F184F293A7FDE0037B85C /* ChargeIt */,
 				035F184E293A7FDE0037B85C /* Products */,
+				035F186A293A87830037B85C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,6 +56,7 @@
 		035F184F293A7FDE0037B85C /* ChargeIt */ = {
 			isa = PBXGroup;
 			children = (
+				035F1869293A86790037B85C /* Charge */,
 				035F1850293A7FDE0037B85C /* AppDelegate.swift */,
 				035F1852293A7FDE0037B85C /* SceneDelegate.swift */,
 				035F1859293A7FDE0037B85C /* Assets.xcassets */,
@@ -59,6 +64,13 @@
 				035F185E293A7FDE0037B85C /* Info.plist */,
 			);
 			path = ChargeIt;
+			sourceTree = "<group>";
+		};
+		035F186A293A87830037B85C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,6 +89,9 @@
 			dependencies = (
 			);
 			name = ChargeIt;
+			packageProductDependencies = (
+				035F186B293A87830037B85C /* Charge */,
+			);
 			productName = ChargeIt;
 			productReference = 035F184D293A7FDE0037B85C /* ChargeIt.app */;
 			productType = "com.apple.product-type.application";
@@ -348,6 +363,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		035F186B293A87830037B85C /* Charge */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Charge;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 035F1845293A7FDE0037B85C /* Project object */;
 }
