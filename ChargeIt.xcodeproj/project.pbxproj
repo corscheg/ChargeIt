@@ -21,7 +21,7 @@
 		035F1859293A7FDE0037B85C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		035F185C293A7FDE0037B85C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		035F185E293A7FDE0037B85C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		035F1869293A86790037B85C /* Charge */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Charge; path = ../../Charge; sourceTree = "<group>"; };
+		03FD68E5293A99EA00C47AE9 /* Charge */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Charge; path = ChargeIt/Charge; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +39,7 @@
 		035F1844293A7FDE0037B85C = {
 			isa = PBXGroup;
 			children = (
+				03FD68E4293A99EA00C47AE9 /* Packages */,
 				035F184F293A7FDE0037B85C /* ChargeIt */,
 				035F184E293A7FDE0037B85C /* Products */,
 				035F186A293A87830037B85C /* Frameworks */,
@@ -56,7 +57,6 @@
 		035F184F293A7FDE0037B85C /* ChargeIt */ = {
 			isa = PBXGroup;
 			children = (
-				035F1869293A86790037B85C /* Charge */,
 				035F1850293A7FDE0037B85C /* AppDelegate.swift */,
 				035F1852293A7FDE0037B85C /* SceneDelegate.swift */,
 				035F1859293A7FDE0037B85C /* Assets.xcassets */,
@@ -71,6 +71,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		03FD68E4293A99EA00C47AE9 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				03FD68E5293A99EA00C47AE9 /* Charge */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
