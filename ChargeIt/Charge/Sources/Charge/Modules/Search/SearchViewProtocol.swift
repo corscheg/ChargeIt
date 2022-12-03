@@ -8,5 +8,6 @@
 import Foundation
 
 protocol SearchViewProtocol: AnyObject {
-    
+    func updateUI(with viewModel: SearchViewModel)
+    func showError(with message: String)
 }

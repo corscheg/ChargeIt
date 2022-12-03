@@ -8,5 +8,7 @@
 import Foundation
 
 protocol SearchPresenterProtocol: AnyObject {
-    
+    func loadPoints()
+    func pointsLoadingFailed(with error: Error)
+    func pointsLoadingSucceeded(with points: [ChargingPoint])
 }

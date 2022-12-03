@@ -26,4 +26,21 @@ class SearchPresenter {
 // MARK: - SearchPresenterProtocol
 extension SearchPresenter: SearchPresenterProtocol {
     
+    func loadPoints() {
+        interactor.loadPoints()
+    }
+    
+    func pointsLoadingFailed(with error: Error) {
+        view?.showError(with: error.localizedDescription)
+    }
+    
+    func pointsLoadingSucceeded(with points: [ChargingPoint]) {
+        var viewModel = SearchViewModel()
+        
+        points.forEach {
+            viewModel.locations.append($0.location.coordinates)
+        }
+        
+        view?.updateUI(with: viewModel)
+    }
 }

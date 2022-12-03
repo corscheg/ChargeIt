@@ -42,10 +42,22 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        presenter.loadPoints()
     }
 }
 
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
+    func updateUI(with viewModel: SearchViewModel) {
+        viewModel.locations.forEach {
+            map.addAnnotation(MKPlacemark(coordinate: $0))
+        }
+    }
     
+    func showError(with message: String) {
+        let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }
