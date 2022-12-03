@@ -20,7 +20,7 @@ class SearchInteractor {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     func loadPoints() {
-        dataManager.fetchPoints(near: CLLocationCoordinate2D(latitude: 60.0, longitude: 30.0)) { [weak self] result in
+        dataManager.fetchPoints(near: CLLocationCoordinate2D(latitude: 51.0, longitude: 0.0)) { [weak self] result in
             switch result {
             case .failure(let error):
                 self?.presenter?.pointsLoadingFailed(with: error)

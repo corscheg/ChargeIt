@@ -6,10 +6,11 @@
 //
 
 import Foundation
-import CoreLocation
+import MapKit
 
 struct SearchViewModel {
     
     // MARK: Public Properties
     var locations: [CLLocationCoordinate2D] = []
+    var region: MKCoordinateRegion = MKCoordinateRegion()
 }

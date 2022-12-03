@@ -53,6 +53,8 @@ extension SearchViewController: SearchViewProtocol {
         viewModel.locations.forEach {
             map.addAnnotation(MKPlacemark(coordinate: $0))
         }
+        
+        map.setRegion(viewModel.region, animated: true)
     }
     
     func showError(with message: String) {

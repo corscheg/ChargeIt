@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 class SearchPresenter {
     
@@ -37,10 +38,28 @@ extension SearchPresenter: SearchPresenterProtocol {
     func pointsLoadingSucceeded(with points: [ChargingPoint]) {
         var viewModel = SearchViewModel()
         
+        var minLatitude = 90.0
+        var minLongitude = 180.0
+        var maxLatitude = -90.0
+        var maxLongitude = -180.0
+        
         points.forEach {
-            viewModel.locations.append($0.location.coordinates)
+            let coordinates = $0.location.coordinates
+            viewModel.locations.append(coordinates)
+            
+            minLatitude = min(minLatitude, coordinates.latitude)
+            minLongitude = min(minLongitude, coordinates.longitude)
+            maxLatitude = max(maxLatitude, coordinates.latitude)
+            maxLongitude = max(maxLongitude, coordinates.longitude)
         }
         
-        view?.updateUI(with: viewModel)
+        let center = CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude) / 2, longitude: (maxLongitude + minLongitude) / 2)
+        let span = MKCoordinateSpan(latitudeDelta: (maxLatitude - minLatitude) * 1.1, longitudeDelta: (maxLongitude - minLongitude) * 1.1)
+        
+        viewModel.region = MKCoordinateRegion(center: center, span: span)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.updateUI(with: viewModel)
+        }
     }
 }
