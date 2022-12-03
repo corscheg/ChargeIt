@@ -36,13 +36,16 @@ class SearchViewController: UIViewController {
         view.addSubview(map)
         
         map.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        map.delegate = self
+        map.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "point")
         presenter.loadPoints()
     }
 }
@@ -61,5 +64,21 @@ extension SearchViewController: SearchViewProtocol {
         let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+}
+
+// MARK: - MKMapViewDelegate
+extension SearchViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "point") as? MKMarkerAnnotationView else {
+            return nil
+        }
+        
+        annotationView.annotation = annotation
+        annotationView.markerTintColor = .systemGreen
+        annotationView.glyphImage = UIImage(systemName: "bolt.fill")
+        annotationView.titleVisibility = .hidden
+        
+        return annotationView
     }
 }
