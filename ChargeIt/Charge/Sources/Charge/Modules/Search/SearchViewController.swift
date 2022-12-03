@@ -21,6 +21,8 @@ class SearchViewController: UIViewController {
     init(presenter: SearchPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        
+        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
     }
     
     required init?(coder: NSCoder) {
@@ -40,8 +42,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
     }
 }
 
