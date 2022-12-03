@@ -21,8 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.tintColor = .systemOrange
-        
         window?.rootViewController = RootTabBar()
         window?.makeKeyAndVisible()
     }

@@ -30,7 +30,7 @@ struct DataManager {
     // MARK: Public Methods
     func fetchPoints(near location: CLLocationCoordinate2D,
                      within radius: Double = 20,
-                     completion: @escaping (Result<[ChargingPoint], Error>) -> Void) {
+                     completion: @escaping (Result<[ChargingPoint], SearchError>) -> Void) {
         var components = baseURL
         components.path.append("/poi")
         components.queryItems?.append(URLQueryItem(name: "latitude", value: location.latitude.description))
@@ -38,33 +38,25 @@ struct DataManager {
         components.queryItems?.append(URLQueryItem(name: "distance", value: radius.description))
         
         guard let url = components.url else {
-            
-            #warning("Add error handling")
-            print(components)
+            completion(.failure(.invalidURL))
             return
         }
-        
-        print(url)
         
         let request = URLRequest(url: url)
         
         let task = session.dataTask(with: request) { data, response, error in
-            if let error {
-                completion(.failure(error))
+            if error != nil {
+                completion(.failure(.networkingError))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data else {
-                
-                #warning("Add error handling")
-                print(response)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(.badResponse))
                 return
             }
             
-            guard let points = try? JSONDecoder().decode([ChargingPoint].self, from: data) else {
-                
-                #warning("Add error handling")
-                print(data)
+            guard let data, let points = try? JSONDecoder().decode([ChargingPoint].self, from: data) else {
+                completion(.failure(.decodingError))
                 return
             }
             

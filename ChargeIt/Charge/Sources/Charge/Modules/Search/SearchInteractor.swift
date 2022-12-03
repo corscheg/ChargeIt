@@ -16,6 +16,7 @@ class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let dataManager = DataManager()
     private let locationManager: CLLocationManager
+    private var locationEnabled = false
     
     override init() {
         locationManager = CLLocationManager()
@@ -30,6 +31,11 @@ class SearchInteractor: NSObject {
 extension SearchInteractor: SearchInteractorProtocol {
     
     func loadNearbyPoints() {
+        guard locationEnabled else {
+            presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
+            return
+        }
+        
         locationManager.requestLocation()
     }
 }
@@ -50,9 +56,11 @@ extension SearchInteractor: CLLocationManagerDelegate {
     private func manageAuthorization(status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            break
+            locationEnabled = true
+            presenter?.enableLocation()
         case .denied, .restricted:
-            break
+            locationEnabled = false
+            presenter?.disableLocation()
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         default:
@@ -62,8 +70,7 @@ extension SearchInteractor: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
-            #warning("Add error handling")
-            print("Locations array is empty")
+            presenter?.pointsLoadingFailed(with: .locationError)
             return
         }
         
@@ -78,7 +85,6 @@ extension SearchInteractor: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        #warning("Add error handling")
-        print(error.localizedDescription)
+        presenter?.pointsLoadingFailed(with: .locationError)
     }
 }

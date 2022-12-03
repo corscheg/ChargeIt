@@ -27,12 +27,16 @@ class SearchPresenter {
 // MARK: - SearchPresenterProtocol
 extension SearchPresenter: SearchPresenterProtocol {
     
-    func loadPoints() {
+    func loadNearbyPoints() {
+        view?.startActivityIndication()
         interactor.loadNearbyPoints()
     }
     
-    func pointsLoadingFailed(with error: Error) {
-        view?.showError(with: error.localizedDescription)
+    func pointsLoadingFailed(with error: SearchError) {
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.showError(with: error.localizedDescription)
+            self?.view?.stopActivityIndication()
+        }
     }
     
     func pointsLoadingSucceeded(with points: [ChargingPoint]) {
@@ -60,6 +64,15 @@ extension SearchPresenter: SearchPresenterProtocol {
         
         DispatchQueue.main.async { [weak self] in
             self?.view?.updateUI(with: viewModel)
+            self?.view?.stopActivityIndication()
         }
+    }
+    
+    func enableLocation() {
+        view?.setLocation(enabled: true)
+    }
+    
+    func disableLocation() {
+        view?.setLocation(enabled: false)
     }
 }
