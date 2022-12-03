@@ -28,7 +28,7 @@ class SearchPresenter {
 extension SearchPresenter: SearchPresenterProtocol {
     
     func loadPoints() {
-        interactor.loadPoints()
+        interactor.loadNearbyPoints()
     }
     
     func pointsLoadingFailed(with error: Error) {
