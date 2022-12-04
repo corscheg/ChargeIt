@@ -16,20 +16,39 @@ class SearchViewController: UIViewController {
     
     // MARK: Visual Components
     private lazy var map: MKMapView = MKMapView()
+    
     private lazy var nearbyButton: UIButton = {
         let button: UIButton
         button = UIButton(type: .custom)
-        button.backgroundColor = .systemOrange
+        button.backgroundColor = .systemOrange.withAlphaComponent(0.5)
         button.layer.cornerRadius = 10
         button.layer.cornerCurve = .continuous
         
-        button.setTitle("Nearby Charging Points", for: .normal)
+        button.setTitle("Find Nearby", for: .normal)
         button.setTitle("Enable Location Services", for: .disabled)
         button.isEnabled = false
         
         return button
     }()
-    private lazy var activityIndicator = UIActivityIndicatorView()
+    
+    private lazy var nearbyStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 10
+        stack.distribution = .equalSpacing
+        stack.alignment = .fill
+        
+        return stack
+    }()
+    
+    private lazy var activityIndicator: ExtendedActivityView = {
+        let indicator = ExtendedActivityView()
+        indicator.isHidden = true
+        indicator.alpha = 0
+        indicator.transform = CGAffineTransform(scaleX: 1, y: 0.5)
+        
+        return indicator
+    }()
     
     // MARK: Initializers
     init(presenter: SearchPresenterProtocol) {
@@ -53,20 +72,17 @@ class SearchViewController: UIViewController {
             make.top.equalToSuperview()
         }
         
-        map.addSubview(nearbyButton)
-        nearbyButton.snp.makeConstraints { make in
+        map.addSubview(nearbyStack)
+        nearbyStack.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.centerX.equalToSuperview()
-            make.height.equalTo(44)
         }
         
-        nearbyButton.addSubview(activityIndicator)
-        activityIndicator.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().inset(10)
-            if let label = nearbyButton.titleLabel {
-                make.trailing.equalTo(label.snp.leading).inset(-7)
-            }
+        nearbyStack.addArrangedSubview(activityIndicator)
+        
+        nearbyStack.addArrangedSubview(nearbyButton)
+        nearbyButton.snp.makeConstraints { make in
+            make.height.equalTo(44)
         }
         
         nearbyButton.titleLabel?.snp.makeConstraints { make in
@@ -107,14 +123,26 @@ extension SearchViewController: SearchViewProtocol {
     
     func setLocation(enabled: Bool) {
         nearbyButton.isEnabled = enabled
+        nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
     }
     
     func startActivityIndication() {
-        activityIndicator.startAnimating()
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
+            self.activityIndicator.isHidden = false
+        }
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut]) {
+            self.activityIndicator.alpha = 1
+            self.activityIndicator.transform = .identity
+        }
     }
     
     func stopActivityIndication() {
-        activityIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut]) {
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.alpha = 0
+            self.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5)
+        }
     }
 }
 
