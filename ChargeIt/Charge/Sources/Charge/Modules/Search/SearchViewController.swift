@@ -115,7 +115,9 @@ class SearchViewController: UIViewController {
         nearbyButton.addTarget(self, action: #selector(nearbyButtonTapped), for: .touchUpInside)
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(expandHideSideSheet))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(sideSheetTranslationChanged(_:)))
         sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
+        sideSheet.panSurface.addGestureRecognizer(panRecognizer)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -138,10 +140,26 @@ class SearchViewController: UIViewController {
         }
         
         UIView.animate(withDuration: 0.5) {
+            self.sideSheet.transform = .identity
             self.view.layoutIfNeeded()
         }
         
         sideSheetVisible.toggle()
+    }
+    
+    @objc private func sideSheetTranslationChanged(_ sender: UIPanGestureRecognizer) {
+        guard sender.state != .ended else {
+            if abs(sender.translation(in: view).x) > sideSheet.frame.width / 2 {
+                expandHideSideSheet()
+            } else {
+                UIView.animate(withDuration: 0.5) {
+                    self.sideSheet.transform = .identity
+                }
+            }
+            return
+        }
+        
+        sideSheet.transform = CGAffineTransform(translationX: sender.translation(in: view).x, y: 0)
     }
 }
 
