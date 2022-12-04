@@ -79,6 +79,7 @@ class SearchViewController: UIViewController {
         }
         
         nearbyStack.addArrangedSubview(activityIndicator)
+        activityIndicator.transform = activityIndicator.transform.concatenating(CGAffineTransform(translationX: activityIndicator.frame.width, y: 0))
         
         nearbyStack.addArrangedSubview(nearbyButton)
         nearbyButton.snp.makeConstraints { make in
@@ -129,11 +130,11 @@ extension SearchViewController: SearchViewProtocol {
     func startActivityIndication() {
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
             self.activityIndicator.isHidden = false
+            self.activityIndicator.transform = .identity
         }
         
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut]) {
             self.activityIndicator.alpha = 1
-            self.activityIndicator.transform = .identity
         }
     }
     
@@ -141,7 +142,7 @@ extension SearchViewController: SearchViewProtocol {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut]) {
             self.activityIndicator.isHidden = true
             self.activityIndicator.alpha = 0
-            self.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5)
+            self.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5).concatenating(CGAffineTransform(translationX: self.activityIndicator.frame.width, y: 0))
         }
     }
 }
