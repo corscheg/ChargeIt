@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     
     // MARK: Private Properties
     private let presenter: SearchPresenterProtocol
+    private var sideSheetVisible = false
     
     // MARK: Visual Components
     private lazy var map: MKMapView = MKMapView()
@@ -48,6 +49,12 @@ class SearchViewController: UIViewController {
         indicator.transform = CGAffineTransform(scaleX: 1, y: 0.5)
         
         return indicator
+    }()
+    
+    private lazy var sideSheet: PreferenceSideSheet = {
+        let sheet = PreferenceSideSheet()
+        
+        return sheet
     }()
     
     // MARK: Initializers
@@ -89,6 +96,14 @@ class SearchViewController: UIViewController {
         nearbyButton.titleLabel?.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(20)
         }
+        
+        view.addSubview(sideSheet)
+        sideSheet.snp.makeConstraints { make in
+            make.bottom.equalTo(nearbyStack.snp.top).offset(-20)
+            make.height.equalToSuperview().dividedBy(2)
+            make.width.equalToSuperview().multipliedBy(0.8)
+        }
+         
     }
     
     override func viewDidLoad() {
@@ -98,11 +113,35 @@ class SearchViewController: UIViewController {
         map.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "point")
         
         nearbyButton.addTarget(self, action: #selector(nearbyButtonTapped), for: .touchUpInside)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(expandHideSideSheet))
+        sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        sideSheet.snp.makeConstraints { make in
+            make.left.equalTo(view.snp.left).offset(-(sideSheet.frame.width * 0.9))
+        }
     }
     
     // MARK: Actions
     @objc private func nearbyButtonTapped() {
         presenter.loadNearbyPoints()
+        if sideSheetVisible {
+            expandHideSideSheet()
+        }
+    }
+    
+    @objc private func expandHideSideSheet() {
+        sideSheet.snp.updateConstraints { make in
+            make.left.equalTo(view.snp.left).offset(sideSheetVisible ? -(sideSheet.frame.width * 0.9) : -10)
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+        }
+        
+        sideSheetVisible.toggle()
     }
 }
 
