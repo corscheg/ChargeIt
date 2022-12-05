@@ -16,6 +16,7 @@ class SearchPresenter {
     // MARK: Private Properties
     private let router: SearchRouterProtocol
     private let interactor: SearchInteractorProtocol
+    private var viewModel: SearchViewModel = SearchViewModel(locations: [], region: MKCoordinateRegion(), radius: 20, maxCount: 100)
     
     // MARK: Initializers
     init(router: SearchRouterProtocol, interactor: SearchInteractorProtocol) {
@@ -27,9 +28,23 @@ class SearchPresenter {
 // MARK: - SearchPresenterProtocol
 extension SearchPresenter: SearchPresenterProtocol {
     
-    func loadNearbyPoints(with options: SearchQueryParameters) {
+    func loadState() {
+        view?.updateUI(with: viewModel)
+    }
+    
+    func radiusChanged(value: Float) {
+        viewModel.radius = Int(value)
+        view?.updateParameters(with: viewModel)
+    }
+    
+    func mapRegionChanged(to value: MKCoordinateRegion) {
+        viewModel.region = value
+    }
+    
+    func loadNearbyPoints() {
         view?.startActivityIndication()
-        interactor.loadNearbyPoints(with: options)
+        let parameters = SearchQueryParameters(radius: viewModel.radius, maxCount: viewModel.maxCount)
+        interactor.loadNearbyPoints(with: parameters)
     }
     
     func pointsLoadingFailed(with error: SearchError) {
@@ -40,12 +55,13 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
     
     func pointsLoadingSucceeded(with points: [ChargingPoint]) {
-        var viewModel = SearchViewModel()
         
         var minLatitude = 90.0
         var minLongitude = 180.0
         var maxLatitude = -90.0
         var maxLongitude = -180.0
+        
+        viewModel.locations = []
         
         points.forEach {
             let coordinates = $0.location.coordinates
@@ -63,7 +79,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         viewModel.region = MKCoordinateRegion(center: center, span: span)
         
         DispatchQueue.main.async { [weak self] in
-            self?.view?.updateUI(with: viewModel)
+            self?.view?.updateUI(with: self!.viewModel)
             self?.view?.stopActivityIndication()
         }
     }

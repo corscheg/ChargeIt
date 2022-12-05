@@ -85,9 +85,6 @@ class PreferenceSideSheet: UIView {
         radiusValueLabel.snp.makeConstraints { make in
             make.width.equalTo("500 km".width(withHeight: radiusValueLabel.frame.height, font: radiusValueLabel.font))
         }
-        radiusValueLabel.text = "\(Int(radiusSlider.value)) km"
-        
-        radiusSlider.addTarget(self, action: #selector(radiusValueChanged), for: .valueChanged)
     }
     
     convenience init() {
@@ -96,11 +93,6 @@ class PreferenceSideSheet: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: Actions
-    @objc func radiusValueChanged() {
-        radiusValueLabel.text = "\(Int(radiusSlider.value)) km"
     }
     
 }

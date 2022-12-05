@@ -119,6 +119,9 @@ class SearchViewController: UIViewController {
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(sideSheetTranslationChanged(_:)))
         sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
         sideSheet.panSurface.addGestureRecognizer(panRecognizer)
+        sideSheet.radiusSlider.addTarget(self, action: #selector(radiusSliderValueChanged), for: .valueChanged)
+        
+        presenter.loadState()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,8 +136,7 @@ class SearchViewController: UIViewController {
     
     // MARK: Actions
     @objc private func nearbyButtonTapped() {
-        let parameters = SearchQueryParameters(currentCountryOnly: false, radius: Int(sideSheet.radiusSlider.value), maxCount: 100)
-        presenter.loadNearbyPoints(with: parameters)
+        presenter.loadNearbyPoints()
         if sideSheetVisible {
             expandHideSideSheet()
         }
@@ -167,6 +169,10 @@ class SearchViewController: UIViewController {
         
         sideSheet.transform = CGAffineTransform(translationX: sender.translation(in: view).x, y: 0)
     }
+    
+    @objc private func radiusSliderValueChanged() {
+        presenter.radiusChanged(value: sideSheet.radiusSlider.value)
+    }
 }
 
 // MARK: - SearchViewProtocol
@@ -177,6 +183,7 @@ extension SearchViewController: SearchViewProtocol {
         }
         
         map.setRegion(viewModel.region, animated: true)
+        sideSheet.radiusValueLabel.text = "\(viewModel.radius) km"
     }
     
     func showError(with message: String) {
@@ -188,6 +195,10 @@ extension SearchViewController: SearchViewProtocol {
     func setLocation(enabled: Bool) {
         nearbyButton.isEnabled = enabled
         nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
+    }
+    
+    func updateParameters(with viewModel: SearchViewModel) {
+        sideSheet.radiusValueLabel.text = "\(viewModel.radius) km"
     }
     
     func startActivityIndication() {
@@ -223,5 +234,9 @@ extension SearchViewController: MKMapViewDelegate {
         annotationView.titleVisibility = .hidden
         
         return annotationView
+    }
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        presenter.mapRegionChanged(to: mapView.region)
     }
 }
