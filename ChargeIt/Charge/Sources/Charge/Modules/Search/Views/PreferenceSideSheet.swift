@@ -31,8 +31,8 @@ class PreferenceSideSheet: UIView {
     
     lazy var radiusSlider: UISlider = {
         let slider = UISlider()
-        slider.maximumValue = 500
-        slider.minimumValue = 10
+        slider.maximumValue = 20
+        slider.minimumValue = 3
         
         
         return slider
@@ -77,7 +77,7 @@ class PreferenceSideSheet: UIView {
         addSubview(radiusValueLabel)
         addLayoutGuide(radiusSliderLayoutGuide)
         radiusSliderLayoutGuide.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(15)
+            make.top.equalTo(layoutMarginsGuide)
             make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
             make.right.equalTo(panSurface.snp.left).offset(-15)
         }

@@ -22,8 +22,8 @@ class SearchPresenter {
             center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
             span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180)
         ),
-        radius: 20,
-        maxCount: 100
+        radius: 9,
+        maxCount: 10000
     )
     
     // MARK: Initializers
@@ -41,7 +41,7 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
     
     func radiusChanged(value: Float) {
-        viewModel.radius = Int(value)
+        viewModel.radius = Int(pow(value, 2))
         view?.updateParameters(with: viewModel)
     }
     
