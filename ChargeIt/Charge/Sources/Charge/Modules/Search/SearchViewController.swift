@@ -133,7 +133,8 @@ class SearchViewController: UIViewController {
     
     // MARK: Actions
     @objc private func nearbyButtonTapped() {
-        presenter.loadNearbyPoints()
+        let parameters = SearchQueryParameters(currentCountryOnly: false, radius: Int(sideSheet.radiusSlider.value), maxCount: 100)
+        presenter.loadNearbyPoints(with: parameters)
         if sideSheetVisible {
             expandHideSideSheet()
         }

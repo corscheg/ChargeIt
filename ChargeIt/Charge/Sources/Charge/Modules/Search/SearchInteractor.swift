@@ -17,6 +17,7 @@ class SearchInteractor: NSObject {
     private let dataManager = DataManager()
     private let locationManager: CLLocationManager
     private var locationEnabled = false
+    private var parameters: SearchQueryParameters?
     
     override init() {
         locationManager = CLLocationManager()
@@ -30,12 +31,12 @@ class SearchInteractor: NSObject {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     
-    func loadNearbyPoints() {
+    func loadNearbyPoints(with options: SearchQueryParameters) {
         guard locationEnabled else {
             presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
             return
         }
-        
+        parameters = options
         locationManager.requestLocation()
     }
 }
@@ -74,7 +75,9 @@ extension SearchInteractor: CLLocationManagerDelegate {
             return
         }
         
-        dataManager.fetchPoints(near: location.coordinate) { [weak self] result in
+        guard let parameters else { return }
+        
+        dataManager.fetchPoints(near: location.coordinate, within: parameters.radius, maxCount: parameters.maxCount) { [weak self] result in
             switch result {
             case .failure(let error):
                 self?.presenter?.pointsLoadingFailed(with: error)

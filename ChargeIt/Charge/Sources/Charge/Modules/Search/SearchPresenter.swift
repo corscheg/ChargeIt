@@ -27,9 +27,9 @@ class SearchPresenter {
 // MARK: - SearchPresenterProtocol
 extension SearchPresenter: SearchPresenterProtocol {
     
-    func loadNearbyPoints() {
+    func loadNearbyPoints(with options: SearchQueryParameters) {
         view?.startActivityIndication()
-        interactor.loadNearbyPoints()
+        interactor.loadNearbyPoints(with: options)
     }
     
     func pointsLoadingFailed(with error: SearchError) {
@@ -58,7 +58,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         }
         
         let center = CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude) / 2, longitude: (maxLongitude + minLongitude) / 2)
-        let span = MKCoordinateSpan(latitudeDelta: (maxLatitude - minLatitude) * 1.1, longitudeDelta: (maxLongitude - minLongitude) * 1.1)
+        let span = MKCoordinateSpan(latitudeDelta: (maxLatitude - minLatitude) * 1.1, longitudeDelta: (maxLongitude - minLongitude) * 1.3)
         
         viewModel.region = MKCoordinateRegion(center: center, span: span)
         

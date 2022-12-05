@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SearchPresenterProtocol: AnyObject {
-    func loadNearbyPoints()
+    func loadNearbyPoints(with options: SearchQueryParameters)
     func pointsLoadingFailed(with error: SearchError)
     func pointsLoadingSucceeded(with points: [ChargingPoint])
     func enableLocation()

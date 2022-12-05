@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchInteractorProtocol {
-    func loadNearbyPoints()
+    func loadNearbyPoints(with options: SearchQueryParameters)
 }

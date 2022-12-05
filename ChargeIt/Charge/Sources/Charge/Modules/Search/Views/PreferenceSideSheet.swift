@@ -31,8 +31,9 @@ class PreferenceSideSheet: UIView {
     
     lazy var radiusSlider: UISlider = {
         let slider = UISlider()
-        slider.maximumValue = 1000
+        slider.maximumValue = 500
         slider.minimumValue = 10
+        
         
         return slider
     }()
@@ -42,11 +43,14 @@ class PreferenceSideSheet: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
         label.textColor = .secondaryLabel
+        label.textAlignment = .right
         
         return label
     }()
     
     lazy var offsetLayoutGuide: UILayoutGuide = UILayoutGuide()
+    
+    private lazy var radiusSliderLayoutGuide: SliderGroupLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
 
     // MARK: Initializers
     override init(frame: CGRect) {
@@ -67,6 +71,23 @@ class PreferenceSideSheet: UIView {
             make.left.top.bottom.equalToSuperview()
             make.width.equalTo(10)
         }
+        
+        addSubview(radiusLabel)
+        addSubview(radiusSlider)
+        addSubview(radiusValueLabel)
+        addLayoutGuide(radiusSliderLayoutGuide)
+        radiusSliderLayoutGuide.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(15)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+        }
+        radiusSliderLayoutGuide.layoutViews()
+        radiusValueLabel.snp.makeConstraints { make in
+            make.width.equalTo("500 km".width(withHeight: radiusValueLabel.frame.height, font: radiusValueLabel.font))
+        }
+        radiusValueLabel.text = "\(Int(radiusSlider.value)) km"
+        
+        radiusSlider.addTarget(self, action: #selector(radiusValueChanged), for: .valueChanged)
     }
     
     convenience init() {
@@ -75,6 +96,11 @@ class PreferenceSideSheet: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Actions
+    @objc func radiusValueChanged() {
+        radiusValueLabel.text = "\(Int(radiusSlider.value)) km"
     }
     
 }

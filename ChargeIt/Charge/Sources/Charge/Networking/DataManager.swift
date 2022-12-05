@@ -17,7 +17,10 @@ struct DataManager {
         components.scheme = "https"
         components.host = "api.openchargemap.io"
         components.path = "/v3"
-        components.queryItems = [URLQueryItem(name: "key", value: "d1058095-baa1-426e-bfb9-2e0f8ba58f8c")]
+        components.queryItems = [
+            URLQueryItem(name: "key", value: "d1058095-baa1-426e-bfb9-2e0f8ba58f8c"),
+            URLQueryItem(name: "distanceunit", value: "km")
+        ]
         
         return components
     }()
@@ -29,7 +32,7 @@ struct DataManager {
     
     // MARK: Public Methods
     func fetchPoints(near location: CLLocationCoordinate2D,
-                     within radius: Double = 20,
+                     within radius: Int = 20,
                      in country: String? = nil,
                      maxCount: Int = 100,
                      completion: @escaping (Result<[ChargingPoint], SearchError>) -> Void) {
@@ -38,6 +41,7 @@ struct DataManager {
         components.queryItems?.append(URLQueryItem(name: "latitude", value: location.latitude.description))
         components.queryItems?.append(URLQueryItem(name: "longitude", value: location.longitude.description))
         components.queryItems?.append(URLQueryItem(name: "distance", value: radius.description))
+        components.queryItems?.append(URLQueryItem(name: "maxresults", value: maxCount.description))
         
         guard let url = components.url else {
             completion(.failure(.invalidURL))
