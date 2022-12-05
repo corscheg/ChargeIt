@@ -16,7 +16,15 @@ class SearchPresenter {
     // MARK: Private Properties
     private let router: SearchRouterProtocol
     private let interactor: SearchInteractorProtocol
-    private var viewModel: SearchViewModel = SearchViewModel(locations: [], region: MKCoordinateRegion(), radius: 20, maxCount: 100)
+    private var viewModel: SearchViewModel = SearchViewModel(
+        locations: [],
+        region: MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+            span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180)
+        ),
+        radius: 20,
+        maxCount: 100
+    )
     
     // MARK: Initializers
     init(router: SearchRouterProtocol, interactor: SearchInteractorProtocol) {
