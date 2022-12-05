@@ -30,6 +30,8 @@ struct DataManager {
     // MARK: Public Methods
     func fetchPoints(near location: CLLocationCoordinate2D,
                      within radius: Double = 20,
+                     in country: String? = nil,
+                     maxCount: Int = 100,
                      completion: @escaping (Result<[ChargingPoint], SearchError>) -> Void) {
         var components = baseURL
         components.path.append("/poi")

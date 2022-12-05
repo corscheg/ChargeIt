@@ -53,6 +53,7 @@ class SearchViewController: UIViewController {
     
     private lazy var sideSheet: PreferenceSideSheet = {
         let sheet = PreferenceSideSheet()
+        sheet.alpha = 0
         
         return sheet
     }()
@@ -122,7 +123,11 @@ class SearchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         sideSheet.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left).offset(-(sideSheet.frame.width * 0.9))
+            make.left.equalTo(view.snp.left).offset(-(sideSheet.frame.width - sideSheet.panSurface.frame.width))
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.sideSheet.alpha = 1
         }
     }
     
@@ -136,7 +141,7 @@ class SearchViewController: UIViewController {
     
     @objc private func expandHideSideSheet() {
         sideSheet.snp.updateConstraints { make in
-            make.left.equalTo(view.snp.left).offset(sideSheetVisible ? -(sideSheet.frame.width * 0.9) : -10)
+            make.left.equalTo(view.snp.left).offset(sideSheetVisible ? -(sideSheet.frame.width - sideSheet.panSurface.frame.width) : -(sideSheet.offsetLayoutGuide.layoutFrame.width))
         }
         
         UIView.animate(withDuration: 0.5) {

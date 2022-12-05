@@ -13,6 +13,7 @@ public class RootTabBar: UITabBarController {
         super.init(nibName: nil, bundle: nil)
         
         UIView.appearance().tintColor = .systemOrange
+        UIButton.appearance().backgroundColor = .systemOrange
         
     }
     

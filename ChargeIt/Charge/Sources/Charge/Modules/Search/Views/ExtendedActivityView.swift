@@ -10,6 +10,7 @@ import SnapKit
 
 class ExtendedActivityView: UIView {
     
+    // MARK: Visual Components
     let indicator = UIActivityIndicatorView()
 
     // MARK: Initializers
