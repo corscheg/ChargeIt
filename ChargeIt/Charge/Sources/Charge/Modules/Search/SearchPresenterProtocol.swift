@@ -34,4 +34,7 @@ protocol SearchPresenterProtocol: AnyObject {
     
     /// Say that location search is impossible.
     func disableLocation()
+    
+    /// Call this method once the user tapped on the item.
+    func itemTapped(at index: Int)
 }

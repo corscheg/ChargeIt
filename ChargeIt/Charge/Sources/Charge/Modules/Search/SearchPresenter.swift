@@ -26,6 +26,7 @@ class SearchPresenter {
         radius: 9,
         maxCount: 10000
     )
+    private var points: [ChargingPoint] = []
     
     // MARK: Initializers
     init(router: SearchRouterProtocol, interactor: SearchInteractorProtocol) {
@@ -90,6 +91,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         DispatchQueue.main.async { [weak self] in
             self?.view?.updateUI(with: self!.viewModel)
             self?.view?.stopActivityIndication()
+            self?.points = points
         }
     }
     
@@ -99,5 +101,9 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func disableLocation() {
         view?.setLocation(enabled: false)
+    }
+    
+    func itemTapped(at index: Int) {
+        router.presentDetail(with: points[index])
     }
 }

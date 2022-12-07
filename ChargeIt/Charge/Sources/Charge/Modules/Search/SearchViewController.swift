@@ -178,8 +178,9 @@ class SearchViewController: UIViewController {
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
     func updateUI(with viewModel: SearchViewModel) {
-        viewModel.locations.forEach {
-            map.addAnnotation(MKPlacemark(coordinate: $0))
+        for (index, location) in viewModel.locations.enumerated() {
+            let annotation = MKPlacemark(coordinate: location)
+            map.addAnnotation(annotation)
         }
         
         map.setRegion(viewModel.region, animated: true)
@@ -238,5 +239,11 @@ extension SearchViewController: MKMapViewDelegate {
     
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         presenter.mapRegionChanged(to: mapView.region)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        presenter.itemTapped(at: 0)
+        mapView.deselectAnnotation(view.annotation, animated: true)
     }
 }
