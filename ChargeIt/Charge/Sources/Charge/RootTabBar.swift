@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// A `UITabBarController` used in order to launch ChargeIt app.
 public class RootTabBar: UITabBarController {
     
     public init() {

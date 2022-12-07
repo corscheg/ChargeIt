@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// A view containing parameter controls of the search query.
 class PreferenceSideSheet: UIView {
     
     // MARK: Visual Components
@@ -50,7 +51,7 @@ class PreferenceSideSheet: UIView {
     
     lazy var offsetLayoutGuide: UILayoutGuide = UILayoutGuide()
     
-    private lazy var radiusSliderLayoutGuide: SliderGroupLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
+    private lazy var radiusSliderLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
 
     // MARK: Initializers
     override init(frame: CGRect) {

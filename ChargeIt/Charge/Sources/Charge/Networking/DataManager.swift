@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DataManager.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 03.12.2022.
@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 
+/// A manager used to fetch data from the OpenCharge API.
 struct DataManager {
     
     // MARK: Private Properties
@@ -31,6 +32,7 @@ struct DataManager {
     }
     
     // MARK: Public Methods
+    /// Fetch charging points with the given parameters.
     func fetchPoints(near location: CLLocationCoordinate2D,
                      within radius: Int = 20,
                      in country: String? = nil,

@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 import SnapKit
 
+/// View of the Search Module.
 class SearchViewController: UIViewController {
     
     // MARK: Private Properties

@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// A `UIActivityIndicatorView` embedded in the background.
 class ExtendedActivityView: UIView {
     
     // MARK: Visual Components

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ChargingPoint.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 03.12.2022.
@@ -8,7 +8,10 @@
 import Foundation
 import CoreLocation
 
+/// A struct representing one charging point.
 struct ChargingPoint {
+
+    // MARK: Public Properties
     let id: UUID
     let location: LocationInfo
 }
@@ -20,10 +23,15 @@ extension ChargingPoint: Codable {
 
 // MARK: - LocationInfo
 extension ChargingPoint {
+    
+    /// A struct representing a location.
     struct LocationInfo: Codable {
+        
+        // MARK: Private Properties
         private let latitude: Double
         private let longitude: Double
         
+        // MARK: Public Properties
         var coordinates: CLLocationCoordinate2D {
             CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }

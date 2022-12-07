@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// A `UILayoutGuide` that can layout a slider with title and value labels.
 class SliderGroupLayoutGuide: UILayoutGuide {
     
     // MARK: Private Properties
@@ -26,6 +27,9 @@ class SliderGroupLayoutGuide: UILayoutGuide {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Public Methods
+    /// Make constraints on the elements.
+    /// **Call this method after both adding layout guide and subviews to the superview.**
     func layoutViews() {
         label.snp.makeConstraints { make in
             make.top.leading.equalTo(self)

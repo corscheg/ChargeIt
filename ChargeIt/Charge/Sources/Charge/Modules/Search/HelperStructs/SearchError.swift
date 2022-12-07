@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SearchError.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 03.12.2022.
@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// An error that occure during search of the charging points.
 enum SearchError: Error {
     case invalidURL
     case badResponse

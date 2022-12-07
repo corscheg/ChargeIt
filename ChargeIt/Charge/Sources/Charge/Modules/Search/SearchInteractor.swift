@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SearchInteractor.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 02.12.2022.
@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 
+/// Interactor of the Search module.
 class SearchInteractor: NSObject {
     
     // MARK: Public Properties
@@ -19,6 +20,7 @@ class SearchInteractor: NSObject {
     private var locationEnabled = false
     private var parameters: SearchQueryParameters?
     
+    // MARK: Initializers
     override init() {
         locationManager = CLLocationManager()
         super.init()

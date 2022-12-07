@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SearchPresenter.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 02.12.2022.
@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 
+/// Presenter of the Search module.
 class SearchPresenter {
     
     // MARK: Public Properties
