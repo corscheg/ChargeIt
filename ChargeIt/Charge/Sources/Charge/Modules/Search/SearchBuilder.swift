@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Search {
+struct SearchBuilder {
     static func build() -> SearchViewController {
         let interactor = SearchInteractor()
         let router = SearchRouter()

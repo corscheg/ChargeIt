@@ -77,7 +77,7 @@ class PreferenceSideSheet: UIView {
         addSubview(radiusValueLabel)
         addLayoutGuide(radiusSliderLayoutGuide)
         radiusSliderLayoutGuide.snp.makeConstraints { make in
-            make.top.equalTo(layoutMarginsGuide)
+            make.top.bottom.equalTo(layoutMarginsGuide)
             make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
             make.right.equalTo(panSurface.snp.left).offset(-15)
         }

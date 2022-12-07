@@ -26,6 +26,6 @@ public class RootTabBar: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        viewControllers = [Search.build()]
+        viewControllers = [SearchBuilder.build()]
     }
 }
