@@ -14,12 +14,11 @@ struct ChargingPoint {
     // MARK: Public Properties
     let id: UUID
     let location: LocationInfo
+    let connections: [Connection]
 }
 
 // MARK: - Codable
-extension ChargingPoint: Codable {
-    
-}
+extension ChargingPoint: Codable { }
 
 // MARK: - LocationInfo
 extension ChargingPoint {
@@ -49,5 +48,6 @@ extension ChargingPoint {
     enum CodingKeys: String, CodingKey {
         case id = "UUID"
         case location = "AddressInfo"
+        case connections = "Connections"
     }
 }
