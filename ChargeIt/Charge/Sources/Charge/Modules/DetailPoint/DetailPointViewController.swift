@@ -48,7 +48,8 @@ class DetailPointViewController: UIViewController {
     
     private lazy var countryLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.font = .preferredFont(forTextStyle: .callout)
         label.text = "Town, State, CN"
         label.textAlignment = .left
@@ -90,7 +91,7 @@ class DetailPointViewController: UIViewController {
         
         view.addSubview(countryLabel)
         countryLabel.snp.makeConstraints { make in
-            make.leading.equalTo(view.layoutMarginsGuide)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
             make.top.equalTo(addressSecondLabel.snp.bottom).offset(10)
         }
     }

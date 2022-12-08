@@ -178,6 +178,8 @@ class SearchViewController: UIViewController {
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
     func updateUI(with viewModel: SearchViewModel) {
+        map.removeAnnotations(map.annotations)
+        
         for (index, location) in viewModel.locations.enumerated() {
             let annotation = IdentifiablePlacemark(coordinate: location, id: index)
             map.addAnnotation(annotation)
