@@ -52,6 +52,6 @@ class DetailPointViewController: UIViewController {
 // MARK: - DetailPointViewProtocol
 extension DetailPointViewController: DetailPointViewProtocol {
     func updateUI(with viewModel: DetailPointViewModel) {
-        descriptionLabel.text = viewModel.description
+        
     }
 }

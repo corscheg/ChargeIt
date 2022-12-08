@@ -104,7 +104,26 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
     
     func itemTapped(at index: Int) {
-        let detailViewModel = DetailPointViewModel(description: points[index].description)
+        let item = points[index]
+        
+        let connections = item.connections.map {
+            DetailPointViewModel.ConnectionViewModel(
+                type: $0.type.title,
+                level: $0.level?.title,
+                fastChargeCapable: $0.level?.fastChargeCapable,
+                current: $0.currentType?.title
+            )
+        }
+        
+        let detailViewModel = DetailPointViewModel(
+            country: item.location.country.code,
+            state: item.location.state,
+            town: item.location.town,
+            addressFirst: item.location.addressFirst,
+            addressSecond: item.location.addressSecond,
+            locationTitle: item.location.title,
+            connections: connections
+        )
         router.presentDetail(with: detailViewModel)
     }
 }
