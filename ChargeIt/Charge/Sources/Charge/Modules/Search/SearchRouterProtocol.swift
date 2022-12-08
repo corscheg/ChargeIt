@@ -11,5 +11,5 @@ import Foundation
 protocol SearchRouterProtocol {
     
     /// Present the Detail Point view with the given point.
-    func presentDetail(with point: ChargingPoint)
+    func presentDetail(with viewModel: DetailPointViewModel)
 }

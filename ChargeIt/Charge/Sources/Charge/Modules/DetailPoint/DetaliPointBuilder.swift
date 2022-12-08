@@ -12,10 +12,10 @@ struct DetailPointBuilder {
     
     // MARK: Static Methods
     /// Build the module.
-    static func build(with point: ChargingPoint) -> DetailPointViewController {
+    static func build(with viewModel: DetailPointViewModel) -> DetailPointViewController {
         let interactor = DetailPointInteractor()
         let router = DetailPointRouter()
-        let presenter = DetailPointPresenter(router: router, interactor: interactor, point: point)
+        let presenter = DetailPointPresenter(router: router, interactor: interactor, viewModel: viewModel)
         let view = DetailPointViewController(presenter: presenter)
         
         presenter.view = view

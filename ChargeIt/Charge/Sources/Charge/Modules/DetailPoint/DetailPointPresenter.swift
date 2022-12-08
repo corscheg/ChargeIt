@@ -16,13 +16,13 @@ class DetailPointPresenter {
     // MARK: Private Properties
     private let router: DetailPointRouterProtocol
     private let interactor: DetailPointInteractorProtocol
-    private let point: ChargingPoint
+    private let viewModel: DetailPointViewModel
     
     // MARK: Initializers
-    init(router: DetailPointRouterProtocol, interactor: DetailPointInteractorProtocol, point: ChargingPoint) {
+    init(router: DetailPointRouterProtocol, interactor: DetailPointInteractorProtocol, viewModel: DetailPointViewModel) {
         self.router = router
         self.interactor = interactor
-        self.point = point
+        self.viewModel = viewModel
     }
     
 }
@@ -30,6 +30,6 @@ class DetailPointPresenter {
 // MARK: - DetailPointPresenterProtocol
 extension DetailPointPresenter: DetailPointPresenterProtocol {
     func askForUpdate() {
-        view?.updateUI(with: DetailPointViewModel(description: point.description))
+        view?.updateUI(with: viewModel)
     }
 }

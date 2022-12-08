@@ -17,12 +17,12 @@ class SearchRouter {
 
 // MARK: - SearchRouterProtocol
 extension SearchRouter: SearchRouterProtocol {
-    func presentDetail(with point: ChargingPoint) {
+    func presentDetail(with viewModel: DetailPointViewModel) {
         guard let uiView = view as? UIViewController else {
             return
         }
         
-        let detailView = DetailPointBuilder.build(with: point)
+        let detailView = DetailPointBuilder.build(with: viewModel)
         uiView.present(detailView, animated: true)
     }
 }

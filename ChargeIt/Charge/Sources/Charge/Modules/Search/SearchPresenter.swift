@@ -104,6 +104,7 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
     
     func itemTapped(at index: Int) {
-        router.presentDetail(with: points[index])
+        let detailViewModel = DetailPointViewModel(description: points[index].description)
+        router.presentDetail(with: detailViewModel)
     }
 }
