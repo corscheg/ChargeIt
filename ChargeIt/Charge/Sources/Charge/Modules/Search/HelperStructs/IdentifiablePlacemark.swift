@@ -7,7 +7,7 @@
 
 import MapKit
 
-/// A placemark which contain an index.
+/// A placemark which contains an index.
 class IdentifiablePlacemark: MKPlacemark {
     
     // MARK: Public Properties
