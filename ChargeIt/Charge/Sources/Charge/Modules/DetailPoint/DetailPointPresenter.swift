@@ -29,5 +29,7 @@ class DetailPointPresenter {
 
 // MARK: - DetailPointPresenterProtocol
 extension DetailPointPresenter: DetailPointPresenterProtocol {
-    
+    func askForUpdate() {
+        view?.updateUI(with: DetailPointViewModel(description: point.description))
+    }
 }

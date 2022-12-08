@@ -6,12 +6,21 @@
 //
 
 import UIKit
+import SnapKit
 
 /// View of the Detail Point module.
 class DetailPointViewController: UIViewController {
 
     // MARK: Private Properties
     private let presenter: DetailPointPresenterProtocol
+    
+    // MARK: Visual Components
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        
+        return label
+    }()
     
     // MARK: Initializers
     init(presenter: DetailPointPresenterProtocol) {
@@ -26,12 +35,23 @@ class DetailPointViewController: UIViewController {
     // MARK: UIViewController
     override func loadView() {
         view = UIView()
-        view.backgroundColor = .systemOrange
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.layoutMarginsGuide)
+        }
+    }
+    
+    override func viewDidLoad() {
+        presenter.askForUpdate()
     }
     
 }
 
 // MARK: - DetailPointViewProtocol
 extension DetailPointViewController: DetailPointViewProtocol {
-    
+    func updateUI(with viewModel: DetailPointViewModel) {
+        descriptionLabel.text = viewModel.description
+    }
 }
