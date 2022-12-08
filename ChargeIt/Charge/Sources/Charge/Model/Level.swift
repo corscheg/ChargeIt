@@ -27,3 +27,10 @@ extension Level {
         case fastChargeCapable = "IsFastChargeCapable"
     }
 }
+
+// MARK: - CustomStringConvertible
+extension Level: CustomStringConvertible {
+    var description: String {
+        "Level: \(title), Fast Charge \(fastChargeCapable ? "" : "in")capable"
+    }
+}

@@ -51,3 +51,18 @@ extension ChargingPoint {
         case connections = "Connections"
     }
 }
+
+// MARK: CustomStringConvertible
+extension ChargingPoint: CustomStringConvertible {
+    var description: String {
+        var connectionsString = "Connections: \n"
+        for connection in connections {
+            connectionsString.append("    " + connection.description + "\n")
+        }
+        return """
+        Latitude: \(location.coordinates.latitude)
+        Longitude: \(location.coordinates.longitude)
+        \(connectionsString)
+        """
+    }
+}

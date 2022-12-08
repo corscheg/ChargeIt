@@ -25,3 +25,10 @@ extension CurrentType {
         case title = "Title"
     }
 }
+
+// MARK: CustomStringConvertible
+extension CurrentType: CustomStringConvertible {
+    var description: String {
+        "Current: \(title)"
+    }
+}
