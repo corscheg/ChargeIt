@@ -10,6 +10,7 @@ import UIKit
 /// A `UITabBarController` used in order to launch ChargeIt app.
 public class RootTabBar: UITabBarController {
     
+    // MARK: Initializers
     public init() {
         super.init(nibName: nil, bundle: nil)
         

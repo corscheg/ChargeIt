@@ -20,7 +20,8 @@ struct DataManager {
         components.path = "/v3"
         components.queryItems = [
             URLQueryItem(name: "key", value: "d1058095-baa1-426e-bfb9-2e0f8ba58f8c"),
-            URLQueryItem(name: "distanceunit", value: "km")
+            URLQueryItem(name: "distanceunit", value: "km"),
+            URLQueryItem(name: "includecomments", value: "true")
         ]
         
         return components
