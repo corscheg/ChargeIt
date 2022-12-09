@@ -8,7 +8,7 @@
 import UIKit
 
 /// A view representing the single connection.
-class ConnectionView: UIView {
+final class ConnectionView: UIView {
 
     // MARK: Visual Components
     private lazy var typeLabel: UILabel = {

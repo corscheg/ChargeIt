@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// View of the Detail Point module.
-class DetailPointViewController: UIViewController {
+final class DetailPointViewController: UIViewController {
 
     // MARK: Private Properties
     private let presenter: DetailPointPresenterProtocol

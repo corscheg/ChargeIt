@@ -9,13 +9,13 @@ import Foundation
 import CoreLocation
 
 /// Interactor of the Search module.
-class SearchInteractor: NSObject {
+final class SearchInteractor: NSObject {
     
     // MARK: Public Properties
     weak var presenter: SearchPresenterProtocol?
     
     // MARK: Private Properties
-    private let dataManager = DataManager()
+    private let dataManager = DataManager.shared
     private let locationManager: CLLocationManager
     private var locationEnabled = false
     private var parameters: SearchQueryParameters?

@@ -8,7 +8,7 @@
 import UIKit
 
 /// A `UILayoutGuide` that can layout a slider with title and value labels.
-class SliderGroupLayoutGuide: UILayoutGuide {
+final class SliderGroupLayoutGuide: UILayoutGuide {
     
     // MARK: Private Properties
     private let label: UILabel

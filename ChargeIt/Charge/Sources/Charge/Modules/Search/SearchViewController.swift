@@ -10,7 +10,7 @@ import MapKit
 import SnapKit
 
 /// View of the Search Module.
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     
     // MARK: Private Properties
     private let presenter: SearchPresenterProtocol

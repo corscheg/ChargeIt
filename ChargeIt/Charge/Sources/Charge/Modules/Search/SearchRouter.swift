@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// Router of the Search module.
-class SearchRouter {
+final class SearchRouter {
     
     // MARK: Public Properties
     weak var view: SearchViewProtocol?

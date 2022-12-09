@@ -8,7 +8,7 @@
 import Foundation
 
 /// Presenter of the Detail Point module.
-class DetailPointPresenter {
+final class DetailPointPresenter {
     
     // MARK: Public Properties
     weak var view: DetailPointViewProtocol?

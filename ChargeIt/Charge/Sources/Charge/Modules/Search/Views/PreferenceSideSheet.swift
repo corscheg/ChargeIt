@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// A view containing parameter controls of the search query.
-class PreferenceSideSheet: UIView {
+final class PreferenceSideSheet: UIView {
     
     // MARK: Visual Components
     lazy var panSurface: UIView = {

@@ -9,7 +9,10 @@ import Foundation
 import CoreLocation
 
 /// A manager used to fetch data from the OpenCharge API.
-struct DataManager {
+final class DataManager {
+    
+    // MARK: Static Properties
+    static let shared = DataManager()
     
     // MARK: Private Properties
     private let session: URLSession
@@ -28,7 +31,7 @@ struct DataManager {
     }()
     
     // MARK: Initializers
-    init(session: URLSession = URLSession.shared) {
+    private init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     

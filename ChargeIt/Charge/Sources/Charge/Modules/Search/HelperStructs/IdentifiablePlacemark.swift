@@ -8,7 +8,7 @@
 import MapKit
 
 /// A placemark which contains an index.
-class IdentifiablePlacemark: MKPlacemark {
+final class IdentifiablePlacemark: MKPlacemark {
     
     // MARK: Public Properties
     let id: Int

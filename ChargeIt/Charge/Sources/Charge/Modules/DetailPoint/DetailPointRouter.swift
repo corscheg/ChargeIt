@@ -8,7 +8,7 @@
 import Foundation
 
 /// Router of the Detail Point search module.
-class DetailPointRouter {
+final class DetailPointRouter {
     
     // MARK: Public Properties
     weak var view: DetailPointViewProtocol?

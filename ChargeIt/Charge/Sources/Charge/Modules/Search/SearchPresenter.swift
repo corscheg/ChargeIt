@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 /// Presenter of the Search module.
-class SearchPresenter {
+final class SearchPresenter {
     
     // MARK: Public Properties
     weak var view: SearchViewProtocol?
