@@ -10,7 +10,7 @@ import Foundation
 /// A struct that maps to Detail Point view and is used in Detail Point module.
 struct DetailPointViewModel {
     
-    // MARK: Private Properties
+    // MARK: Public Properties
     let country: String
     let state: String?
     let town: String?

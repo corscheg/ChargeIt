@@ -8,89 +8,57 @@
 import UIKit
 
 /// A view representing the single connection.
-final class ConnectionView: UIView {
+final class ConnectionViewCell: UICollectionViewCell {
 
     // MARK: Visual Components
-    private lazy var typeLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private lazy var type = ConnectionTitleView()
     
-    private lazy var levelLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private lazy var fastChargeCapableView = FastChargingView()
     
-    private lazy var fastChargeCapableLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private lazy var currentLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private lazy var currentTypeView = CurrentTypeView()
     
     // MARK: Initializers
-    init(with viewModel: DetailPointViewModel.ConnectionViewModel, frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemGreen
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = 15
         
-        addSubview(typeLabel)
-        typeLabel.snp.makeConstraints { make in
-            make.top.leading.equalTo(layoutMarginsGuide)
+        addSubview(type)
+        type.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(layoutMarginsGuide)
         }
         
-        addSubview(levelLabel)
-        levelLabel.snp.makeConstraints { make in
-            make.leading.equalTo(layoutMarginsGuide)
-            make.top.equalTo(typeLabel.snp.bottom).offset(5)
+        addSubview(fastChargeCapableView)
+        fastChargeCapableView.snp.makeConstraints { make in
+            make.right.bottom.equalTo(layoutMarginsGuide)
+            make.top.equalTo(type.snp.bottom).offset(8)
         }
         
-        addSubview(fastChargeCapableLabel)
-        fastChargeCapableLabel.snp.makeConstraints { make in
-            make.leading.equalTo(layoutMarginsGuide)
-            make.top.equalTo(levelLabel.snp.bottom).offset(5)
+        addSubview(currentTypeView)
+        currentTypeView.snp.makeConstraints { make in
+            make.left.bottom.equalTo(layoutMarginsGuide)
+            make.top.equalTo(type.snp.bottom).offset(8)
+            make.right.equalTo(fastChargeCapableView.snp.left).offset(-8)
+            make.width.equalTo(fastChargeCapableView.snp.width).multipliedBy(0.9)
         }
         
-        addSubview(currentLabel)
-        currentLabel.snp.makeConstraints { make in
-            make.leading.equalTo(layoutMarginsGuide)
-            make.top.equalTo(fastChargeCapableLabel.snp.bottom).offset(5)
-            make.bottom.lessThanOrEqualTo(layoutMarginsGuide)
-        }
         
-        typeLabel.text = viewModel.type
-        levelLabel.text = viewModel.level
-        if let fastChargeCapable = viewModel.fastChargeCapable {
-            fastChargeCapableLabel.text = fastChargeCapable ? "Fast Charge" : "No Fast Charge"
-        }
-        currentLabel.text = viewModel.current
     }
     
     convenience init(with viewModel: DetailPointViewModel.ConnectionViewModel) {
-        self.init(with: viewModel, frame: .zero)
+        self.init(frame: .zero)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func set(viewModel: DetailPointViewModel.ConnectionViewModel) {
+        type.set(title: viewModel.type)
+        fastChargeCapableView.set(available: viewModel.fastChargeCapable)
+        currentTypeView.set(current: viewModel.current)
     }
     
 }

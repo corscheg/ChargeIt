@@ -29,7 +29,16 @@ final class DetailPointPresenter {
 
 // MARK: - DetailPointPresenterProtocol
 extension DetailPointPresenter: DetailPointPresenterProtocol {
+    
+    var numberOfConnections: Int {
+        viewModel.connections.count
+    }
+    
     func askForUpdate() {
         view?.updateUI(with: viewModel)
+    }
+    
+    func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
+        viewModel.connections[index]
     }
 }

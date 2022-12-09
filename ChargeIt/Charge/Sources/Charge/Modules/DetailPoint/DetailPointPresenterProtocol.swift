@@ -12,4 +12,10 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Update the view according to the current ViewModel.
     func askForUpdate()
+    
+    /// Number of available connections.
+    var numberOfConnections: Int { get }
+    
+    /// A connection View Model at the given index.
+    func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel
 }

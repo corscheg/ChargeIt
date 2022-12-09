@@ -28,7 +28,7 @@ final class DetailPointViewController: UIViewController {
     
     private lazy var addressFirstlabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .headline)
         label.text = "Address line 1"
         label.textAlignment = .left
@@ -38,7 +38,7 @@ final class DetailPointViewController: UIViewController {
     
     private lazy var addressSecondLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .headline)
         label.text = "Address line 2"
         label.textAlignment = .left
@@ -55,6 +55,33 @@ final class DetailPointViewController: UIViewController {
         label.textAlignment = .left
         
         return label
+    }()
+    
+    private lazy var connetionViewLayout: UICollectionViewCompositionalLayout = {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .paging
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .vertical
+        layout.configuration = config
+        
+        return layout
+    }()
+    
+    private lazy var connectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: connetionViewLayout)
+        collection.backgroundColor = .systemBackground
+        collection.isScrollEnabled = false
+        
+        return collection
     }()
     
     // MARK: Initializers
@@ -79,13 +106,13 @@ final class DetailPointViewController: UIViewController {
         
         view.addSubview(addressFirstlabel)
         addressFirstlabel.snp.makeConstraints { make in
-            make.leading.equalTo(view.layoutMarginsGuide)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
         }
         
         view.addSubview(addressSecondLabel)
         addressSecondLabel.snp.makeConstraints { make in
-            make.leading.equalTo(view.layoutMarginsGuide)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
             make.top.equalTo(addressFirstlabel.snp.bottom).offset(10)
         }
         
@@ -94,9 +121,19 @@ final class DetailPointViewController: UIViewController {
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
             make.top.equalTo(addressSecondLabel.snp.bottom).offset(10)
         }
+        
+        view.addSubview(connectionView)
+        connectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(countryLabel.snp.bottom).offset(20)
+            make.height.equalTo(150)
+        }
     }
     
     override func viewDidLoad() {
+        connectionView.register(ConnectionViewCell.self, forCellWithReuseIdentifier: "connection")
+        connectionView.dataSource = self
+        
         presenter.askForUpdate()
     }
     
@@ -120,5 +157,23 @@ extension DetailPointViewController: DetailPointViewProtocol {
         countryLine.append(viewModel.country)
         
         countryLabel.text = countryLine
+        connectionView.reloadData()
+        
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension DetailPointViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        presenter.numberOfConnections
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connection", for: indexPath) as? ConnectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.set(viewModel: presenter.connection(at: indexPath.item))
+        return cell
     }
 }

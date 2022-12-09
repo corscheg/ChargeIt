@@ -111,7 +111,7 @@ extension SearchPresenter: SearchPresenterProtocol {
                 type: $0.type.title,
                 level: $0.level?.title,
                 fastChargeCapable: $0.level?.fastChargeCapable,
-                current: $0.currentType?.title
+                current: $0.currentType?.id == 30 ? "DC" : "AC"
             )
         }
         
