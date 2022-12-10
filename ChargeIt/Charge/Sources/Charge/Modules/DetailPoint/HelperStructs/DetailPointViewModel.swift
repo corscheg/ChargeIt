@@ -11,9 +11,8 @@ import Foundation
 struct DetailPointViewModel {
     
     // MARK: Public Properties
-    let country: String
-    let state: String?
-    let town: String?
+    let id: UUID
+    let approximateLocation: String
     let addressFirst: String?
     let addressSecond: String?
     let locationTitle: String?

@@ -176,18 +176,7 @@ extension DetailPointViewController: DetailPointViewProtocol {
         titleLabel.text = viewModel.locationTitle ?? "Unknown"
         addressFirstlabel.text = viewModel.addressFirst
         addressSecondLabel.text = viewModel.addressSecond
-        
-        var countryLine = ""
-        if let town = viewModel.town {
-            countryLine.append("\(town), ")
-        }
-        
-        if let state = viewModel.state {
-            countryLine.append("\(state), ")
-        }
-        countryLine.append(viewModel.country)
-        
-        countryLabel.text = countryLine
+        countryLabel.text = viewModel.approximateLocation
         connectionView.reloadData()
         
     }

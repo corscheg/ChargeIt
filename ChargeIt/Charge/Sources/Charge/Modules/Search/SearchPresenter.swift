@@ -123,10 +123,21 @@ extension SearchPresenter: SearchPresenterProtocol {
             }
         }
         
+        var approximateLocation = ""
+        
+        if let town = item.location.town {
+            approximateLocation.append("\(town), ")
+        }
+        
+        if let state = item.location.state {
+            approximateLocation.append("\(state), ")
+        }
+        
+        approximateLocation.append(item.location.country.code)
+        
         let detailViewModel = DetailPointViewModel(
-            country: item.location.country.code,
-            state: item.location.state,
-            town: item.location.town,
+            id: item.id,
+            approximateLocation: approximateLocation,
             addressFirst: item.location.addressFirst,
             addressSecond: item.location.addressSecond,
             locationTitle: item.location.title,
