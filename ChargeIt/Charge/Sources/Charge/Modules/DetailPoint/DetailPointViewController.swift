@@ -131,7 +131,7 @@ final class DetailPointViewController: UIViewController {
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imagesScroll.snp.bottom).offset(15)
+            make.top.equalTo(view.layoutMarginsGuide)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
@@ -197,7 +197,20 @@ extension DetailPointViewController: DetailPointViewProtocol {
             return
         }
         
-        imagesScroll.isHidden = false
+        sleep(1)
+        
+        if imagesScroll.isHidden {
+            imagesScroll.isHidden = false
+            
+            titleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(imagesScroll.snp.bottom).offset(15)
+                make.leading.trailing.equalTo(view.layoutMarginsGuide)
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut]) {
+                self.view.layoutIfNeeded()
+            }
+        }
         
         let imageView = UIImageView(image: image)
         let ratio = imageView.frame.height / imageView.frame.width
@@ -207,8 +220,13 @@ extension DetailPointViewController: DetailPointViewProtocol {
         }
         
         imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
         
         imagesStack.addArrangedSubview(imageView)
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut]) {
+            imageView.isHidden = false
+        }
     }
 }
 
