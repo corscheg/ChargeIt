@@ -34,11 +34,20 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
         viewModel.connections.count
     }
     
-    func askForUpdate() {
+    func viewDidLoad() {
         view?.updateUI(with: viewModel)
+        interactor.fetchPhotos(with: viewModel.imageURLs)
     }
     
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
         viewModel.connections[index]
     }
+    
+    func imageLoaded(data: Data) {
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.addImage(with: data)
+        }
+    }
+    
+    func imageLoadingFailed(with error: SearchError) { }
 }

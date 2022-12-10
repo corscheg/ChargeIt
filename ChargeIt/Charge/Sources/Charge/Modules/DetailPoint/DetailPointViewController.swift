@@ -15,6 +15,23 @@ final class DetailPointViewController: UIViewController {
     private let presenter: DetailPointPresenterProtocol
     
     // MARK: Visual Components
+    private lazy var imagesScroll: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.isHidden = true
+        
+        return scroll
+    }()
+    
+    private lazy var imagesStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fillProportionally
+        stack.spacing = 5
+        
+        return stack
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -99,9 +116,23 @@ final class DetailPointViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .systemBackground
         
+        view.addSubview(imagesScroll)
+        imagesScroll.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(imagesScroll.contentLayoutGuide)
+            make.height.equalTo(150)
+        }
+        
+        imagesScroll.addSubview(imagesStack)
+        imagesStack.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.left.right.equalTo(imagesScroll.contentLayoutGuide)
+        }
+        
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(imagesScroll.snp.bottom).offset(15)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
         view.addSubview(addressFirstlabel)
@@ -134,7 +165,7 @@ final class DetailPointViewController: UIViewController {
         connectionView.register(ConnectionViewCell.self, forCellWithReuseIdentifier: "connection")
         connectionView.dataSource = self
         
-        presenter.askForUpdate()
+        presenter.viewDidLoad()
     }
     
 }
@@ -159,6 +190,25 @@ extension DetailPointViewController: DetailPointViewProtocol {
         countryLabel.text = countryLine
         connectionView.reloadData()
         
+    }
+    
+    func addImage(with data: Data) {
+        guard let image = UIImage(data: data) else {
+            return
+        }
+        
+        imagesScroll.isHidden = false
+        
+        let imageView = UIImageView(image: image)
+        let ratio = imageView.frame.height / imageView.frame.width
+        
+        imageView.snp.makeConstraints { make in
+            make.height.equalTo(imageView.snp.width).multipliedBy(ratio)
+        }
+        
+        imageView.contentMode = .scaleAspectFit
+        
+        imagesStack.addArrangedSubview(imageView)
     }
 }
 

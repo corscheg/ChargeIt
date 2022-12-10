@@ -18,6 +18,7 @@ struct DetailPointViewModel {
     let addressSecond: String?
     let locationTitle: String?
     let connections: [ConnectionViewModel]
+    let imageURLs: [URL]
 }
 
 // MARK: - ConnectionViewModel {

@@ -15,6 +15,7 @@ struct ChargingPoint {
     let id: UUID
     let location: LocationInfo
     let connections: [Connection]
+    let mediaItems: [MediaItem]?
 }
 
 // MARK: - Codable
@@ -26,6 +27,7 @@ extension ChargingPoint {
         case id = "UUID"
         case location = "AddressInfo"
         case connections = "Connections"
+        case mediaItems = "MediaItems"
     }
 }
 

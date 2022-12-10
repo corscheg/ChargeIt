@@ -12,4 +12,7 @@ protocol DetailPointViewProtocol: AnyObject {
     
     /// Update UI with the given ViewModel.
     func updateUI(with viewModel: DetailPointViewModel)
+    
+    /// Add image with the given data.
+    func addImage(with data: Data)
 }

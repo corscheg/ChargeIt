@@ -115,6 +115,14 @@ extension SearchPresenter: SearchPresenterProtocol {
             )
         }
         
+        var urls: [URL] = []
+        
+        if let medias = item.mediaItems {
+            urls = medias.map {
+                $0.url
+            }
+        }
+        
         let detailViewModel = DetailPointViewModel(
             country: item.location.country.code,
             state: item.location.state,
@@ -122,8 +130,10 @@ extension SearchPresenter: SearchPresenterProtocol {
             addressFirst: item.location.addressFirst,
             addressSecond: item.location.addressSecond,
             locationTitle: item.location.title,
-            connections: connections
+            connections: connections,
+            imageURLs: urls
         )
+        
         router.presentDetail(with: detailViewModel)
     }
 }

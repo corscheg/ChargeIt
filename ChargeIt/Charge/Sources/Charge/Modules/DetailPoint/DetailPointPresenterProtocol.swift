@@ -11,11 +11,17 @@ import Foundation
 protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Update the view according to the current ViewModel.
-    func askForUpdate()
+    func viewDidLoad()
     
     /// Number of available connections.
     var numberOfConnections: Int { get }
     
     /// A connection View Model at the given index.
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel
+    
+    /// Notify presenter that image is loaded.
+    func imageLoaded(data: Data)
+    
+    /// Notify presenter that image loading failed.
+    func imageLoadingFailed(with error: SearchError)
 }

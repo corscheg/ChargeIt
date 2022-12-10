@@ -77,4 +77,27 @@ final class DataManager {
         
         task.resume()
     }
+    
+    /// Fetch data from the given URL.
+    func fetchData(from url: URL, completion: @escaping (Result<Data, SearchError>) -> Void) {
+        let request = URLRequest(url: url)
+        
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil {
+                completion(.failure(.networkingError))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data else {
+                completion(.failure(.badResponse))
+                return
+            }
+            
+            completion(.success(data))
+            
+        }
+        
+        task.resume()
+    }
 }
