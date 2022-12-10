@@ -18,6 +18,8 @@ struct DetailPointViewModel {
     let locationTitle: String?
     let connections: [ConnectionViewModel]
     let imageURLs: [URL]
+    let latitude: Double
+    let longitude: Double
 }
 
 // MARK: - ConnectionViewModel {

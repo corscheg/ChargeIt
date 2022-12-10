@@ -142,7 +142,9 @@ extension SearchPresenter: SearchPresenterProtocol {
             addressSecond: item.location.addressSecond,
             locationTitle: item.location.title,
             connections: connections,
-            imageURLs: urls
+            imageURLs: urls,
+            latitude: item.location.coordinates.latitude,
+            longitude: item.location.coordinates.longitude
         )
         
         router.presentDetail(with: detailViewModel)
