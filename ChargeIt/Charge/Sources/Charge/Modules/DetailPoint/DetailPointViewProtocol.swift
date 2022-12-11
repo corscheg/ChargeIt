@@ -15,4 +15,7 @@ protocol DetailPointViewProtocol: AnyObject {
     
     /// Add image with the given data.
     func addImage(with data: Data)
+    
+    /// Set the favorite button to the appropriate state.
+    func setFavorite(state: Bool)
 }

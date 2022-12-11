@@ -13,16 +13,26 @@ final class StorageManager {
     
     // MARK: Public Properties
     var container: NSPersistentContainer
+    static var shared = StorageManager()
     
     // MARK: Initializers
-    init() {
+    private init() {
+        let bundle = Bundle(for: type(of: self))
+        
+        guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "xcdatamodeld") else {
+            fatalError()
+        }
+        
         container = NSPersistentContainer(name: "ChargingPoint")
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
         container.loadPersistentStores { storeDescription, error in
             if let error {
                 print("Loading error: \(error)")
+                fatalError()
             }
+            
+            print(storeDescription)
             
         }
     }
@@ -85,6 +95,7 @@ final class StorageManager {
     private func fetch(by id: UUID) -> PointObj? {
         let request = PointObj.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = predicate
         
         do {
             return try container.viewContext.fetch(request).first

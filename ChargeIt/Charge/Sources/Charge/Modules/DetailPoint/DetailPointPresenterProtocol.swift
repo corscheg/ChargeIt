@@ -24,4 +24,7 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Notify presenter that image loading failed.
     func imageLoadingFailed(with error: SearchError)
+    
+    /// Notify presenter that favorite button was tapped.
+    func favoriteButtonTapped()
 }

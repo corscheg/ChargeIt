@@ -101,6 +101,26 @@ final class DetailPointViewController: UIViewController {
         return collection
     }()
     
+    private lazy var favoriteStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.spacing = 15
+        
+        return stack
+    }()
+    
+    private lazy var favoriteView = FavoriteView()
+    
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerCurve = .continuous
+        button.layer.cornerRadius = 10
+        
+        return button
+    }()
+    
     // MARK: Initializers
     init(presenter: DetailPointPresenterProtocol) {
         self.presenter = presenter
@@ -159,13 +179,30 @@ final class DetailPointViewController: UIViewController {
             make.top.equalTo(countryLabel.snp.bottom).offset(20)
             make.height.equalTo(150)
         }
+        
+        view.addSubview(favoriteStack)
+        favoriteStack.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(connectionView.snp.bottom).offset(20)
+            make.height.equalTo(44)
+        }
+        
+        favoriteStack.addArrangedSubview(favoriteView)
+        favoriteStack.addArrangedSubview(favoriteButton)
     }
     
     override func viewDidLoad() {
         connectionView.register(ConnectionViewCell.self, forCellWithReuseIdentifier: "connection")
         connectionView.dataSource = self
         
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        
         presenter.viewDidLoad()
+    }
+    
+    // MARK: Actions
+    @objc private func favoriteButtonTapped() {
+        presenter.favoriteButtonTapped()
     }
     
 }
@@ -216,6 +253,11 @@ extension DetailPointViewController: DetailPointViewProtocol {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut]) {
             imageView.isHidden = false
         }
+    }
+    
+    func setFavorite(state: Bool) {
+        favoriteView.set(favorite: state)
+        favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
     }
 }
 

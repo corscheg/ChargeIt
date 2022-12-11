@@ -16,7 +16,7 @@ final class DetailPointPresenter {
     // MARK: Private Properties
     private let router: DetailPointRouterProtocol
     private let interactor: DetailPointInteractorProtocol
-    private let viewModel: DetailPointViewModel
+    private var viewModel: DetailPointViewModel
     
     // MARK: Initializers
     init(router: DetailPointRouterProtocol, interactor: DetailPointInteractorProtocol, viewModel: DetailPointViewModel) {
@@ -37,6 +37,8 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
         interactor.fetchPhotos(with: viewModel.imageURLs)
+        viewModel.isFavorite = interactor.isFavorite(by: viewModel.id)
+        view?.setFavorite(state: viewModel.isFavorite!)
     }
     
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
@@ -50,4 +52,20 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     }
     
     func imageLoadingFailed(with error: SearchError) { }
+    
+    func favoriteButtonTapped() {
+        guard let isFavorite = viewModel.isFavorite else {
+            return
+        }
+        
+        if isFavorite {
+            interactor.removeFromFavorites(by: viewModel.id)
+            viewModel.isFavorite = false
+            view?.setFavorite(state: false)
+        } else {
+            interactor.addToFavorites(viewModel)
+            viewModel.isFavorite = true
+            view?.setFavorite(state: true)
+        }
+    }
 }
