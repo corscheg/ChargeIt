@@ -17,13 +17,15 @@ final class StorageManager {
     
     // MARK: Initializers
     private init() {
-        let bundle = Bundle(for: type(of: self))
+        let bundle = Bundle.module
         
-        guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "xcdatamodeld") else {
-            fatalError()
+        guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "momd"),
+            let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Model not found!!!")
         }
         
-        container = NSPersistentContainer(name: "ChargingPoint")
+        
+        container = NSPersistentContainer(name: "ChargingPoint", managedObjectModel: model)
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
         container.loadPersistentStores { storeDescription, error in
@@ -31,8 +33,6 @@ final class StorageManager {
                 print("Loading error: \(error)")
                 fatalError()
             }
-            
-            print(storeDescription)
             
         }
     }
@@ -62,6 +62,8 @@ final class StorageManager {
         point.imageURLs.forEach {
             let urlObj = URLsObj(context: container.viewContext)
             urlObj.url = $0
+            
+            pointObj.addToUrls(urlObj)
         }
         
         saveContext()
@@ -78,6 +80,7 @@ final class StorageManager {
         }
         
         container.viewContext.delete(pointObj)
+        saveContext()
         return true
     }
     

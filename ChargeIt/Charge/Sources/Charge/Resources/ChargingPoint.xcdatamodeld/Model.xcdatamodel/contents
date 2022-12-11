@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ConnectionObj" representedClassName=".ConnectionObj" syncable="YES" codeGenerationType="class">
+    <entity name="ConnectionObj" representedClassName="ConnectionObj" syncable="YES" codeGenerationType="class">
         <attribute name="current" optional="YES" attributeType="String"/>
         <attribute name="fastChargeCapable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
     </entity>
-    <entity name="PointObj" representedClassName=".PointObj" syncable="YES" codeGenerationType="class">
+    <entity name="PointObj" representedClassName="PointObj" syncable="YES" codeGenerationType="class">
         <attribute name="addressFirst" optional="YES" attributeType="String"/>
         <attribute name="addressSecond" optional="YES" attributeType="String"/>
         <attribute name="approximateLocation" attributeType="String"/>
@@ -15,14 +15,9 @@
         <attribute name="locationTitle" optional="YES" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="connections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConnectionObj"/>
-        <relationship name="imageURLs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="id"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
+        <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj"/>
     </entity>
-    <entity name="URLsObj" representedClassName=".URLsObj" syncable="YES" codeGenerationType="class">
+    <entity name="URLsObj" representedClassName="URLsObj" syncable="YES" codeGenerationType="class">
         <attribute name="url" attributeType="URI"/>
     </entity>
 </model>
