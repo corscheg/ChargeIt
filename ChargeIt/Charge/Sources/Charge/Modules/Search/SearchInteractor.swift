@@ -35,11 +35,6 @@ final class SearchInteractor: NSObject {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     
-    
-    var storageContext: NSManagedObjectContext {
-        storageManager.container.viewContext
-    }
-    
     func loadNearbyPoints(with options: SearchQueryParameters) {
         guard locationEnabled else {
             presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
@@ -49,9 +44,9 @@ extension SearchInteractor: SearchInteractorProtocol {
         locationManager.requestLocation()
     }
     
-    func store() -> Bool {
+    func store(point: ChargingPoint) -> Bool {
         do {
-            try storageManager.add()
+            try storageManager.add(point: point)
             return true
         } catch {
             return false

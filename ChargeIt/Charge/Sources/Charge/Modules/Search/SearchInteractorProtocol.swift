@@ -11,13 +11,11 @@ import CoreData
 /// A protocol of the Search module interactor.
 protocol SearchInteractorProtocol {
     
-    var storageContext: NSManagedObjectContext { get }
-    
     /// Load the closest charging points with the given options and provide the callback to presenter.
     func loadNearbyPoints(with options: SearchQueryParameters)
     
     /// Add the given point to the persistent storage.
-    func store() -> Bool
+    func store(point: ChargingPoint) -> Bool
     
     /// Remove a point with the given ID from the persistent storage.
     func delete(by id: UUID) -> Bool
