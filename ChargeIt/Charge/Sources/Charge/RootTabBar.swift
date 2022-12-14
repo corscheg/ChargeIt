@@ -28,6 +28,10 @@ public final class RootTabBar: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        viewControllers = [SearchBuilder.build()]
+        let searchView = SearchBuilder.build()
+        let favoritesView = FavoritesBuilder.build()
+        let favoritesNavigation = UINavigationController(rootViewController: favoritesView)
+        
+        viewControllers = [searchView, favoritesNavigation]
     }
 }

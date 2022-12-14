@@ -65,7 +65,7 @@ final class SearchViewController: UIViewController {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
         
-        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
+        tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
     }
     
     required init?(coder: NSCoder) {
@@ -129,6 +129,8 @@ final class SearchViewController: UIViewController {
         sideSheet.snp.makeConstraints { make in
             make.left.equalTo(view.snp.left).offset(-(sideSheet.frame.width - sideSheet.panSurface.frame.width))
         }
+        
+        sideSheetVisible = false
         
         UIView.animate(withDuration: 0.2) {
             self.sideSheet.alpha = 1
