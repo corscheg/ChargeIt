@@ -14,6 +14,4 @@ struct SearchViewModel {
     // MARK: Public Properties
     var locations: [CLLocationCoordinate2D] = []
     var region: MKCoordinateRegion = MKCoordinateRegion()
-    var radius: Int
-    var maxCount: Int
 }

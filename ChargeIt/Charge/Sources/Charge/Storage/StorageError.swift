@@ -10,4 +10,5 @@ import Foundation
 /// An error that may be thrown after Core Data failure.
 enum StorageError: Error {
     case savingFailed
+    case internalError
 }

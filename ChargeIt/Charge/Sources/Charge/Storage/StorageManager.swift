@@ -21,20 +21,14 @@ final class StorageManager {
         
         guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "momd"),
             let model = NSManagedObjectModel(contentsOf: url) else {
-            fatalError("Model not found!!!")
+            fatalError()
         }
         
         
         container = NSPersistentContainer(name: "ChargingPoint", managedObjectModel: model)
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
-        container.loadPersistentStores { storeDescription, error in
-            if let error {
-                print("Loading error: \(error)")
-                fatalError()
-            }
-            
-        }
+        container.loadPersistentStores { _,_ in }
     }
     
     // MARK: Public Methods

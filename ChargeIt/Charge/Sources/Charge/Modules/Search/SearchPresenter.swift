@@ -23,10 +23,9 @@ final class SearchPresenter {
         region: MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
             span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180)
-        ),
-        radius: 9,
-        maxCount: 10000
+        )
     )
+    private var queryParameters = QueryParametersViewModel(radius: 9, maxCount: 10_000)
     private var points: [ChargingPoint] = []
     
     // MARK: Initializers
@@ -41,11 +40,12 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func loadState() {
         view?.updateUI(with: viewModel)
+        view?.updateParameters(with: queryParameters)
     }
     
     func radiusChanged(value: Float) {
-        viewModel.radius = Int(pow(value, 2))
-        view?.updateParameters(with: viewModel)
+        queryParameters.radius = Int(pow(value, 2))
+        view?.updateParameters(with: queryParameters)
     }
     
     func mapRegionChanged(to value: MKCoordinateRegion) {
@@ -54,8 +54,7 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func loadNearbyPoints() {
         view?.startActivityIndication()
-        let parameters = SearchQueryParameters(radius: viewModel.radius, maxCount: viewModel.maxCount)
-        interactor.loadNearbyPoints(with: parameters)
+        interactor.loadNearbyPoints(with: queryParameters)
     }
     
     func pointsLoadingFailed(with error: SearchError) {
@@ -147,7 +146,7 @@ extension SearchPresenter: SearchPresenterProtocol {
             latitude: item.location.coordinates.latitude,
             longitude: item.location.coordinates.longitude,
             isFavorite: interactor.isFavorite(by: item.id)
-        ) { [weak self, id = item.id, index] isFavoriteActually in
+        ) { [weak self, id = item.id, index] isFavoriteActually in // didTapButton closure
             guard let self else {
                 return false
             }

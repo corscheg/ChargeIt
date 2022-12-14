@@ -1,5 +1,5 @@
 //
-//  SearchQueryParameters.swift
+//  QueryParametersViewModel.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 05.12.2022.
@@ -8,9 +8,9 @@
 import Foundation
 
 /// A struct that represents parameters of the search.
-struct SearchQueryParameters {
+struct QueryParametersViewModel {
     
     // MARK: Public Properties
-    let radius: Int
-    let maxCount: Int
+    var radius: Int
+    var maxCount: Int
 }

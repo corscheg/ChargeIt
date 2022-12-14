@@ -20,7 +20,7 @@ final class SearchInteractor: NSObject {
     private let locationManager: CLLocationManager
     private let storageManager = StorageManager.shared
     private var locationEnabled = false
-    private var parameters: SearchQueryParameters?
+    private var parameters: QueryParametersViewModel?
     
     // MARK: Initializers
     override init() {
@@ -35,7 +35,7 @@ final class SearchInteractor: NSObject {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     
-    func loadNearbyPoints(with options: SearchQueryParameters) {
+    func loadNearbyPoints(with options: QueryParametersViewModel) {
         guard locationEnabled else {
             presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
             return

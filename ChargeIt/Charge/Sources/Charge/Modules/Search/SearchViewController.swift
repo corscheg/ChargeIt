@@ -186,7 +186,6 @@ extension SearchViewController: SearchViewProtocol {
         }
         
         map.setRegion(viewModel.region, animated: true)
-        sideSheet.radiusValueLabel.text = "\(viewModel.radius) km"
     }
     
     func showError(with message: String) {
@@ -200,8 +199,8 @@ extension SearchViewController: SearchViewProtocol {
         nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
     }
     
-    func updateParameters(with viewModel: SearchViewModel) {
-        sideSheet.radiusValueLabel.text = "\(viewModel.radius) km"
+    func updateParameters(with parameters: QueryParametersViewModel) {
+        sideSheet.radiusValueLabel.text = "\(parameters.radius) km"
     }
     
     func startActivityIndication() {

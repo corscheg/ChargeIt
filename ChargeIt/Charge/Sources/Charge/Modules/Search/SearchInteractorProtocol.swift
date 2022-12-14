@@ -12,7 +12,7 @@ import CoreData
 protocol SearchInteractorProtocol {
     
     /// Load the closest charging points with the given options and provide the callback to presenter.
-    func loadNearbyPoints(with options: SearchQueryParameters)
+    func loadNearbyPoints(with options: QueryParametersViewModel)
     
     /// Add the given point to the persistent storage.
     func store(point: ChargingPoint) -> Bool

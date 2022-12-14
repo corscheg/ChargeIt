@@ -20,7 +20,7 @@ protocol SearchViewProtocol: AnyObject {
     func updateUI(with viewModel: SearchViewModel)
     
     /// Fast update the search options.
-    func updateParameters(with viewModel: SearchViewModel)
+    func updateParameters(with parameters: QueryParametersViewModel)
     
     /// Present the given error.
     func showError(with message: String)
