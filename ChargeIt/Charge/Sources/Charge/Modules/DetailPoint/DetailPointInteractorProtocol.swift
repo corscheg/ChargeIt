@@ -9,10 +9,6 @@ import Foundation
 
 /// A protocol of the Detail Point module interactor.
 protocol DetailPointInteractorProtocol {
-    
-    /// Fetch images and callback the presenter on each loaded photo.
-    func fetchPhotos(with urls: [URL])
-    
     /// Check if a point with the given UUID is favorite.
     func isFavorite(by id: UUID) -> Bool
     

@@ -19,12 +19,6 @@ protocol DetailPointPresenterProtocol: AnyObject {
     /// A connection View Model at the given index.
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel
     
-    /// Notify presenter that image is loaded.
-    func imageLoaded(data: Data)
-    
-    /// Notify presenter that image loading failed.
-    func imageLoadingFailed(with error: SearchError)
-    
     /// Notify presenter that favorite button was tapped.
     func favoriteButtonTapped()
 }

@@ -36,7 +36,6 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
-        interactor.fetchPhotos(with: viewModel.imageURLs)
         viewModel.isFavorite = interactor.isFavorite(by: viewModel.id)
         view?.setFavorite(state: viewModel.isFavorite!)
     }
@@ -44,14 +43,6 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
         viewModel.connections[index]
     }
-    
-    func imageLoaded(data: Data) {
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.addImage(with: data)
-        }
-    }
-    
-    func imageLoadingFailed(with error: SearchError) { }
     
     func favoriteButtonTapped() {
         guard let isFavorite = viewModel.isFavorite else {

@@ -20,18 +20,6 @@ final class DetailPointInteractor {
 
 // MARK: - DetailPointInteractorProtocol
 extension DetailPointInteractor: DetailPointInteractorProtocol {
-    func fetchPhotos(with urls: [URL]) {
-        urls.forEach {
-            dataManager.fetchData(from: $0) { [weak self] result in
-                switch result {
-                case .success(let data):
-                    self?.presenter?.imageLoaded(data: data)
-                case .failure(let error):
-                    self?.presenter?.imageLoadingFailed(with: error)
-                }
-            }
-        }
-    }
     
     func isFavorite(by id: UUID) -> Bool {
         storageManager.isFavorite(by: id)

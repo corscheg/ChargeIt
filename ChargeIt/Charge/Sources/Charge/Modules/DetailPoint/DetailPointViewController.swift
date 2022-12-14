@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 /// View of the Detail Point module.
 final class DetailPointViewController: UIViewController {
@@ -140,7 +141,6 @@ final class DetailPointViewController: UIViewController {
         imagesScroll.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(imagesScroll.contentLayoutGuide)
-            make.height.equalTo(150)
         }
         
         imagesScroll.addSubview(imagesStack)
@@ -151,7 +151,7 @@ final class DetailPointViewController: UIViewController {
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(imagesScroll.snp.bottom).offset(15)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
@@ -216,14 +216,42 @@ extension DetailPointViewController: DetailPointViewProtocol {
         countryLabel.text = viewModel.approximateLocation
         connectionView.reloadData()
         
+        viewModel.imageURLs.forEach {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            imageView.kf.setImage(with: $0) { [weak self] result in
+                guard let imageResult = try? result.get(), let self else {
+                    return
+                }
+                
+                if self.imagesScroll.isHidden {
+                    self.imagesScroll.isHidden = false
+                    
+                    self.imagesStack.snp.makeConstraints { make in
+                        make.height.equalTo(150)
+                    }
+                    
+                    UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
+                        self.view.layoutIfNeeded()
+                    }
+                }
+                
+                let ratio = imageResult.image.size.height / imageResult.image.size.width
+                
+                imageView.snp.makeConstraints { make in
+                    make.height.equalTo(imageView.snp.width).multipliedBy(ratio)
+                }
+                
+                self.imagesStack.addArrangedSubview(imageView)
+            }
+        }
+        
     }
     
     func addImage(with data: Data) {
         guard let image = UIImage(data: data) else {
             return
         }
-        
-        sleep(1)
         
         if imagesScroll.isHidden {
             imagesScroll.isHidden = false
