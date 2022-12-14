@@ -192,37 +192,37 @@ final class DetailPointViewController: UIViewController {
         scrollView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imagesScroll.snp.bottom).offset(15)
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
         }
         
         scrollView.addSubview(addressFirstlabel)
         addressFirstlabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
         }
         
         scrollView.addSubview(addressSecondLabel)
         addressSecondLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(addressFirstlabel.snp.bottom).offset(10)
         }
         
         scrollView.addSubview(countryLabel)
         countryLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(addressSecondLabel.snp.bottom).offset(10)
         }
         
         scrollView.addSubview(connectionView)
         connectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(countryLabel.snp.bottom).offset(20)
             make.height.equalTo(150)
         }
         
         scrollView.addSubview(favoriteStack)
         favoriteStack.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(connectionView.snp.bottom).offset(20)
             make.height.equalTo(44)
         }
@@ -232,7 +232,7 @@ final class DetailPointViewController: UIViewController {
         
         scrollView.addSubview(openMapsButton)
         openMapsButton.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
+            make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(favoriteStack.snp.bottom).offset(20)
             make.height.equalTo(44)
             make.bottom.equalTo(scrollView.contentLayoutGuide)
