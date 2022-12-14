@@ -122,6 +122,16 @@ final class DetailPointViewController: UIViewController {
         return button
     }()
     
+    private lazy var openMapsButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerCurve = .continuous
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .systemGreen
+        button.setTitle("Open Apple Maps with directions", for: .normal)
+        
+        return button
+    }()
+    
     // MARK: Initializers
     init(presenter: DetailPointPresenterProtocol) {
         self.presenter = presenter
@@ -189,6 +199,13 @@ final class DetailPointViewController: UIViewController {
         
         favoriteStack.addArrangedSubview(favoriteView)
         favoriteStack.addArrangedSubview(favoriteButton)
+        
+        view.addSubview(openMapsButton)
+        openMapsButton.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(favoriteStack.snp.bottom).offset(20)
+            make.height.equalTo(44)
+        }
     }
     
     override func viewDidLoad() {
@@ -196,6 +213,7 @@ final class DetailPointViewController: UIViewController {
         connectionView.dataSource = self
         
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
         
         presenter.viewDidLoad()
     }
@@ -203,6 +221,10 @@ final class DetailPointViewController: UIViewController {
     // MARK: Actions
     @objc private func favoriteButtonTapped() {
         presenter.favoriteButtonTapped()
+    }
+    
+    @objc private func openMapsButtonTapped() {
+        presenter.openMapsButtonTapped()
     }
     
 }

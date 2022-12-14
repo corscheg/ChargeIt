@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Router of the Detail Point search module.
 final class DetailPointRouter {
@@ -16,5 +17,12 @@ final class DetailPointRouter {
 
 // MARK: - DetailPointRouterProtocol
 extension DetailPointRouter: DetailPointRouterProtocol {
-    
+    func openInMaps(latitude: Double, longitude: Double) {
+        let url = URL(string: "https://maps.apple.com/?daddr=\(latitude),\(longitude)")
+        guard let url else {
+            return
+        }
+        
+        UIApplication.shared.open(url)
+    }
 }

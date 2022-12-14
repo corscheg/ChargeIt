@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Detail Point module router.
 protocol DetailPointRouterProtocol {
     
+    /// Reveal the given point in Apple Maps app.
+    func openInMaps(latitude: Double, longitude: Double)
 }

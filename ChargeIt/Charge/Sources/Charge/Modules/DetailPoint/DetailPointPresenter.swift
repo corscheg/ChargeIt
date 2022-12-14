@@ -53,4 +53,8 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
             view?.showAlert(with: "Storage operation failed.")
         }
     }
+    
+    func openMapsButtonTapped() {
+        router.openInMaps(latitude: viewModel.latitude, longitude: viewModel.longitude)
+    }
 }

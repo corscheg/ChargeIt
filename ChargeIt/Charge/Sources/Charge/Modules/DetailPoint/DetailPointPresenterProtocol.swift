@@ -21,4 +21,7 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Notify presenter that favorite button was tapped.
     func favoriteButtonTapped()
+    
+    /// Notify presenter that Apple Maps button was tapped.
+    func openMapsButtonTapped()
 }
