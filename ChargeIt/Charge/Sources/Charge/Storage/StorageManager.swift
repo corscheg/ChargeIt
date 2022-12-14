@@ -35,7 +35,7 @@ final class StorageManager {
     func add(point: ChargingPoint) throws {
         let pointObj = PointObj(context: container.viewContext)
         
-        pointObj.id = point.id
+        pointObj.uuid = point.id
         pointObj.addressFirst = point.location.addressFirst
         pointObj.addressSecond = point.location.addressSecond
         pointObj.town = point.location.town
@@ -78,11 +78,24 @@ final class StorageManager {
         try saveContext()
     }
     
+    private func allPoints() {
+        let request = PointObj.fetchRequest()
+        
+        do {
+            let result = try container.viewContext.fetch(request)
+            print(result)
+        } catch {
+            print("All Point failed")
+        }
+    }
+    
     // MARK: Private Methods
     private func saveContext() throws {
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()
+                allPoints()
+                print("_____")
             } catch {
                 throw StorageError.savingFailed
             }
@@ -91,7 +104,7 @@ final class StorageManager {
     
     private func fetch(by id: UUID) -> PointObj? {
         let request = PointObj.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
         request.predicate = predicate
         
         do {

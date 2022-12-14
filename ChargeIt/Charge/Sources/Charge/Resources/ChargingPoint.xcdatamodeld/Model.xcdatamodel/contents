@@ -5,21 +5,23 @@
         <attribute name="fastChargeCapable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
+        <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PointObj" inverseName="connections" inverseEntity="PointObj"/>
     </entity>
     <entity name="PointObj" representedClassName="PointObj" syncable="YES" codeGenerationType="class">
         <attribute name="addressFirst" optional="YES" attributeType="String"/>
         <attribute name="addressSecond" optional="YES" attributeType="String"/>
         <attribute name="country" attributeType="String"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="locationTitle" optional="YES" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="state" optional="YES" attributeType="String"/>
         <attribute name="town" optional="YES" attributeType="String"/>
-        <relationship name="connections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConnectionObj"/>
-        <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="connections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConnectionObj" inverseName="point" inverseEntity="ConnectionObj"/>
+        <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj" inverseName="point" inverseEntity="URLsObj"/>
     </entity>
     <entity name="URLsObj" representedClassName="URLsObj" syncable="YES" codeGenerationType="class">
         <attribute name="url" attributeType="URI"/>
+        <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PointObj" inverseName="urls" inverseEntity="PointObj"/>
     </entity>
 </model>
