@@ -20,7 +20,8 @@ struct DetailPointViewModel {
     let imageURLs: [URL]
     let latitude: Double
     let longitude: Double
-    var isFavorite: Bool?
+    var isFavorite: Bool
+    let didTapFavoriteButton: (Bool) -> Bool
 }
 
 // MARK: - ConnectionViewModel {

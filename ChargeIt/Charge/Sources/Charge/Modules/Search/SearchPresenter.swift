@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import CoreData
 
 /// Presenter of the Search module.
 final class SearchPresenter {
@@ -144,8 +145,51 @@ extension SearchPresenter: SearchPresenterProtocol {
             connections: connections,
             imageURLs: urls,
             latitude: item.location.coordinates.latitude,
-            longitude: item.location.coordinates.longitude
-        )
+            longitude: item.location.coordinates.longitude,
+            isFavorite: interactor.isFavorite(by: item.id)
+        ) { [weak self, id = item.id, index] isFavoriteActually in
+            guard let self else {
+                return false
+            }
+            
+            if isFavoriteActually {
+                let result = self.interactor.delete(by: id)
+                return result
+            } else {
+                let pointObj: PointObj = PointObj(context: self.interactor.storageContext)
+                let point = self.points[index]
+                
+                pointObj.id = point.id
+                pointObj.addressFirst = point.location.addressFirst
+                pointObj.addressSecond = point.location.addressSecond
+                pointObj.town = point.location.town
+                pointObj.state = point.location.state
+                pointObj.country = point.location.country.code
+                pointObj.latitude = point.location.coordinates.latitude
+                pointObj.longitude = point.location.coordinates.longitude
+                pointObj.locationTitle = point.location.title
+                
+                point.connections.forEach {
+                    let connectionObj = ConnectionObj(context: self.interactor.storageContext)
+                    connectionObj.type = $0.type.title
+                    connectionObj.level = $0.level?.title
+                    connectionObj.fastChargeCapable = $0.level?.fastChargeCapable ?? false
+                    connectionObj.current = $0.currentType?.title
+
+                    pointObj.addToConnections(connectionObj)
+                }
+                
+                point.mediaItems?.forEach {
+                    let urlObj = URLsObj(context: self.interactor.storageContext)
+                    urlObj.url = $0.url
+
+                    pointObj.addToUrls(urlObj)
+                }
+                
+                let result = self.interactor.store()
+                return result
+            }
+        }
         
         router.presentDetail(with: detailViewModel)
     }

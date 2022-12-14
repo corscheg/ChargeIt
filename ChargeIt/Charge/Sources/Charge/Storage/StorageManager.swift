@@ -37,60 +37,31 @@ final class StorageManager {
         }
     }
     
-    // MARK: Public Properties
-    func add(point: DetailPointViewModel) {
-        let pointObj = PointObj(context: container.viewContext)
-        
-        pointObj.id = point.id
-        pointObj.approximateLocation = point.approximateLocation
-        pointObj.locationTitle = point.locationTitle
-        pointObj.addressFirst = point.addressFirst
-        pointObj.addressSecond = point.addressSecond
-        pointObj.longitude = point.longitude
-        pointObj.latitude = point.latitude
-        
-        point.connections.forEach {
-            let connectionObj = ConnectionObj(context: container.viewContext)
-            connectionObj.type = $0.type
-            connectionObj.level = $0.level
-            connectionObj.fastChargeCapable = $0.fastChargeCapable ?? false
-            connectionObj.current = $0.current
-            
-            pointObj.addToConnections(connectionObj)
-        }
-        
-        point.imageURLs.forEach {
-            let urlObj = URLsObj(context: container.viewContext)
-            urlObj.url = $0
-            
-            pointObj.addToUrls(urlObj)
-        }
-        
-        saveContext()
+    // MARK: Public Methods
+    func add() throws {
+        try saveContext()
     }
     
     func isFavorite(by id: UUID) -> Bool {
         fetch(by: id) != nil
     }
     
-    @discardableResult
-    func delete(by id: UUID) -> Bool {
+    func delete(by id: UUID) throws {
         guard let pointObj = fetch(by: id) else {
-            return false
+            return
         }
-        
         container.viewContext.delete(pointObj)
-        saveContext()
-        return true
+        
+        try saveContext()
     }
     
     // MARK: Private Methods
-    private func saveContext() {
+    private func saveContext() throws {
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()
             } catch {
-                print("Saving error: \(error)")
+                throw StorageError.savingFailed
             }
         }
     }
@@ -101,7 +72,8 @@ final class StorageManager {
         request.predicate = predicate
         
         do {
-            return try container.viewContext.fetch(request).first
+            let result = try container.viewContext.fetch(request).first
+            return result
         } catch {
             return nil
         }

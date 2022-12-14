@@ -36,8 +36,7 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
-        viewModel.isFavorite = interactor.isFavorite(by: viewModel.id)
-        view?.setFavorite(state: viewModel.isFavorite!)
+        view?.setFavorite(state: viewModel.isFavorite)
     }
     
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
@@ -45,18 +44,13 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     }
     
     func favoriteButtonTapped() {
-        guard let isFavorite = viewModel.isFavorite else {
-            return
-        }
+        let result = viewModel.didTapFavoriteButton(viewModel.isFavorite)
         
-        if isFavorite {
-            interactor.removeFromFavorites(by: viewModel.id)
-            viewModel.isFavorite = false
-            view?.setFavorite(state: false)
+        if result {
+            viewModel.isFavorite.toggle()
+            view?.setFavorite(state: viewModel.isFavorite)
         } else {
-            interactor.addToFavorites(viewModel)
-            viewModel.isFavorite = true
-            view?.setFavorite(state: true)
+            view?.showAlert(with: "Storage operation failed.")
         }
     }
 }

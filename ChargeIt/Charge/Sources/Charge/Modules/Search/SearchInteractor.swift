@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import CoreData
 
 /// Interactor of the Search module.
 final class SearchInteractor: NSObject {
@@ -17,6 +18,7 @@ final class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let dataManager = DataManager.shared
     private let locationManager: CLLocationManager
+    private let storageManager = StorageManager.shared
     private var locationEnabled = false
     private var parameters: SearchQueryParameters?
     
@@ -33,6 +35,11 @@ final class SearchInteractor: NSObject {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     
+    
+    var storageContext: NSManagedObjectContext {
+        storageManager.container.viewContext
+    }
+    
     func loadNearbyPoints(with options: SearchQueryParameters) {
         guard locationEnabled else {
             presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
@@ -40,6 +47,28 @@ extension SearchInteractor: SearchInteractorProtocol {
         }
         parameters = options
         locationManager.requestLocation()
+    }
+    
+    func store() -> Bool {
+        do {
+            try storageManager.add()
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    func delete(by id: UUID) -> Bool {
+        do {
+            try storageManager.delete(by: id)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    func isFavorite(by id: UUID) -> Bool {
+        storageManager.isFavorite(by: id)
     }
 }
 

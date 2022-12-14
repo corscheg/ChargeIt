@@ -15,21 +15,9 @@ final class DetailPointInteractor {
     
     // MARK: Private Properties
     private let dataManager: DataManager = DataManager.shared
-    private let storageManager: StorageManager = StorageManager.shared
 }
 
 // MARK: - DetailPointInteractorProtocol
 extension DetailPointInteractor: DetailPointInteractorProtocol {
     
-    func isFavorite(by id: UUID) -> Bool {
-        storageManager.isFavorite(by: id)
-    }
-    
-    func addToFavorites(_ point: DetailPointViewModel) {
-        storageManager.add(point: point)
-    }
-    
-    func removeFromFavorites(by id: UUID) {
-        storageManager.delete(by: id)
-    }
 }
