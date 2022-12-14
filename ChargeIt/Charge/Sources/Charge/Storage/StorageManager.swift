@@ -13,15 +13,14 @@ final class StorageManager {
     
     // MARK: Public Properties
     var container: NSPersistentContainer
-    static var shared = StorageManager()
     
     // MARK: Initializers
-    private init() {
+    init?() {
         let bundle = Bundle.module
         
         guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "momd"),
             let model = NSManagedObjectModel(contentsOf: url) else {
-            fatalError()
+            return nil
         }
         
         

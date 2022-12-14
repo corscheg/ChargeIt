@@ -18,7 +18,7 @@ final class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let dataManager = DataManager.shared
     private let locationManager: CLLocationManager
-    private let storageManager = StorageManager.shared
+    private var storageManager = StorageManager()
     private var locationEnabled = false
     private var parameters: QueryParametersViewModel?
     
@@ -45,6 +45,10 @@ extension SearchInteractor: SearchInteractorProtocol {
     }
     
     func store(point: ChargingPoint) -> Bool {
+        guard let storageManager else {
+            return false
+        }
+        
         do {
             try storageManager.add(point: point)
             return true
@@ -54,6 +58,10 @@ extension SearchInteractor: SearchInteractorProtocol {
     }
     
     func delete(by id: UUID) -> Bool {
+        guard let storageManager else {
+            return false
+        }
+        
         do {
             try storageManager.delete(by: id)
             return true
@@ -63,7 +71,11 @@ extension SearchInteractor: SearchInteractorProtocol {
     }
     
     func isFavorite(by id: UUID) -> Bool {
-        storageManager.isFavorite(by: id)
+        guard let storageManager else {
+            return false
+        }
+        
+        return storageManager.isFavorite(by: id)
     }
 }
 
