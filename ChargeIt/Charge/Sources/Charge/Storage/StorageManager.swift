@@ -25,9 +25,10 @@ final class StorageManager {
         
         
         container = NSPersistentContainer(name: "ChargingPoint", managedObjectModel: model)
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
-        container.loadPersistentStores { _,_ in }
+        container.loadPersistentStores { [weak self] _,_ in
+            self?.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        }
     }
     
     // MARK: Public Methods
