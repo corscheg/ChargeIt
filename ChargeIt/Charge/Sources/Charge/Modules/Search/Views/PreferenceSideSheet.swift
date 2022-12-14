@@ -62,16 +62,10 @@ final class PreferenceSideSheet: UIView {
         clipsToBounds = true
         
         addSubview(panSurface)
-        panSurface.snp.makeConstraints { make in
-            make.right.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(10)
-        }
+        layoutPanSurface()
         
         addLayoutGuide(offsetLayoutGuide)
-        offsetLayoutGuide.snp.makeConstraints { make in
-            make.left.top.bottom.equalToSuperview()
-            make.width.equalTo(10)
-        }
+        layoutOffsetGuide()
         
         addSubview(radiusLabel)
         addSubview(radiusSlider)
@@ -94,6 +88,21 @@ final class PreferenceSideSheet: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Public Methods
+    func layoutPanSurface() {
+        panSurface.snp.makeConstraints { make in
+            make.right.top.bottom.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(10)
+        }
+    }
+    
+    func layoutOffsetGuide() {
+        offsetLayoutGuide.snp.makeConstraints { make in
+            make.left.top.bottom.equalToSuperview()
+            make.width.equalTo(10)
+        }
     }
     
 }

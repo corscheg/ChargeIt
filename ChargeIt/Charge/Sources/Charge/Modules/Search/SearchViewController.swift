@@ -55,7 +55,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var sideSheet: PreferenceSideSheet = {
         let sheet = PreferenceSideSheet()
-        sheet.alpha = 0
         
         return sheet
     }()
@@ -105,6 +104,10 @@ final class SearchViewController: UIViewController {
             make.bottom.equalTo(nearbyStack.snp.top).offset(-20)
             make.width.equalToSuperview().multipliedBy(0.8)
         }
+        
+        sideSheet.panSurface.snp.makeConstraints { make in
+            make.left.equalTo(view.snp.left)
+        }
          
     }
     
@@ -125,18 +128,6 @@ final class SearchViewController: UIViewController {
         presenter.loadState()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        sideSheet.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left).offset(-(sideSheet.frame.width - sideSheet.panSurface.frame.width))
-        }
-        
-        sideSheetVisible = false
-        
-        UIView.animate(withDuration: 0.2) {
-            self.sideSheet.alpha = 1
-        }
-    }
-    
     // MARK: Actions
     @objc private func nearbyButtonTapped() {
         presenter.loadNearbyPoints()
@@ -146,8 +137,18 @@ final class SearchViewController: UIViewController {
     }
     
     @objc private func expandHideSideSheet() {
-        sideSheet.snp.updateConstraints { make in
-            make.left.equalTo(view.snp.left).offset(sideSheetVisible ? -(sideSheet.frame.width - sideSheet.panSurface.frame.width) : -(sideSheet.offsetLayoutGuide.layoutFrame.width))
+        if sideSheetVisible {
+            sideSheet.offsetLayoutGuide.snp.removeConstraints()
+            sideSheet.layoutOffsetGuide()
+            sideSheet.panSurface.snp.makeConstraints { make in
+                make.left.equalTo(view.snp.left)
+            }
+        } else {
+            sideSheet.panSurface.snp.removeConstraints()
+            sideSheet.layoutPanSurface()
+            sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
+                make.right.equalTo(view.snp.left)
+            }
         }
         
         UIView.animate(withDuration: 0.5) {
