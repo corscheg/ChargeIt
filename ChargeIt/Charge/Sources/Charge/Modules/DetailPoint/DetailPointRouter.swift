@@ -25,4 +25,12 @@ extension DetailPointRouter: DetailPointRouterProtocol {
         
         UIApplication.shared.open(url)
     }
+    
+    func dismiss() {
+        guard let uiView = view as? UIViewController else {
+            return
+        }
+        
+        uiView.dismiss(animated: true)
+    }
 }

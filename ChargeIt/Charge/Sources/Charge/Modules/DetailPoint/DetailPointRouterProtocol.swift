@@ -12,4 +12,7 @@ protocol DetailPointRouterProtocol {
     
     /// Reveal the given point in Apple Maps app.
     func openInMaps(latitude: Double, longitude: Double)
+    
+    /// Dismiss the Detail Point view.
+    func dismiss()
 }

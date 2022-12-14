@@ -16,6 +16,16 @@ final class DetailPointViewController: UIViewController {
     private let presenter: DetailPointPresenterProtocol
     
     // MARK: Visual Components
+    private lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.setTitleColor(.systemOrange, for: .normal)
+        button.setTitle("Done", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        
+        return button
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         
@@ -152,10 +162,17 @@ final class DetailPointViewController: UIViewController {
     override func loadView() {
         view = UIView()
         view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(dismissButton)
+        dismissButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview().inset(5)
+        }
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            make.leading.trailing.top.bottom.equalToSuperview()
+            make.top.equalTo(dismissButton.snp.bottom).offset(5)
+            make.leading.trailing.bottom.equalToSuperview()
             make.width.equalTo(scrollView.contentLayoutGuide)
         }
         
@@ -228,6 +245,7 @@ final class DetailPointViewController: UIViewController {
         
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
+        dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
         
         presenter.viewDidLoad()
     }
@@ -239,6 +257,10 @@ final class DetailPointViewController: UIViewController {
     
     @objc private func openMapsButtonTapped() {
         presenter.openMapsButtonTapped()
+    }
+    
+    @objc private func dismissButtonTapped() {
+        presenter.dismiss()
     }
     
 }

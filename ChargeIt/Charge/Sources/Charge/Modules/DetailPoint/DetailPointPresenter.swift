@@ -57,4 +57,8 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     func openMapsButtonTapped() {
         router.openInMaps(latitude: viewModel.latitude, longitude: viewModel.longitude)
     }
+    
+    func dismiss() {
+        router.dismiss()
+    }
 }

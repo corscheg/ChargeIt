@@ -24,4 +24,7 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Notify presenter that Apple Maps button was tapped.
     func openMapsButtonTapped()
+    
+    /// Dismiss the Detail Point view.
+    func dismiss()
 }
