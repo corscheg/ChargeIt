@@ -15,6 +15,7 @@ final class SearchViewController: UIViewController {
     // MARK: Private Properties
     private let presenter: SearchPresenterProtocol
     private var sideSheetVisible = false
+    private let hapticsGenerator = UINotificationFeedbackGenerator()
     
     // MARK: Visual Components
     private lazy var map: MKMapView = MKMapView()
@@ -178,6 +179,7 @@ final class SearchViewController: UIViewController {
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
     func updateUI(with viewModel: SearchViewModel) {
+        hapticsGenerator.prepare()
         map.removeAnnotations(map.annotations)
         
         for (index, location) in viewModel.locations.enumerated() {
@@ -185,12 +187,18 @@ extension SearchViewController: SearchViewProtocol {
             map.addAnnotation(annotation)
         }
         
+        if !viewModel.locations.isEmpty {
+            hapticsGenerator.notificationOccurred(.success)
+        }
+        
         map.setRegion(viewModel.region, animated: true)
     }
     
     func showError(with message: String) {
+        hapticsGenerator.prepare()
         let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
+        hapticsGenerator.notificationOccurred(.error)
         self.present(ac, animated: true)
     }
     
