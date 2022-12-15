@@ -15,11 +15,12 @@ protocol SearchInteractorProtocol {
     func loadNearbyPoints(with options: QueryParametersViewModel)
     
     /// Add the given point to the persistent storage.
-    func store(point: ChargingPoint) -> Bool
+    func store(point: ChargingPoint) throws
     
     /// Remove a point with the given ID from the persistent storage.
-    func delete(by id: UUID) -> Bool
+    @discardableResult
+    func delete(by id: UUID) throws -> Bool
     
     /// Determine whether a point with the given ID is stored in the persistent storage.
-    func isFavorite(by id: UUID) -> Bool
+    func isFavorite(by id: UUID) throws -> Bool
 }

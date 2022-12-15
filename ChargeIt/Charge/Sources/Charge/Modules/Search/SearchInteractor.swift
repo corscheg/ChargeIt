@@ -44,35 +44,27 @@ extension SearchInteractor: SearchInteractorProtocol {
         locationManager.requestLocation()
     }
     
-    func store(point: ChargingPoint) -> Bool {
+    func store(point: ChargingPoint) throws {
         guard let storageManager else {
-            return false
+            throw StorageError.internalError
         }
-        
-        do {
-            try storageManager.add(point: point)
-            return true
-        } catch {
-            return false
-        }
+        try storageManager.add(point: point)
     }
     
-    func delete(by id: UUID) -> Bool {
+    @discardableResult
+    func delete(by id: UUID) throws -> Bool {
         guard let storageManager else {
-            return false
+            throw StorageError.internalError
         }
         
-        do {
-            try storageManager.delete(by: id)
-            return true
-        } catch {
-            return false
-        }
+        let result = try storageManager.delete(by: id)
+        
+        return result
     }
     
-    func isFavorite(by id: UUID) -> Bool {
+    func isFavorite(by id: UUID) throws -> Bool {
         guard let storageManager else {
-            return false
+            throw StorageError.internalError
         }
         
         return storageManager.isFavorite(by: id)

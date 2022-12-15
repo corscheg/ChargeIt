@@ -26,5 +26,7 @@ final class FavoritesPresenter {
 
 // MARK: - FavoritesPresenterProtocol
 extension FavoritesPresenter: FavoritesPresenterProtocol {
-    
+    func viewDidLoad() {
+        
+    }
 }

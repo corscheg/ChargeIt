@@ -69,13 +69,16 @@ final class StorageManager {
         fetch(by: id) != nil
     }
     
-    func delete(by id: UUID) throws {
+    @discardableResult
+    func delete(by id: UUID) throws -> Bool {
         guard let pointObj = fetch(by: id) else {
-            return
+            return false
         }
         container.viewContext.delete(pointObj)
         
         try saveContext()
+        
+        return true
     }
     
     private func allPoints() {

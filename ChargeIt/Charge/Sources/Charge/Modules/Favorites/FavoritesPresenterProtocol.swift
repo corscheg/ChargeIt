@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Favorites module presenter.
 protocol FavoritesPresenterProtocol: AnyObject {
     
+    /// Notify presenter that the view is ready for presentation.
+    func viewDidLoad()
 }

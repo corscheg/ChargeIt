@@ -13,6 +13,14 @@ final class FavoritesViewController: UIViewController {
     // MARK: Private Properties
     private let presenter: FavoritesPresenterProtocol
     
+    // MARK: Visual Components
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.backgroundColor = .systemBackground
+        
+        return tableView
+    }()
+    
     // MARK: Initializers
     init(presenter: FavoritesPresenterProtocol) {
         self.presenter = presenter
@@ -27,9 +35,21 @@ final class FavoritesViewController: UIViewController {
     }
     
     // MARK: UIViewController
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
     override func viewDidLoad() {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        presenter.viewDidLoad()
     }
 }
 

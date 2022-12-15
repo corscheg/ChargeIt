@@ -21,7 +21,7 @@ struct DetailPointViewModel {
     let latitude: Double
     let longitude: Double
     var isFavorite: Bool
-    let didTapFavoriteButton: (Bool) -> Bool
+    let didTapFavoriteButton: (Bool) throws -> Void
 }
 
 // MARK: - ConnectionViewModel {

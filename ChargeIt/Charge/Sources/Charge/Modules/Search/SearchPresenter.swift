@@ -135,6 +135,11 @@ extension SearchPresenter: SearchPresenterProtocol {
         
         approximateLocation.append(item.location.country.code)
         
+        guard let isItemFavorite = try? interactor.isFavorite(by: item.id) else {
+            view?.showError(with: "Unable to load Storage")
+            return
+        }
+        
         let detailViewModel = DetailPointViewModel(
             id: item.id,
             approximateLocation: approximateLocation,
@@ -145,19 +150,17 @@ extension SearchPresenter: SearchPresenterProtocol {
             imageURLs: urls,
             latitude: item.location.coordinates.latitude,
             longitude: item.location.coordinates.longitude,
-            isFavorite: interactor.isFavorite(by: item.id)
-        ) { [weak self, id = item.id, index] isFavoriteActually in // didTapButton closure
+            isFavorite: isItemFavorite
+        ) { [weak self, id = item.id, index] isFavoriteNow in // didTapButton closure
             guard let self else {
-                return false
+                return
             }
             
-            if isFavoriteActually {
-                let result = self.interactor.delete(by: id)
-                return result
+            if isFavoriteNow {
+                try self.interactor.delete(by: id)
             } else {
                 let point = self.points[index]
-                let result = self.interactor.store(point: point)
-                return result
+                try self.interactor.store(point: point)
             }
         }
         

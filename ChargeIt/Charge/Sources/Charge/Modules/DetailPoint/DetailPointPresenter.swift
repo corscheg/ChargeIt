@@ -44,13 +44,12 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     }
     
     func favoriteButtonTapped() {
-        let result = viewModel.didTapFavoriteButton(viewModel.isFavorite)
-        
-        if result {
+        do {
+            try viewModel.didTapFavoriteButton(viewModel.isFavorite)
             viewModel.isFavorite.toggle()
             view?.setFavorite(state: viewModel.isFavorite)
-        } else {
-            view?.showAlert(with: "Storage operation failed.")
+        } catch {
+            view?.showAlert(with: "Storage operation failed")
         }
     }
     
