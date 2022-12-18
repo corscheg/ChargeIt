@@ -14,10 +14,16 @@ final class DetailPointInteractor {
     weak var presenter: DetailPointPresenterProtocol?
     
     // MARK: Private Properties
-    private let dataManager: DataManager = DataManager.shared
+    private var storageManager = StorageManager.shared
 }
 
 // MARK: - DetailPointInteractorProtocol
 extension DetailPointInteractor: DetailPointInteractorProtocol {
-    
+    func isFavorite(by id: UUID) throws -> Bool {
+        guard let storageManager else {
+            throw StorageError.internalError
+        }
+        
+        return try storageManager.isFavorite(by: id)
+    }
 }

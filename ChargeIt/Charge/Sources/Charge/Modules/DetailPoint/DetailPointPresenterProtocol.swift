@@ -10,8 +10,11 @@ import Foundation
 /// A protocol of the Detail Point module presenter.
 protocol DetailPointPresenterProtocol: AnyObject {
     
-    /// Update the view according to the current ViewModel.
+    /// Notify presenter that view is ready for presentation.
     func viewDidLoad()
+    
+    /// Notify presenter that view is on the screen.
+    func viewDidAppear()
     
     /// Number of available connections.
     var numberOfConnections: Int { get }

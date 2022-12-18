@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Detail Point module interactor.
 protocol DetailPointInteractorProtocol {
     
+    /// Check whether a point with the given UUID is favorite.
+    func isFavorite(by id: UUID) throws -> Bool
 }

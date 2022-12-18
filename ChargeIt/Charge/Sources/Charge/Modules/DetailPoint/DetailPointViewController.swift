@@ -262,6 +262,10 @@ final class DetailPointViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        presenter.viewDidAppear()
+    }
+    
     // MARK: Actions
     @objc private func favoriteButtonTapped() {
         presenter.favoriteButtonTapped()

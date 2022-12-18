@@ -39,6 +39,16 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
         view?.setFavorite(state: viewModel.isFavorite)
     }
     
+    func viewDidAppear() {
+        guard let isFavorite = try? interactor.isFavorite(by: viewModel.id) else {
+            return
+        }
+        
+        viewModel.isFavorite = isFavorite
+        view?.setFavorite(state: isFavorite)
+        
+    }
+    
     func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
         viewModel.connections[index]
     }
