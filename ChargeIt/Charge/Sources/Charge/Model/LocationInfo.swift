@@ -59,3 +59,16 @@ extension LocationInfo {
         }
     }
 }
+
+// MARK: - Hashable
+extension LocationInfo: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(latitude)
+        hasher.combine(longitude)
+        hasher.combine(title)
+    }
+    
+    static func ==(lhs: LocationInfo, rhs: LocationInfo) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude && lhs.title == rhs.title
+    }
+}
