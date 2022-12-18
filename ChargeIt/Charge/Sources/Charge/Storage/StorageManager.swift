@@ -13,9 +13,10 @@ final class StorageManager {
     
     // MARK: Public Properties
     var container: NSPersistentContainer
+    static let shared = StorageManager()
     
     // MARK: Initializers
-    init?() {
+    private init?() {
         let bundle = Bundle.module
         
         guard let url = bundle.url(forResource: "ChargingPoint", withExtension: "momd"),
@@ -65,13 +66,13 @@ final class StorageManager {
         try saveContext()
     }
     
-    func isFavorite(by id: UUID) -> Bool {
-        fetch(by: id) != nil
+    func isFavorite(by id: UUID) throws -> Bool {
+        try fetch(by: id) != nil
     }
     
     @discardableResult
     func delete(by id: UUID) throws -> Bool {
-        guard let pointObj = fetch(by: id) else {
+        guard let pointObj = try fetch(by: id) else {
             return false
         }
         container.viewContext.delete(pointObj)
@@ -81,15 +82,12 @@ final class StorageManager {
         return true
     }
     
-    private func allPoints() {
+    func allPoints() throws -> [PointObj] {
         let request = PointObj.fetchRequest()
         
-        do {
-            let result = try container.viewContext.fetch(request)
-            print(result)
-        } catch {
-            print("All Point failed")
-        }
+        let result = try container.viewContext.fetch(request)
+        
+        return result
     }
     
     // MARK: Private Methods
@@ -97,15 +95,13 @@ final class StorageManager {
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()
-                allPoints()
-                print("_____")
             } catch {
                 throw StorageError.savingFailed
             }
         }
     }
     
-    private func fetch(by id: UUID) -> PointObj? {
+    private func fetch(by id: UUID) throws -> PointObj? {
         let request = PointObj.fetchRequest()
         let predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
         request.predicate = predicate
@@ -114,7 +110,7 @@ final class StorageManager {
             let result = try container.viewContext.fetch(request).first
             return result
         } catch {
-            return nil
+            throw StorageError.internalError
         }
     }
 }

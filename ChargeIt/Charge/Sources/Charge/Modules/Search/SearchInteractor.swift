@@ -18,7 +18,7 @@ final class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let dataManager = DataManager.shared
     private let locationManager: CLLocationManager
-    private var storageManager = StorageManager()
+    private var storageManager = StorageManager.shared
     private var locationEnabled = false
     private var parameters: QueryParametersViewModel?
     
@@ -67,7 +67,9 @@ extension SearchInteractor: SearchInteractorProtocol {
             throw StorageError.internalError
         }
         
-        return storageManager.isFavorite(by: id)
+        let result = try storageManager.isFavorite(by: id)
+        
+        return result
     }
 }
 
