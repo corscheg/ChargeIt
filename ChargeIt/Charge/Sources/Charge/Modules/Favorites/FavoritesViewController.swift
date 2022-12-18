@@ -50,12 +50,14 @@ final class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         
+        navigationController?.delegate = self
         tableView.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        presenter.viewWillAppear()
+    override func viewDidAppear(_ animated: Bool) {
+        presenter.viewDidAppear()
     }
 }
 
@@ -75,6 +77,18 @@ extension FavoritesViewController: FavoritesViewProtocol {
 // MARK: - UITableViewDelegate
 extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         presenter.itemTapped(at: indexPath.row)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension FavoritesViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard viewController === self else {
+            return
+        }
+        
+        presenter.detailDismissed()
     }
 }

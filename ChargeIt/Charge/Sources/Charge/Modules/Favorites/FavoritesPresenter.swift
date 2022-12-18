@@ -14,6 +14,8 @@ final class FavoritesPresenter {
     private let interactor: FavoritesInteractor
     private let router: FavoritesRouter
     private var viewModels: [DetailPointViewModel] = []
+    private var detailChangedState = false
+    private var selectedIndex: Int?
     
     // MARK: Public Properties
     weak var view: FavoritesViewProtocol?
@@ -27,7 +29,7 @@ final class FavoritesPresenter {
 
 // MARK: - FavoritesPresenterProtocol
 extension FavoritesPresenter: FavoritesPresenterProtocol {
-    func viewWillAppear() {
+    func viewDidAppear() {
         do {
             let favoritesObj = try interactor.allFavorites()
             var favorites: [DetailPointViewModel] = []
@@ -70,9 +72,10 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                     imageURLs: urls,
                     latitude: $0.latitude,
                     longitude: $0.longitude,
-                    isFavorite: true,
-                    didTapFavoriteButton: { _ in })
-                )
+                    isFavorite: true
+                ) { [weak self] _ in
+                    self?.detailChangedState.toggle()
+                })
             }
             
             viewModels = favorites
@@ -83,6 +86,25 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
     }
     
     func itemTapped(at index: Int) {
+        selectedIndex = index
         router.revealDetail(with: viewModels[index])
+    }
+    
+    func detailDismissed() {
+        defer {
+            selectedIndex = nil
+            detailChangedState = false
+        }
+        
+        guard let selectedIndex, detailChangedState else {
+            return
+        }
+        
+        do {
+            let id = viewModels[selectedIndex].id
+            try interactor.deletePoint(by: id)
+        } catch {
+            view?.showAlert(with: "Unable to remove the point")
+        }        
     }
 }

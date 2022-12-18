@@ -250,7 +250,7 @@ final class DetailPointViewController: UIViewController {
         openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
         dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
         
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
         
         if navigationController != nil {
             dismissButton.isHidden = true

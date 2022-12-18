@@ -26,4 +26,12 @@ extension FavoritesInteractor: FavoritesInteractorProtocol {
         
         return try storageManager.allPoints()
     }
+    
+    func deletePoint(by id: UUID) throws {
+        guard let storageManager else {
+            throw StorageError.internalError
+        }
+        
+        try storageManager.delete(by: id)
+    }
 }

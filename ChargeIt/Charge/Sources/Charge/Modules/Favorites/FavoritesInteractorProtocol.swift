@@ -12,4 +12,7 @@ protocol FavoritesInteractorProtocol {
     
     /// Get all favorite points.
     func allFavorites() throws -> [PointObj]
+    
+    /// Delete the point with the given UUID.
+    func deletePoint(by id: UUID) throws
 }

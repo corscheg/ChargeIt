@@ -11,8 +11,11 @@ import Foundation
 protocol FavoritesPresenterProtocol: AnyObject {
     
     /// Notify presenter that view will be visible.
-    func viewWillAppear()
+    func viewDidAppear()
     
     /// Notify presenter that the item with the given index was tapped.
     func itemTapped(at index: Int)
+    
+    /// Notify presenter that the Detail Point view was dismissed.
+    func detailDismissed()
 }
