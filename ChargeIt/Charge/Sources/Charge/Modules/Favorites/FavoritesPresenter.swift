@@ -39,28 +39,28 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                 if let state = $0.state {
                     approximateLocation.append("\(state), ")
                 }
-                approximateLocation.append($0.country ?? "Unknown")
+                approximateLocation.append($0.country)
                 
                 var connections: [DetailPointViewModel.ConnectionViewModel] = []
-                $0.connections?.forEach { con in
+                $0.connections.forEach { con in
                     guard let connection = con as? ConnectionObj else {
                         return
                     }
                     
-                    connections.append(DetailPointViewModel.ConnectionViewModel(type: connection.type ?? "Unknown", level: connection.level, fastChargeCapable: connection.fastChargeCapable, current: connection.current))
+                    connections.append(DetailPointViewModel.ConnectionViewModel(type: connection.type, level: connection.level, fastChargeCapable: connection.fastChargeCapable, current: connection.current))
                 }
                 
                 var urls: [URL] = []
-                $0.urls?.forEach {
+                $0.urls.forEach {
                     guard let url = $0 as? URLsObj else {
                         return
                     }
                     
-                    urls.append(url.url ?? URL(string: "https://apple.com")!)
+                    urls.append(url.url)
                 }
                 
                 favorites.append(DetailPointViewModel(
-                    id: $0.uuid ?? UUID(),
+                    id: $0.uuid,
                     approximateLocation: approximateLocation,
                     addressFirst: $0.addressFirst,
                     addressSecond: $0.addressSecond,

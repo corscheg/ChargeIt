@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ConnectionObj" representedClassName="ConnectionObj" syncable="YES" codeGenerationType="class">
+    <entity name="ConnectionObj" representedClassName="ConnectionObj" syncable="YES">
         <attribute name="current" optional="YES" attributeType="String"/>
         <attribute name="fastChargeCapable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
         <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PointObj" inverseName="connections" inverseEntity="PointObj"/>
     </entity>
-    <entity name="PointObj" representedClassName="PointObj" syncable="YES" codeGenerationType="class">
+    <entity name="PointObj" representedClassName="PointObj" syncable="YES">
         <attribute name="addressFirst" optional="YES" attributeType="String"/>
         <attribute name="addressSecond" optional="YES" attributeType="String"/>
         <attribute name="country" attributeType="String"/>
@@ -20,7 +20,7 @@
         <relationship name="connections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConnectionObj" inverseName="point" inverseEntity="ConnectionObj"/>
         <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj" inverseName="point" inverseEntity="URLsObj"/>
     </entity>
-    <entity name="URLsObj" representedClassName="URLsObj" syncable="YES" codeGenerationType="class">
+    <entity name="URLsObj" representedClassName="URLsObj" syncable="YES">
         <attribute name="url" attributeType="URI"/>
         <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PointObj" inverseName="urls" inverseEntity="PointObj"/>
     </entity>

@@ -83,7 +83,7 @@ final class StorageManager {
     }
     
     func allPoints() throws -> [PointObj] {
-        let request = PointObj.fetchRequest()
+        let request = PointObj.createFetchRequest()
         
         let result = try container.viewContext.fetch(request)
         
@@ -102,7 +102,7 @@ final class StorageManager {
     }
     
     private func fetch(by id: UUID) throws -> PointObj? {
-        let request = PointObj.fetchRequest()
+        let request = PointObj.createFetchRequest()
         let predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
         request.predicate = predicate
         
