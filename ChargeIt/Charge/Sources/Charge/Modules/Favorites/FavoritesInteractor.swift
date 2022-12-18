@@ -19,5 +19,11 @@ final class FavoritesInteractor {
 
 // MARK: - FavoritesInteractorProtocol
 extension FavoritesInteractor: FavoritesInteractorProtocol {
-    
+    func allFavorites() throws -> [PointObj] {
+        guard let storageManager else {
+            throw StorageError.internalError
+        }
+        
+        return try storageManager.allPoints()
+    }
 }

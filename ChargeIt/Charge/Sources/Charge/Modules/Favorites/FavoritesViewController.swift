@@ -12,9 +12,10 @@ final class FavoritesViewController: UIViewController {
 
     // MARK: Private Properties
     private let presenter: FavoritesPresenterProtocol
+    private let tableManager: FavoritesTableManager
     
     // MARK: Visual Components
-    private lazy var tableView: UITableView = {
+    private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .systemBackground
         
@@ -24,8 +25,9 @@ final class FavoritesViewController: UIViewController {
     // MARK: Initializers
     init(presenter: FavoritesPresenterProtocol) {
         self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
+        self.tableManager = FavoritesTableManager(tableView: tableView)
         
+        super.init(nibName: nil, bundle: nil)
         tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         
     }
@@ -48,12 +50,22 @@ final class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        presenter.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        presenter.viewWillAppear()
     }
 }
 
 // MARK: - FavoritesViewProtocol
 extension FavoritesViewController: FavoritesViewProtocol {
+    func set(points: [DetailPointViewModel]) {
+        tableManager.setUpDataSource(with: points)
+    }
     
+    func showAlert(with message: String) {
+        let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }

@@ -134,6 +134,7 @@ final class DetailPointViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerCurve = .continuous
         button.layer.cornerRadius = 10
+        button.backgroundColor = .systemOrange
         
         return button
     }()

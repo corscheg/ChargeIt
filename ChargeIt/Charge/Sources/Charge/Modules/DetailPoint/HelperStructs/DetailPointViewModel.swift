@@ -24,9 +24,20 @@ struct DetailPointViewModel {
     let didTapFavoriteButton: (Bool) throws -> Void
 }
 
+// MARK: - Hashable
+extension DetailPointViewModel: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func ==(lhs: DetailPointViewModel, rhs: DetailPointViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
 // MARK: - ConnectionViewModel {
 extension DetailPointViewModel {
-    struct ConnectionViewModel {
+    struct ConnectionViewModel: Hashable {
         
         // MARK: Public Properties
         let type: String

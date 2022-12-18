@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Favorites module interactor.
 protocol FavoritesInteractorProtocol {
     
+    /// Get all favorite points.
+    func allFavorites() throws -> [PointObj]
 }
