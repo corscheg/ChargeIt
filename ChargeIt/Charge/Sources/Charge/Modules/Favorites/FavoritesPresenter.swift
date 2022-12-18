@@ -13,6 +13,7 @@ final class FavoritesPresenter {
     // MARK: Private Properties
     private let interactor: FavoritesInteractor
     private let router: FavoritesRouter
+    private var viewModels: [DetailPointViewModel] = []
     
     // MARK: Public Properties
     weak var view: FavoritesViewProtocol?
@@ -74,9 +75,14 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                 )
             }
             
+            viewModels = favorites
             view?.set(points: favorites)
         } catch {
             view?.showAlert(with: error.localizedDescription)
         }
+    }
+    
+    func itemTapped(at index: Int) {
+        router.revealDetail(with: viewModels[index])
     }
 }

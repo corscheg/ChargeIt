@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Favorites module router.
 protocol FavoritesRouterProtocol {
     
+    /// Show the Detail Point view.
+    func revealDetail(with viewModel: DetailPointViewModel)
 }

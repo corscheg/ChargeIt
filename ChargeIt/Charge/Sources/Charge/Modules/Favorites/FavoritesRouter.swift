@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Router of the Favorites module.
 final class FavoritesRouter {
@@ -16,5 +17,14 @@ final class FavoritesRouter {
 
 // MARK: - FavoritesRouterProtocol
 extension FavoritesRouter: FavoritesRouterProtocol {
-    
+    func revealDetail(with viewModel: DetailPointViewModel) {
+        guard let uiView = view as? UIViewController else {
+            return
+        }
+        
+        let detailView = DetailPointBuilder.build(with: viewModel)
+        let vc = UIViewController()
+        vc.view.backgroundColor = .systemPink
+        uiView.navigationController?.pushViewController(detailView, animated: true)
+    }
 }

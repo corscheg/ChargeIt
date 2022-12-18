@@ -12,4 +12,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
     
     /// Notify presenter that view will be visible.
     func viewWillAppear()
+    
+    /// Notify presenter that the item with the given index was tapped.
+    func itemTapped(at index: Int)
 }

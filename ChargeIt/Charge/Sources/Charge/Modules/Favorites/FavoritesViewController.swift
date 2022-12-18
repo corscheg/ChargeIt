@@ -50,6 +50,8 @@ final class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        tableView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,5 +69,12 @@ extension FavoritesViewController: FavoritesViewProtocol {
         let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension FavoritesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.itemTapped(at: indexPath.row)
     }
 }

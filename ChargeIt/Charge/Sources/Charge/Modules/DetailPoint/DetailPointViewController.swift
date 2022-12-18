@@ -163,18 +163,19 @@ final class DetailPointViewController: UIViewController {
     override func loadView() {
         view = UIView()
         view.backgroundColor = .systemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
         
+
         view.addSubview(dismissButton)
         dismissButton.snp.makeConstraints { make in
-            make.top.trailing.equalToSuperview().inset(5)
+            make.trailing.equalToSuperview().inset(10)
+            make.top.equalTo(view.layoutMarginsGuide)
         }
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(dismissButton.snp.bottom).offset(5)
+            make.top.equalTo(dismissButton.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.layoutMarginsGuide)
             make.width.equalTo(scrollView.contentLayoutGuide)
         }
         
@@ -237,7 +238,7 @@ final class DetailPointViewController: UIViewController {
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide)
             make.top.equalTo(favoriteStack.snp.bottom).offset(20)
             make.height.equalTo(44)
-            make.bottom.equalTo(scrollView.contentLayoutGuide).offset(-20)
+            make.bottom.equalTo(scrollView.contentLayoutGuide)
         }
     }
     
@@ -248,6 +249,15 @@ final class DetailPointViewController: UIViewController {
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
         dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        if navigationController != nil {
+            dismissButton.isHidden = true
+            dismissButton.snp.makeConstraints { make in
+                make.height.equalTo(0)
+            }
+        }
         
         presenter.viewDidLoad()
     }
