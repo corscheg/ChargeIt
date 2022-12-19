@@ -43,6 +43,6 @@ extension DetailPointViewModel {
         let type: String
         let level: String?
         let fastChargeCapable: Bool?
-        let current: String?
+        let current: Current
     }
 }

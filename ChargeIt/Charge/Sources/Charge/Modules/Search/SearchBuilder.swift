@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 /// Use this struct to build the Search module.
 struct SearchBuilder {
@@ -13,7 +14,7 @@ struct SearchBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build() -> SearchViewController {
-        let interactor = SearchInteractor()
+        let interactor = SearchInteractor(dataManager: DataManager.shared, locationManager: CLLocationManager())
         let router = SearchRouter()
         let presenter = SearchPresenter(router: router, interactor: interactor)
         let view = SearchViewController(presenter: presenter)

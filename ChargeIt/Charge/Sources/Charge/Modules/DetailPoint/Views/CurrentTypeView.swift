@@ -61,15 +61,16 @@ final class CurrentTypeView: UIView {
     }
     
     // MARK: Public Methods
-    func set(current: String?) {
-        label.text = current
+    func set(current: Current) {
         switch current {
-        case "AC":
+        case .ac:
+            label.text = "AC"
             image.image = UIImage(systemName: "line.3.horizontal")
-        case "DC":
+        case .dc:
+            label.text = "DC"
             image.image = UIImage(systemName: "water.waves")
             break
-        default:
+        case .unknown:
             label.text = "Unknown"
         }
     }

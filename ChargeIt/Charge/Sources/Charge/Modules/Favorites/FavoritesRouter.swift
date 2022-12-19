@@ -23,8 +23,6 @@ extension FavoritesRouter: FavoritesRouterProtocol {
         }
         
         let detailView = DetailPointBuilder.build(with: viewModel)
-        let vc = UIViewController()
-        vc.view.backgroundColor = .systemPink
         uiView.navigationController?.pushViewController(detailView, animated: true)
     }
 }

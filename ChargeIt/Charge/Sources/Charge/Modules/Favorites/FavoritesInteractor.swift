@@ -11,10 +11,15 @@ import Foundation
 final class FavoritesInteractor {
     
     // MARK: Private Properties
-    private let storageManager = StorageManager.shared
+    private let storageManager: StorageManager?
     
     // MARK: Public Properties
     weak var presenter: FavoritesPresenterProtocol?
+    
+    // MARK: Initializers
+    init(storageManager: StorageManager?) {
+        self.storageManager = storageManager
+    }
 }
 
 // MARK: - FavoritesInteractorProtocol

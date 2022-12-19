@@ -12,7 +12,7 @@ import MapKit
 protocol SearchPresenterProtocol: AnyObject {
     
     /// Update the view with the current View Model.
-    func loadState()
+    func viewDidLoad()
     
     /// Update the view with the new value of radius.
     func radiusChanged(value: Float)

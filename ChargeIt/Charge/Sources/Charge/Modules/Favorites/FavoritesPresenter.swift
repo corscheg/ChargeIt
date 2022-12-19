@@ -50,7 +50,18 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                         return
                     }
                     
-                    connections.append(DetailPointViewModel.ConnectionViewModel(type: connection.type, level: connection.level, fastChargeCapable: connection.fastChargeCapable, current: connection.current))
+                    let current: Current
+                    
+                    switch connection.current {
+                    case "AC":
+                        current = .ac
+                    case "DC":
+                        current = .dc
+                    default:
+                        current = .unknown
+                    }
+                    
+                    connections.append(DetailPointViewModel.ConnectionViewModel(type: connection.type, level: connection.level, fastChargeCapable: connection.fastChargeCapable, current: current))
                 }
                 
                 var urls: [URL] = []

@@ -53,7 +53,15 @@ final class StorageManager {
             connectionObj.type = $0.type.title
             connectionObj.level = $0.level?.title
             connectionObj.fastChargeCapable = $0.level?.fastChargeCapable ?? false
-            connectionObj.current = $0.currentType?.title
+            
+            switch $0.currentType?.id {
+            case 10, 20:
+                connectionObj.current = "AC"
+            case 30:
+                connectionObj.current = "DC"
+            default:
+                connectionObj.current = "Unknown"
+            }
 
             pointObj.addToConnections(connectionObj)
         }

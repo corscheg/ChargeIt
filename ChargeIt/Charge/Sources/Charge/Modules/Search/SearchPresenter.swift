@@ -38,7 +38,7 @@ final class SearchPresenter {
 // MARK: - SearchPresenterProtocol
 extension SearchPresenter: SearchPresenterProtocol {
     
-    func loadState() {
+    func viewDidLoad() {
         view?.updateUI(with: viewModel)
         view?.updateParameters(with: queryParameters)
     }
@@ -104,14 +104,18 @@ extension SearchPresenter: SearchPresenterProtocol {
         }
         
         let center = CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude) / 2, longitude: (maxLongitude + minLongitude) / 2)
-        let span = MKCoordinateSpan(latitudeDelta: (maxLatitude - minLatitude) * 1.1, longitudeDelta: (maxLongitude - minLongitude) * 1.3)
+        let span = MKCoordinateSpan(latitudeDelta: max((maxLatitude - minLatitude) * 1.1, 0.1), longitudeDelta: max((maxLongitude - minLongitude) * 1.3, 0.1))
         
         viewModel.region = MKCoordinateRegion(center: center, span: span)
         
         DispatchQueue.main.async { [weak self] in
-            self?.view?.updateUI(with: self!.viewModel)
-            self?.view?.stopActivityIndication()
-            self?.points = pointArray
+            guard let self else {
+                return
+            }
+            
+            self.view?.updateUI(with: self.viewModel)
+            self.view?.stopActivityIndication()
+            self.points = pointArray
         }
     }
     
@@ -127,11 +131,22 @@ extension SearchPresenter: SearchPresenterProtocol {
         let item = points[index]
         
         let connections = item.connections.map {
-            DetailPointViewModel.ConnectionViewModel(
+            let current: Current
+            
+            switch $0.currentType?.id {
+            case 10, 20:
+                current = .ac
+            case 30:
+                current = .dc
+            default:
+                current = .unknown
+            }
+            
+            return DetailPointViewModel.ConnectionViewModel(
                 type: $0.type.title,
                 level: $0.level?.title,
                 fastChargeCapable: $0.level?.fastChargeCapable,
-                current: $0.currentType?.id == 30 ? "DC" : "AC"
+                current: current
             )
         }
         

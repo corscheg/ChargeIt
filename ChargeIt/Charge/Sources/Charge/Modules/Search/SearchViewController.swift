@@ -125,7 +125,7 @@ final class SearchViewController: UIViewController {
         sideSheet.panSurface.addGestureRecognizer(panRecognizer)
         sideSheet.radiusSlider.addTarget(self, action: #selector(radiusSliderValueChanged), for: .valueChanged)
         
-        presenter.loadState()
+        presenter.viewDidLoad()
     }
     
     // MARK: Actions
@@ -164,7 +164,7 @@ final class SearchViewController: UIViewController {
             if abs(sender.translation(in: view).x) > sideSheet.frame.width / 2 {
                 expandHideSideSheet()
             } else {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 0.2) {
                     self.sideSheet.transform = .identity
                 }
             }

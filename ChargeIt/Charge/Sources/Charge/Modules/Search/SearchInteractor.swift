@@ -16,15 +16,16 @@ final class SearchInteractor: NSObject {
     weak var presenter: SearchPresenterProtocol?
     
     // MARK: Private Properties
-    private let dataManager = DataManager.shared
+    private let dataManager: DataManager
     private let locationManager: CLLocationManager
     private var storageManager = StorageManager.shared
     private var locationEnabled = false
     private var parameters: QueryParametersViewModel?
     
     // MARK: Initializers
-    override init() {
-        locationManager = CLLocationManager()
+    init(dataManager: DataManager, locationManager: CLLocationManager) {
+        self.dataManager = dataManager
+        self.locationManager = locationManager
         super.init()
         
         locationManager.delegate = self
