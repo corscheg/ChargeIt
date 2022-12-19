@@ -11,9 +11,11 @@ import CoreData
 /// A class for saving points in Core Data.
 final class StorageManager {
     
-    // MARK: Public Properties
-    var container: NSPersistentContainer
+    // MARK: Static Properties
     static let shared = StorageManager()
+    
+    // MARK: Private Properties
+    private var container: NSPersistentContainer
     
     // MARK: Initializers
     private init?() {
@@ -84,10 +86,15 @@ final class StorageManager {
     
     func allPoints() throws -> [PointObj] {
         let request = PointObj.createFetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "uuid", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
         
-        let result = try container.viewContext.fetch(request)
-        
-        return result
+        do {
+            let result = try container.viewContext.fetch(request)
+            return result
+        } catch {
+            throw StorageError.internalError
+        }
     }
     
     // MARK: Private Methods
