@@ -14,6 +14,7 @@ final class DetailPointViewController: UIViewController {
 
     // MARK: Private Properties
     private let presenter: DetailPointPresenterProtocol
+    private let connectionViewDataSource = DetailPointConnectionsDataSource()
     
     // MARK: Visual Components
     private lazy var dismissButton: UIButton = {
@@ -245,7 +246,7 @@ final class DetailPointViewController: UIViewController {
     
     override func viewDidLoad() {
         connectionView.register(ConnectionViewCell.self, forCellWithReuseIdentifier: "connection")
-        connectionView.dataSource = self
+        connectionView.dataSource = connectionViewDataSource
         
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
@@ -289,6 +290,7 @@ extension DetailPointViewController: DetailPointViewProtocol {
         addressFirstlabel.text = viewModel.addressFirst
         addressSecondLabel.text = viewModel.addressSecond
         countryLabel.text = viewModel.approximateLocation
+        connectionViewDataSource.updateDataSource(with: viewModel.connections)
         connectionView.reloadData()
         
         viewModel.imageURLs.forEach {
@@ -333,21 +335,5 @@ extension DetailPointViewController: DetailPointViewProtocol {
         let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-extension DetailPointViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter.numberOfConnections
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "connection", for: indexPath) as? ConnectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        cell.set(viewModel: presenter.connection(at: indexPath.item))
-        return cell
     }
 }
