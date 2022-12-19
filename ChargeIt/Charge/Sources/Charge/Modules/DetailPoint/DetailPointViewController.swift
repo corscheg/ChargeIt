@@ -168,12 +168,13 @@ final class DetailPointViewController: UIViewController {
         view.addSubview(dismissButton)
         dismissButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(10)
-            make.top.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(44)
         }
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(dismissButton.snp.bottom).offset(10)
+            make.top.equalTo(dismissButton.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.layoutMarginsGuide).priority(800)
             make.width.equalTo(scrollView.contentLayoutGuide)

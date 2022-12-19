@@ -66,6 +66,26 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func pointsLoadingSucceeded(with points: [ChargingPoint]) {
         
+        // Server may return duplicate values
+        // It's necessary to remove duplicates
+        // With determined UUID selection rule
+        
+        var pointSet = Set<ChargingPoint>()
+        for newPoint in points {
+            guard let index = pointSet.firstIndex(of: newPoint) else {
+                pointSet.insert(newPoint)
+                continue
+            }
+            
+            let oldPoint = pointSet[index]
+            
+            if newPoint.id.uuidString < oldPoint.id.uuidString {
+                pointSet.update(with: newPoint)
+            }
+        }
+        
+        let pointArray = Array(pointSet)
+        
         var minLatitude = 90.0
         var minLongitude = 180.0
         var maxLatitude = -90.0
@@ -73,7 +93,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         
         viewModel.locations = []
         
-        points.forEach {
+        pointArray.forEach {
             let coordinates = $0.location.coordinates
             viewModel.locations.append(coordinates)
             
@@ -91,7 +111,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         DispatchQueue.main.async { [weak self] in
             self?.view?.updateUI(with: self!.viewModel)
             self?.view?.stopActivityIndication()
-            self?.points = points
+            self?.points = pointArray
         }
     }
     

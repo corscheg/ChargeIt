@@ -114,27 +114,7 @@ extension SearchInteractor: CLLocationManagerDelegate {
             case .failure(let error):
                 self?.presenter?.pointsLoadingFailed(with: error)
             case .success(let points):
-                
-                // Server may return duplicate values
-                // It's necessary to remove duplicates
-                // With determined UUID selection rule
-                
-                var pointSet = Set<ChargingPoint>()
-                for newPoint in points {
-                    guard let index = pointSet.firstIndex(of: newPoint) else {
-                        pointSet.insert(newPoint)
-                        continue
-                    }
-                    
-                    let oldPoint = pointSet[index]
-                    
-                    if newPoint.id.uuidString < oldPoint.id.uuidString {
-                        pointSet.update(with: newPoint)
-                    }
-
-                }
-                
-                self?.presenter?.pointsLoadingSucceeded(with: Array(pointSet))
+                self?.presenter?.pointsLoadingSucceeded(with: points)
             }
         }
     }
