@@ -8,7 +8,7 @@
 import UIKit
 
 /// A class that provides data to the Detail Point Connections collection view.
-class DetailPointConnectionsDataSource: NSObject {
+final class DetailPointConnectionsDataSource: NSObject {
     
     // MARK: Private Properties
     private var viewModels: [DetailPointViewModel.ConnectionViewModel] = []

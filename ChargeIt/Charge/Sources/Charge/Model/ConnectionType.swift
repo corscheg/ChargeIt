@@ -31,10 +31,3 @@ extension ConnectionType {
         case obsolete = "IsObsolete"
     }
 }
-
-// MARK: CustomStringConvertible
-extension ConnectionType: CustomStringConvertible {
-    var description: String {
-        "Connection Type: \(title)"
-    }
-}

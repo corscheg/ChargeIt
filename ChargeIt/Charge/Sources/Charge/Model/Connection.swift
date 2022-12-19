@@ -27,19 +27,3 @@ extension Connection {
         case currentType = "CurrentType"
     }
 }
-
-// MARK: - CustomStringConvertible
-extension Connection: CustomStringConvertible {
-    var description: String {
-        let levelString = level?.description ?? "Level: unknown"
-        let currentTypeString = currentType?.description ?? "Current: unknown"
-        
-        
-        return """
-        Connection:
-            \(type)
-            \(levelString)
-            \(currentTypeString)
-        """
-    }
-}

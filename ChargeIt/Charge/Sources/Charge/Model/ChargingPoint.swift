@@ -31,22 +31,6 @@ extension ChargingPoint {
     }
 }
 
-// MARK: - CustomStringConvertible
-extension ChargingPoint: CustomStringConvertible {
-    var description: String {
-        var connectionsString = "Connections: \n"
-        for connection in connections {
-            connectionsString.append("    " + connection.description + "\n")
-        }
-        return """
-        Title: \(location.title ?? "Unknown")
-        Latitude: \(location.coordinates.latitude)
-        Longitude: \(location.coordinates.longitude)
-        \(connectionsString)
-        """
-    }
-}
-
 // MARK: - Hashable
 extension ChargingPoint: Hashable {
     func hash(into hasher: inout Hasher) {
