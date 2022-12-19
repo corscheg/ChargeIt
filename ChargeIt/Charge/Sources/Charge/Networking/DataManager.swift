@@ -14,9 +14,9 @@ final class DataManager {
     // MARK: Static Properties
     static let shared = DataManager()
     
-    // MARK: Private Properties
-    private let session: URLSession
-    private let baseURL: URLComponents = {
+    // MARK: Public Properties
+    var session: URLSession = URLSession.shared
+    var baseURL: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.openchargemap.io"
@@ -31,9 +31,7 @@ final class DataManager {
     }()
     
     // MARK: Initializers
-    private init(session: URLSession = URLSession.shared) {
-        self.session = session
-    }
+    private init() { }
     
     // MARK: Public Methods
     /// Fetch charging points with the given parameters.
