@@ -16,12 +16,6 @@ protocol DetailPointPresenterProtocol: AnyObject {
     /// Notify presenter that view is on the screen.
     func viewDidAppear()
     
-    /// Number of available connections.
-    var numberOfConnections: Int { get }
-    
-    /// A connection View Model at the given index.
-    func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel
-    
     /// Notify presenter that favorite button was tapped.
     func favoriteButtonTapped()
     
@@ -29,5 +23,5 @@ protocol DetailPointPresenterProtocol: AnyObject {
     func openMapsButtonTapped()
     
     /// Dismiss the Detail Point view.
-    func dismiss()
+    func dismissButtonTapped()
 }

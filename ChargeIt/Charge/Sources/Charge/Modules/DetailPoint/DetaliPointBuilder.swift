@@ -16,7 +16,7 @@ struct DetailPointBuilder {
         let interactor = DetailPointInteractor()
         let router = DetailPointRouter()
         let presenter = DetailPointPresenter(router: router, interactor: interactor, viewModel: viewModel)
-        let view = DetailPointViewController(presenter: presenter)
+        let view = DetailPointViewController(presenter: presenter, dataSource: DetailPointConnectionsDataSource())
         
         presenter.view = view
         router.view = view

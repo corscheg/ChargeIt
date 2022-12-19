@@ -14,7 +14,7 @@ final class DetailPointViewController: UIViewController {
 
     // MARK: Private Properties
     private let presenter: DetailPointPresenterProtocol
-    private let connectionViewDataSource = DetailPointConnectionsDataSource()
+    private let connectionViewDataSource: DetailPointConnectionsDataSource
     
     // MARK: Visual Components
     private lazy var dismissButton: UIButton = {
@@ -151,9 +151,12 @@ final class DetailPointViewController: UIViewController {
     }()
     
     // MARK: Initializers
-    init(presenter: DetailPointPresenterProtocol) {
+    init(presenter: DetailPointPresenterProtocol, dataSource: DetailPointConnectionsDataSource) {
         self.presenter = presenter
+        self.connectionViewDataSource = dataSource
         super.init(nibName: nil, bundle: nil)
+        
+        modalPresentationStyle = .popover
     }
     
     required init?(coder: NSCoder) {
@@ -256,7 +259,7 @@ final class DetailPointViewController: UIViewController {
         
         if navigationController != nil {
             dismissButton.isHidden = true
-            dismissButton.snp.makeConstraints { make in
+            dismissButton.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
         }
@@ -278,7 +281,7 @@ final class DetailPointViewController: UIViewController {
     }
     
     @objc private func dismissButtonTapped() {
-        presenter.dismiss()
+        presenter.dismissButtonTapped()
     }
     
 }
@@ -292,6 +295,11 @@ extension DetailPointViewController: DetailPointViewProtocol {
         countryLabel.text = viewModel.approximateLocation
         connectionViewDataSource.updateDataSource(with: viewModel.connections)
         connectionView.reloadData()
+        
+        imagesStack.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+            imagesStack.removeArrangedSubview($0)
+        }
         
         viewModel.imageURLs.forEach {
             let imageView = UIImageView()
@@ -313,6 +321,7 @@ extension DetailPointViewController: DetailPointViewProtocol {
                     
                     self.imagesStack.snp.makeConstraints { make in
                         make.height.equalTo(self.view.snp.width).multipliedBy(ratio)
+                        make.height.lessThanOrEqualTo(self.view.snp.height).dividedBy(2).priority(800)
                     }
                     
                     UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 10, options: [.curveEaseInOut]) {

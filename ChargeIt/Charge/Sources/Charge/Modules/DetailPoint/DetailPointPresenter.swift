@@ -30,27 +30,19 @@ final class DetailPointPresenter {
 // MARK: - DetailPointPresenterProtocol
 extension DetailPointPresenter: DetailPointPresenterProtocol {
     
-    var numberOfConnections: Int {
-        viewModel.connections.count
-    }
-    
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
         view?.setFavorite(state: viewModel.isFavorite)
     }
     
     func viewDidAppear() {
-        guard let isFavorite = try? interactor.isFavorite(by: viewModel.id) else {
-            return
+        do {
+            let isFavorite = try interactor.isFavorite(by: viewModel.id)
+            viewModel.isFavorite = isFavorite
+            view?.setFavorite(state: isFavorite)
+        } catch {
+            view?.showAlert(with: "Unable to access storage")
         }
-        
-        viewModel.isFavorite = isFavorite
-        view?.setFavorite(state: isFavorite)
-        
-    }
-    
-    func connection(at index: Int) -> DetailPointViewModel.ConnectionViewModel {
-        viewModel.connections[index]
     }
     
     func favoriteButtonTapped() {
@@ -67,7 +59,7 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
         router.openInMaps(latitude: viewModel.latitude, longitude: viewModel.longitude)
     }
     
-    func dismiss() {
+    func dismissButtonTapped() {
         router.dismiss()
     }
 }
