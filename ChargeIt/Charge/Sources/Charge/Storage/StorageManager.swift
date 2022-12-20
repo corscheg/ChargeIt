@@ -48,7 +48,7 @@ final class StorageManager {
         pointObj.longitude = point.location.coordinates.longitude
         pointObj.locationTitle = point.location.title
         
-        point.connections.forEach {
+        Set(point.connections).forEach {
             let connectionObj = ConnectionObj(context: container.viewContext)
             connectionObj.type = $0.type.title
             connectionObj.level = $0.level?.title

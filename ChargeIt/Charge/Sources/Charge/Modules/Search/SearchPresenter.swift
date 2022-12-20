@@ -142,7 +142,7 @@ extension SearchPresenter: SearchPresenterProtocol {
     func itemTapped(at index: Int) {
         let item = points[index]
         
-        let connections = item.connections.map {
+        let connections = Set(item.connections).map {
             let current: Current
             
             switch $0.currentType?.id {

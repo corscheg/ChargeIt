@@ -25,3 +25,14 @@ extension CurrentType {
         case title = "Title"
     }
 }
+
+// MARK: - Hashable
+extension CurrentType: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func ==(lhs: CurrentType, rhs: CurrentType) -> Bool {
+        lhs.id == rhs.id
+    }
+}

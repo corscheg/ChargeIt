@@ -27,3 +27,17 @@ extension Connection {
         case currentType = "CurrentType"
     }
 }
+
+// MARK: - Hashable
+extension Connection: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(level)
+        hasher.combine(currentType)
+    }
+    
+    static func ==(lhs: Connection, rhs: Connection) -> Bool {
+        lhs.type == rhs.type && lhs.level == rhs.level && lhs.currentType == rhs.currentType
+        
+    }
+}

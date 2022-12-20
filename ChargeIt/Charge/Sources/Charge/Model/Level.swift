@@ -27,3 +27,14 @@ extension Level {
         case fastChargeCapable = "IsFastChargeCapable"
     }
 }
+
+// MARK: - Hashable
+extension Level: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func ==(lhs: Level, rhs: Level) -> Bool {
+        lhs.id == rhs.id
+    }
+}

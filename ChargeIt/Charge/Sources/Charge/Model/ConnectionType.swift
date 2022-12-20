@@ -31,3 +31,14 @@ extension ConnectionType {
         case obsolete = "IsObsolete"
     }
 }
+
+// MARK: - Hashable
+extension ConnectionType: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func ==(lhs: ConnectionType, rhs: ConnectionType) -> Bool {
+        lhs.id == rhs.id
+    }
+}
