@@ -82,8 +82,7 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                     connections: connections,
                     imageURLs: urls,
                     latitude: $0.latitude,
-                    longitude: $0.longitude,
-                    isFavorite: true
+                    longitude: $0.longitude
                 ) { [weak self] _ in
                     self?.detailChangedState.toggle()
                 })

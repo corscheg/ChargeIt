@@ -17,6 +17,7 @@ final class DetailPointPresenter {
     private let router: DetailPointRouterProtocol
     private let interactor: DetailPointInteractorProtocol
     private var viewModel: DetailPointViewModel
+    private var isFavorite: Bool = false
     
     // MARK: Initializers
     init(router: DetailPointRouterProtocol, interactor: DetailPointInteractorProtocol, viewModel: DetailPointViewModel) {
@@ -32,26 +33,30 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
-        view?.setFavorite(state: viewModel.isFavorite)
+        do {
+            isFavorite = try interactor.isFavorite(by: viewModel.id)
+            view?.setFavorite(state: isFavorite)
+        } catch {
+            presentStorageError()
+        }
     }
     
     func viewDidAppear() {
         do {
-            let isFavorite = try interactor.isFavorite(by: viewModel.id)
-            viewModel.isFavorite = isFavorite
+            isFavorite = try interactor.isFavorite(by: viewModel.id)
             view?.setFavorite(state: isFavorite)
         } catch {
-            view?.showAlert(with: "Unable to access storage")
+            presentStorageError()
         }
     }
     
     func favoriteButtonTapped() {
         do {
-            try viewModel.didTapFavoriteButton(viewModel.isFavorite)
-            viewModel.isFavorite.toggle()
-            view?.setFavorite(state: viewModel.isFavorite)
+            try viewModel.didTapFavoriteButton(isFavorite)
+            isFavorite.toggle()
+            view?.setFavorite(state: isFavorite)
         } catch {
-            view?.showAlert(with: "Storage operation failed")
+            presentStorageError()
         }
     }
     
@@ -61,5 +66,9 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func dismissButtonTapped() {
         router.dismiss()
+    }
+    
+    private func presentStorageError() {
+        view?.showAlert(with: "Unable to access storage")
     }
 }
