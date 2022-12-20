@@ -30,55 +30,8 @@ final class FavoritesPresenter {
             var favorites: [DetailPointViewModel] = []
             
             favoritesObj.forEach {
-                var approximateLocation = ""
-                if let town = $0.town {
-                    approximateLocation.append("\(town), ")
-                }
-                if let state = $0.state {
-                    approximateLocation.append("\(state), ")
-                }
-                approximateLocation.append($0.country)
-                
-                var connections: [DetailPointViewModel.ConnectionViewModel] = []
-                $0.connections.forEach { con in
-                    guard let connection = con as? ConnectionObj else {
-                        return
-                    }
-                    
-                    let current: Current
-                    
-                    switch connection.current {
-                    case "AC":
-                        current = .ac
-                    case "DC":
-                        current = .dc
-                    default:
-                        current = .unknown
-                    }
-                    
-                    connections.append(DetailPointViewModel.ConnectionViewModel(type: connection.type, level: connection.level, fastChargeCapable: connection.fastChargeCapable, current: current))
-                }
-                
-                var urls: [URL] = []
-                $0.urls.forEach {
-                    guard let url = $0 as? URLsObj else {
-                        return
-                    }
-                    
-                    urls.append(url.url)
-                }
-                
-                favorites.append(DetailPointViewModel(
-                    id: $0.uuid,
-                    approximateLocation: approximateLocation,
-                    addressFirst: $0.addressFirst,
-                    addressSecond: $0.addressSecond,
-                    locationTitle: $0.locationTitle,
-                    connections: connections,
-                    imageURLs: urls,
-                    latitude: $0.latitude,
-                    longitude: $0.longitude
-                ) { _ in })
+                let viewModel = Converter().makeViewModel(from: $0) { _ in }
+                favorites.append(viewModel)
             }
             
             viewModels = favorites

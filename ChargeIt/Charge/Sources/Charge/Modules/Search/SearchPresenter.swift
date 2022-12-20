@@ -142,57 +142,7 @@ extension SearchPresenter: SearchPresenterProtocol {
     func itemTapped(at index: Int) {
         let item = points[index]
         
-        let connections = Set(item.connections).map {
-            let current: Current
-            
-            switch $0.currentType?.id {
-            case 10, 20:
-                current = .ac
-            case 30:
-                current = .dc
-            default:
-                current = .unknown
-            }
-            
-            return DetailPointViewModel.ConnectionViewModel(
-                type: $0.type.title,
-                level: $0.level?.title,
-                fastChargeCapable: $0.level?.fastChargeCapable,
-                current: current
-            )
-        }
-        
-        var urls: [URL] = []
-        
-        if let medias = item.mediaItems {
-            urls = medias.map {
-                $0.url
-            }
-        }
-        
-        var approximateLocation = ""
-        
-        if let town = item.location.town {
-            approximateLocation.append("\(town), ")
-        }
-        
-        if let state = item.location.state {
-            approximateLocation.append("\(state), ")
-        }
-        
-        approximateLocation.append(item.location.country.code)
-        
-        let detailViewModel = DetailPointViewModel(
-            id: item.id,
-            approximateLocation: approximateLocation,
-            addressFirst: item.location.addressFirst,
-            addressSecond: item.location.addressSecond,
-            locationTitle: item.location.title,
-            connections: connections,
-            imageURLs: urls,
-            latitude: item.location.coordinates.latitude,
-            longitude: item.location.coordinates.longitude
-        ) { [weak self, id = item.id, index] isFavoriteNow in // didTapButton closure
+        let detailViewModel = Converter().makeViewModel(from: item) { [weak self, id = item.id, index] isFavoriteNow in // didTapButton closure
             guard let self else {
                 return
             }
