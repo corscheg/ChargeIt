@@ -27,4 +27,10 @@ protocol SearchViewProtocol: AnyObject {
     
     /// Choose whether user can perform location search.
     func setLocation(enabled: Bool)
+    
+    /// Prevent user from making a request.
+    func lockRequests()
+    
+    /// Enable user to make a request.
+    func unlockRequests()
 }

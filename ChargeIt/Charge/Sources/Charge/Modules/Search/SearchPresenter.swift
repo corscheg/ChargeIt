@@ -54,12 +54,14 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func loadNearbyPoints() {
         view?.startActivityIndication()
+        view?.lockRequests()
         interactor.loadNearbyPoints(with: queryParameters)
     }
     
     func pointsLoadingFailed(with error: SearchError) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.showError(with: error.localizedDescription)
+            self?.view?.unlockRequests()
             self?.view?.stopActivityIndication()
         }
     }
@@ -115,6 +117,7 @@ extension SearchPresenter: SearchPresenterProtocol {
             
             self.view?.updateUI(with: self.viewModel)
             self.view?.stopActivityIndication()
+            self.view?.unlockRequests()
             self.points = pointArray
         }
     }

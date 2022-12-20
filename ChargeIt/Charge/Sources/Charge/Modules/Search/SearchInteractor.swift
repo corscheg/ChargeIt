@@ -119,7 +119,12 @@ extension SearchInteractor: CLLocationManagerDelegate {
             return
         }
         
-        guard let parameters else { return }
+        guard let parameters else {
+            presenter?.pointsLoadingFailed(with: .invalidURL)
+            return
+        }
+        
+        
         
         makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
         

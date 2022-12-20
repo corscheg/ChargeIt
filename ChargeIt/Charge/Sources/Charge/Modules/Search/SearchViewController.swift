@@ -207,6 +207,7 @@ extension SearchViewController: SearchViewProtocol {
     
     func setLocation(enabled: Bool) {
         nearbyButton.isEnabled = enabled
+        nearbyButton.setTitle(enabled ? "Find nearby" : "Enable location services", for: .disabled)
         nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
     }
     
@@ -231,6 +232,14 @@ extension SearchViewController: SearchViewProtocol {
             self.activityIndicator.alpha = 0
             self.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5).concatenating(CGAffineTransform(translationX: self.activityIndicator.frame.width, y: 0))
         }
+    }
+    
+    func lockRequests() {
+        nearbyButton.isEnabled = false
+    }
+    
+    func unlockRequests() {
+        nearbyButton.isEnabled = true
     }
 }
 
