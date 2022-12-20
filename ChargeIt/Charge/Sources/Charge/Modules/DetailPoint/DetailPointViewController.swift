@@ -262,6 +262,11 @@ final class DetailPointViewController: UIViewController {
             dismissButton.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
+            
+            favoriteStack.isHidden = true
+            favoriteStack.snp.updateConstraints { make in
+                make.height.equalTo(0)
+            }
         }
         
         presenter.viewDidLoad()

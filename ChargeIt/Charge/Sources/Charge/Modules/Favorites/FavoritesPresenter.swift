@@ -14,8 +14,6 @@ final class FavoritesPresenter {
     private let interactor: FavoritesInteractor
     private let router: FavoritesRouter
     private var viewModels: [DetailPointViewModel] = []
-    private var detailChangedState = false
-    private var selectedIndex: Int?
     
     // MARK: Public Properties
     weak var view: FavoritesViewProtocol?
@@ -25,11 +23,8 @@ final class FavoritesPresenter {
         self.interactor = interactor
         self.router = router
     }
-}
-
-// MARK: - FavoritesPresenterProtocol
-extension FavoritesPresenter: FavoritesPresenterProtocol {
-    func viewDidAppear() {
+    
+    private func loadFavorites() {
         do {
             let favoritesObj = try interactor.allFavorites()
             var favorites: [DetailPointViewModel] = []
@@ -83,9 +78,7 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
                     imageURLs: urls,
                     latitude: $0.latitude,
                     longitude: $0.longitude
-                ) { [weak self] _ in
-                    self?.detailChangedState.toggle()
-                })
+                ) { _ in })
             }
             
             viewModels = favorites
@@ -94,27 +87,20 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
             view?.showAlert(with: error.localizedDescription)
         }
     }
+}
+
+// MARK: - FavoritesPresenterProtocol
+extension FavoritesPresenter: FavoritesPresenterProtocol {
     
-    func itemTapped(at index: Int) {
-        selectedIndex = index
-        router.revealDetail(with: viewModels[index])
+    func viewDidLoad() {
+        loadFavorites()
     }
     
-    func detailDismissed() {
-        defer {
-            selectedIndex = nil
-            detailChangedState = false
-        }
-        
-        guard let selectedIndex, detailChangedState else {
-            return
-        }
-        
-        do {
-            let id = viewModels[selectedIndex].id
-            try interactor.deletePoint(by: id)
-        } catch {
-            view?.showAlert(with: "Unable to remove the point")
-        }        
+    func viewDidAppear() {
+        loadFavorites()
+    }
+    
+    func itemTapped(at index: Int) {
+        router.revealDetail(with: viewModels[index])
     }
 }
