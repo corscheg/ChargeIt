@@ -56,4 +56,14 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
     func itemTapped(at index: Int) {
         router.revealDetail(with: viewModels[index])
     }
+    
+    func requestDeletion(at index: Int) {
+        do {
+            try interactor.deletePoint(by: viewModels[index].id)
+            let deleted = viewModels.remove(at: index)
+            view?.remove(point: deleted)
+        } catch {
+            view?.showAlert(with: "Unable to delete the point")
+        }
+    }
 }

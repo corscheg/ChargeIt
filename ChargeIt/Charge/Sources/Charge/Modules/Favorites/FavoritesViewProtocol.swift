@@ -13,6 +13,9 @@ protocol FavoritesViewProtocol: AnyObject {
     /// Update the view with the given points.
     func set(points: [DetailPointViewModel])
     
+    /// Remove the given point.
+    func remove(point: DetailPointViewModel)
+    
     /// Present an alert with the given message.
     func showAlert(with message: String)
 }

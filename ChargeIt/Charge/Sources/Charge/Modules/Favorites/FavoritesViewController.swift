@@ -65,7 +65,11 @@ final class FavoritesViewController: UIViewController {
 // MARK: - FavoritesViewProtocol
 extension FavoritesViewController: FavoritesViewProtocol {
     func set(points: [DetailPointViewModel]) {
-        tableManager.setUpDataSource(with: points)
+        tableManager.setNewDataSource(with: points)
+    }
+    
+    func remove(point: DetailPointViewModel) {
+        tableManager.remove(viewModel: point)
     }
     
     func showAlert(with message: String) {
@@ -80,5 +84,16 @@ extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         presenter.itemTapped(at: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, handler in
+            self?.presenter.requestDeletion(at: indexPath.row)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        config.performsFirstActionWithFullSwipe = true
+        return config
     }
 }

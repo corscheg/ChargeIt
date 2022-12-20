@@ -18,4 +18,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
     
     /// Notify presenter that the item with the given index was tapped.
     func itemTapped(at index: Int)
+    
+    /// Notify presenter that user requested deletion.
+    func requestDeletion(at index: Int)
 }

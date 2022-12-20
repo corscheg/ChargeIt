@@ -30,10 +30,15 @@ final class FavoritesTableManager {
     }
     
     // MARK: Public Properties
-    func setUpDataSource(with viewModels: [DetailPointViewModel]) {
+    func setNewDataSource(with viewModels: [DetailPointViewModel]) {
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModels, toSection: .main)
+        dataSource.apply(snapshot)
+    }
+    
+    func remove(viewModel: DetailPointViewModel) {
+        snapshot.deleteItems([viewModel])
         dataSource.apply(snapshot)
     }
 }
