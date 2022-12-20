@@ -12,5 +12,5 @@ struct QueryParametersViewModel {
     
     // MARK: Public Properties
     var radius: Int
-    var maxCount: Int
+    var currentCountryOnly: Bool
 }

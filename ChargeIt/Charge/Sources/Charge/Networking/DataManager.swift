@@ -47,6 +47,10 @@ final class DataManager {
         components.queryItems?.append(URLQueryItem(name: "distance", value: radius.description))
         components.queryItems?.append(URLQueryItem(name: "maxresults", value: maxCount.description))
         
+        if let country {
+            components.queryItems?.append(URLQueryItem(name: "countrycode", value: country))
+        }
+        
         guard let url = components.url else {
             completion(.failure(.invalidURL))
             return

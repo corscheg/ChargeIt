@@ -25,7 +25,7 @@ final class SearchPresenter {
             span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180)
         )
     )
-    private var queryParameters = QueryParametersViewModel(radius: 9, maxCount: 10_000)
+    private var queryParameters = QueryParametersViewModel(radius: 9, currentCountryOnly: false)
     private var points: [ChargingPoint] = []
     
     // MARK: Initializers

@@ -31,6 +31,17 @@ final class SearchInteractor: NSObject {
         locationManager.delegate = self
     }
     
+    // MARK: Private Methods
+    private func makeQuery(near location: CLLocationCoordinate2D, within radius: Int, in country: String? = nil, maxCount: Int) {
+        dataManager.fetchPoints(near: location, within: radius, in: country, maxCount: maxCount) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                self?.presenter?.pointsLoadingFailed(with: error)
+            case .success(let points):
+                self?.presenter?.pointsLoadingSucceeded(with: points)
+            }
+        }
+    }
 }
 
 // MARK: - SearchInteractorProtocol
@@ -110,14 +121,9 @@ extension SearchInteractor: CLLocationManagerDelegate {
         
         guard let parameters else { return }
         
-        dataManager.fetchPoints(near: location.coordinate, within: parameters.radius, maxCount: parameters.maxCount) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                self?.presenter?.pointsLoadingFailed(with: error)
-            case .success(let points):
-                self?.presenter?.pointsLoadingSucceeded(with: points)
-            }
-        }
+        makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
+        
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
