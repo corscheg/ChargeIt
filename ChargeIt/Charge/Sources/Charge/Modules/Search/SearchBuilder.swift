@@ -14,7 +14,7 @@ struct SearchBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build() -> SearchViewController {
-        let interactor = SearchInteractor(dataManager: DataManager.shared, locationManager: CLLocationManager())
+        let interactor = SearchInteractor(dataManager: DataManager.shared, locationManager: CLLocationManager(), geocoder: CLGeocoder())
         let router = SearchRouter()
         let presenter = SearchPresenter(router: router, interactor: interactor)
         let view = SearchViewController(presenter: presenter)

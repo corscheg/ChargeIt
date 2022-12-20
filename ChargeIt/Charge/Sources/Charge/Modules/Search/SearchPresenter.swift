@@ -48,6 +48,15 @@ extension SearchPresenter: SearchPresenterProtocol {
         view?.updateParameters(with: queryParameters)
     }
     
+    func countryRestrictionIndexChanged(to newValue: Int) {
+        switch newValue {
+        case 0:
+            queryParameters.currentCountryOnly = false
+        default:
+            queryParameters.currentCountryOnly = true
+        }
+    }
+    
     func mapRegionChanged(to value: MKCoordinateRegion) {
         viewModel.region = value
     }

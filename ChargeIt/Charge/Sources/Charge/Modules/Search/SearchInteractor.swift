@@ -18,13 +18,15 @@ final class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let dataManager: DataManager
     private let locationManager: CLLocationManager
-    private var storageManager = StorageManager.shared
+    private let geocoder: CLGeocoder
+    private let storageManager = StorageManager.shared
     private var locationEnabled = false
     private var parameters: QueryParametersViewModel?
     
     // MARK: Initializers
-    init(dataManager: DataManager, locationManager: CLLocationManager) {
+    init(dataManager: DataManager, locationManager: CLLocationManager, geocoder: CLGeocoder) {
         self.dataManager = dataManager
+        self.geocoder = geocoder
         self.locationManager = locationManager
         super.init()
         
@@ -124,11 +126,21 @@ extension SearchInteractor: CLLocationManagerDelegate {
             return
         }
         
-        
-        
-        makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
-        
-        
+        if parameters.currentCountryOnly {
+            
+            geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+                guard error == nil, let placemark = placemarks?.first else {
+                    self?.makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
+                    return
+                }
+                
+                let countryISO = placemark.isoCountryCode
+                
+                self?.makeQuery(near: location.coordinate, within: parameters.radius, in: countryISO, maxCount: 10_000)
+            }
+        } else {
+            makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

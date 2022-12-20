@@ -49,6 +49,22 @@ final class PreferenceSideSheet: UIView {
         return label
     }()
     
+    lazy var countryLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.text = "Country"
+        label.numberOfLines = 1
+        label.textColor = .tertiaryLabel
+        
+        return label
+    }()
+    
+    lazy var countryRestrictionControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["Any", "Current"])
+        
+        return control
+    }()
+    
     lazy var offsetLayoutGuide: UILayoutGuide = UILayoutGuide()
     
     private lazy var radiusSliderLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
@@ -72,7 +88,7 @@ final class PreferenceSideSheet: UIView {
         addSubview(radiusValueLabel)
         addLayoutGuide(radiusSliderLayoutGuide)
         radiusSliderLayoutGuide.snp.makeConstraints { make in
-            make.top.bottom.equalTo(layoutMarginsGuide)
+            make.top.equalTo(layoutMarginsGuide)
             make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
             make.right.equalTo(panSurface.snp.left).offset(-15)
         }
@@ -80,6 +96,23 @@ final class PreferenceSideSheet: UIView {
         radiusValueLabel.snp.makeConstraints { make in
             make.width.equalTo("500 km".width(withHeight: radiusValueLabel.frame.height, font: radiusValueLabel.font))
         }
+        
+        addSubview(countryLabel)
+        countryLabel.snp.makeConstraints { make in
+            make.top.equalTo(radiusSliderLayoutGuide.snp.bottom).offset(15)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+        }
+        
+        addSubview(countryRestrictionControl)
+        countryRestrictionControl.snp.makeConstraints { make in
+            make.top.equalTo(countryLabel.snp.bottom).offset(10)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.bottom.equalTo(layoutMarginsGuide)
+        }
+        
+        countryRestrictionControl.selectedSegmentIndex = 0
     }
     
     convenience init() {

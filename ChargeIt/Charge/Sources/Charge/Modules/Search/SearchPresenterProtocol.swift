@@ -17,6 +17,9 @@ protocol SearchPresenterProtocol: AnyObject {
     /// Update the view with the new value of radius.
     func radiusChanged(value: Float)
     
+    /// Say presenter that country restriction has a new status
+    func countryRestrictionIndexChanged(to newValue: Int)
+    
     /// Update the View Model with the new value of Map Region.
     func mapRegionChanged(to: MKCoordinateRegion)
     
