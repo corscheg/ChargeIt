@@ -12,12 +12,12 @@ import UIKit
 final class FavoritesTableManager {
     
     // MARK: Private Properties
-    private let dataSource: UITableViewDiffableDataSource<FavoritesSection, DetailPointViewModel>
+    private let dataSource: FavoritesDiffabeDataSource
     private var snapshot = NSDiffableDataSourceSnapshot<FavoritesSection, DetailPointViewModel>()
     
     // MARK: Initializers
     init(tableView: UITableView) {
-        dataSource = UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, itemIdentifier in
+        dataSource = FavoritesDiffabeDataSource(tableView: tableView) { tableView, indexPath, itemIdentifier in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
             cell.textLabel?.text = itemIdentifier.locationTitle
             cell.detailTextLabel?.text = itemIdentifier.approximateLocation

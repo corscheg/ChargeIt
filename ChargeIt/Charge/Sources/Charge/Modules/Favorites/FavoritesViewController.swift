@@ -16,7 +16,7 @@ final class FavoritesViewController: UIViewController {
     
     // MARK: Visual Components
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .systemBackground
         
         return tableView
@@ -91,9 +91,7 @@ extension FavoritesViewController: UITableViewDelegate {
             self?.presenter.requestDeletion(at: indexPath.row)
         }
         
-        deleteAction.backgroundColor = .systemRed
         let config = UISwipeActionsConfiguration(actions: [deleteAction])
-        config.performsFirstActionWithFullSwipe = true
         return config
     }
 }
