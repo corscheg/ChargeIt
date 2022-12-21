@@ -39,6 +39,7 @@ final class DataManager {
                      within radius: Int = 20,
                      in country: String? = nil,
                      maxCount: Int = 100,
+                     usageTypes: [Int]? = nil,
                      completion: @escaping (Result<[ChargingPoint], SearchError>) -> Void) {
         var components = baseURL
         components.path.append("/poi")
@@ -49,6 +50,10 @@ final class DataManager {
         
         if let country {
             components.queryItems?.append(URLQueryItem(name: "countrycode", value: country))
+        }
+        if let usageTypes {
+            let usageString = usageTypes.map { String($0) }.joined(separator: ",")
+            components.queryItems?.append(URLQueryItem(name: "usagetypeid", value: usageString))
         }
         
         guard let url = components.url else {

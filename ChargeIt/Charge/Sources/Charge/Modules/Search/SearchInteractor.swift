@@ -34,8 +34,8 @@ final class SearchInteractor: NSObject {
     }
     
     // MARK: Private Methods
-    private func makeQuery(near location: CLLocationCoordinate2D, within radius: Int, in country: String? = nil, maxCount: Int) {
-        dataManager.fetchPoints(near: location, within: radius, in: country, maxCount: maxCount) { [weak self] result in
+    private func makeQuery(near location: CLLocationCoordinate2D, within radius: Int, in country: String? = nil, maxCount: Int, usageTypes: [Int]?) {
+        dataManager.fetchPoints(near: location, within: radius, in: country, maxCount: maxCount, usageTypes: usageTypes) { [weak self] result in
             switch result {
             case .failure(let error):
                 self?.presenter?.pointsLoadingFailed(with: error)
@@ -126,20 +126,26 @@ extension SearchInteractor: CLLocationManagerDelegate {
             return
         }
         
+        var usageTypes: [Int]? = nil
+        
+        if parameters.publicOnly {
+            usageTypes = [1, 4, 7, 5]
+        }
+        
         if parameters.currentCountryOnly {
             
             geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
                 guard error == nil, let placemark = placemarks?.first else {
-                    self?.makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
+                    self?.makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000, usageTypes: usageTypes)
                     return
                 }
                 
                 let countryISO = placemark.isoCountryCode
                 
-                self?.makeQuery(near: location.coordinate, within: parameters.radius, in: countryISO, maxCount: 10_000)
+                self?.makeQuery(near: location.coordinate, within: parameters.radius, in: countryISO, maxCount: 10_000, usageTypes: usageTypes)
             }
         } else {
-            makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000)
+            makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000, usageTypes: usageTypes)
         }
     }
     

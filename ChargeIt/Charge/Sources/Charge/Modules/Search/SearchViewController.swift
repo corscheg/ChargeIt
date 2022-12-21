@@ -125,6 +125,7 @@ final class SearchViewController: UIViewController {
         sideSheet.panSurface.addGestureRecognizer(panRecognizer)
         sideSheet.radiusSlider.addTarget(self, action: #selector(radiusSliderValueChanged), for: .valueChanged)
         sideSheet.countryRestrictionControl.addTarget(self, action: #selector(countryRestrictionValueChanged), for: .valueChanged)
+        sideSheet.usageTypeControl.addTarget(self, action: #selector(usageTypeValueChanged), for: .valueChanged)
         
         presenter.viewDidLoad()
     }
@@ -181,6 +182,10 @@ final class SearchViewController: UIViewController {
     
     @objc private func countryRestrictionValueChanged() {
         presenter.countryRestrictionIndexChanged(to: sideSheet.countryRestrictionControl.selectedSegmentIndex)
+    }
+    
+    @objc private func usageTypeValueChanged() {
+        presenter.usageTypeIndexChanged(to: sideSheet.usageTypeControl.selectedSegmentIndex)
     }
 }
 

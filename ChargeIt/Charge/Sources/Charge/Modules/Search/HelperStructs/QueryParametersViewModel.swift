@@ -13,4 +13,5 @@ struct QueryParametersViewModel {
     // MARK: Public Properties
     var radius: Int
     var currentCountryOnly: Bool
+    var publicOnly: Bool
 }

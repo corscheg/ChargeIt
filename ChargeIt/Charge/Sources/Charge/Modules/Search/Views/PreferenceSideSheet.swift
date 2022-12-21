@@ -65,6 +65,22 @@ final class PreferenceSideSheet: UIView {
         return control
     }()
     
+    lazy var usageTypeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.text = "Usage Type"
+        label.numberOfLines = 1
+        label.textColor = .tertiaryLabel
+        
+        return label
+    }()
+    
+    lazy var usageTypeControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["Public", "Any"])
+        
+        return control
+    }()
+    
     lazy var offsetLayoutGuide: UILayoutGuide = UILayoutGuide()
     
     private lazy var radiusSliderLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
@@ -109,10 +125,26 @@ final class PreferenceSideSheet: UIView {
             make.top.equalTo(countryLabel.snp.bottom).offset(10)
             make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
             make.right.equalTo(panSurface.snp.left).offset(-15)
-            make.bottom.equalTo(layoutMarginsGuide)
         }
         
         countryRestrictionControl.selectedSegmentIndex = 0
+        
+        addSubview(usageTypeLabel)
+        usageTypeLabel.snp.makeConstraints { make in
+            make.top.equalTo(countryRestrictionControl.snp.bottom).offset(15)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+        }
+        
+        addSubview(usageTypeControl)
+        usageTypeControl.snp.makeConstraints { make in
+            make.top.equalTo(usageTypeLabel.snp.bottom).offset(10)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.bottom.equalTo(layoutMarginsGuide)
+        }
+        
+        usageTypeControl.selectedSegmentIndex = 0
     }
     
     convenience init() {

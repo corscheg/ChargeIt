@@ -25,7 +25,7 @@ final class SearchPresenter {
             span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180)
         )
     )
-    private var queryParameters = QueryParametersViewModel(radius: 9, currentCountryOnly: false)
+    private var queryParameters = QueryParametersViewModel(radius: 9, currentCountryOnly: false, publicOnly: true)
     private var points: [ChargingPoint] = []
     
     // MARK: Initializers
@@ -54,6 +54,15 @@ extension SearchPresenter: SearchPresenterProtocol {
             queryParameters.currentCountryOnly = false
         default:
             queryParameters.currentCountryOnly = true
+        }
+    }
+    
+    func usageTypeIndexChanged(to newValue: Int) {
+        switch newValue {
+        case 0:
+            queryParameters.publicOnly = true
+        default:
+            queryParameters.publicOnly = false
         }
     }
     
