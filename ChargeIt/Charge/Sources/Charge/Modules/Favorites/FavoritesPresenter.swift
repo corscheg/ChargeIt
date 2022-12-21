@@ -59,7 +59,7 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
     
     func requestDeletion(at index: Int) {
         do {
-            try interactor.deletePoint(by: viewModels[index].id)
+            try interactor.deletePoint(by: viewModels[index].uuid)
             let deleted = viewModels.remove(at: index)
             view?.remove(point: deleted)
         } catch {

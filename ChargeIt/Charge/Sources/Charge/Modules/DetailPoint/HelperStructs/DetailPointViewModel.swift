@@ -11,7 +11,8 @@ import Foundation
 struct DetailPointViewModel {
     
     // MARK: Public Properties
-    let id: UUID
+    let uuid: UUID
+    let id: Int
     let approximateLocation: String
     let addressFirst: String?
     let addressSecond: String?
@@ -26,11 +27,11 @@ struct DetailPointViewModel {
 // MARK: - Hashable
 extension DetailPointViewModel: Hashable {
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(uuid)
     }
     
     static func ==(lhs: DetailPointViewModel, rhs: DetailPointViewModel) -> Bool {
-        lhs.id == rhs.id
+        lhs.uuid == rhs.uuid
     }
 }
 

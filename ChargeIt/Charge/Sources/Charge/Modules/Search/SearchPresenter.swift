@@ -99,7 +99,7 @@ extension SearchPresenter: SearchPresenterProtocol {
             
             let oldPoint = pointSet[index]
             
-            if newPoint.id.uuidString < oldPoint.id.uuidString {
+            if newPoint.uuid.uuidString < oldPoint.uuid.uuidString {
                 pointSet.update(with: newPoint)
             }
         }
@@ -150,14 +150,15 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func itemTapped(at index: Int) {
         let item = points[index]
+        print(item.id)
         
-        let detailViewModel = Converter().makeViewModel(from: item) { [weak self, id = item.id, index] isFavoriteNow in // didTapButton closure
+        let detailViewModel = Converter().makeViewModel(from: item) { [weak self, uuid = item.uuid, index] isFavoriteNow in // didTapButton closure
             guard let self else {
                 return
             }
             
             if isFavoriteNow {
-                try self.interactor.delete(by: id)
+                try self.interactor.delete(by: uuid)
             } else {
                 let point = self.points[index]
                 try self.interactor.store(point: point)

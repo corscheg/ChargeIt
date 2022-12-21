@@ -38,7 +38,8 @@ final class StorageManager {
     func add(point: ChargingPoint) throws {
         let pointObj = PointObj(context: container.viewContext)
         
-        pointObj.uuid = point.id
+        pointObj.uuid = point.uuid
+        pointObj.serverID = Int32(point.id)
         pointObj.addressFirst = point.location.addressFirst
         pointObj.addressSecond = point.location.addressSecond
         pointObj.town = point.location.town

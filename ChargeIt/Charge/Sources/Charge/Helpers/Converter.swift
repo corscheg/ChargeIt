@@ -54,6 +54,7 @@ struct Converter {
         approximateLocation.append(model.location.country.code)
         
         let viewModel = DetailPointViewModel(
+            uuid: model.uuid,
             id: model.id,
             approximateLocation: approximateLocation,
             addressFirst: model.location.addressFirst,
@@ -109,7 +110,8 @@ struct Converter {
         }
         
         return DetailPointViewModel(
-            id: object.uuid,
+            uuid: object.uuid,
+            id: Int(object.serverID),
             approximateLocation: approximateLocation,
             addressFirst: object.addressFirst,
             addressSecond: object.addressSecond,

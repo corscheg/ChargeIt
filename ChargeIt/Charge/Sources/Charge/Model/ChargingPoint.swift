@@ -12,7 +12,8 @@ import CoreLocation
 struct ChargingPoint {
 
     // MARK: Public Properties
-    let id: UUID
+    let uuid: UUID
+    let id: Int
     let location: LocationInfo
     let connections: [Connection]
     let mediaItems: [MediaItem]?
@@ -24,7 +25,8 @@ extension ChargingPoint: Codable { }
 // MARK: - CodingKeys
 extension ChargingPoint {
     enum CodingKeys: String, CodingKey {
-        case id = "UUID"
+        case uuid = "UUID"
+        case id = "ID"
         case location = "AddressInfo"
         case connections = "Connections"
         case mediaItems = "MediaItems"

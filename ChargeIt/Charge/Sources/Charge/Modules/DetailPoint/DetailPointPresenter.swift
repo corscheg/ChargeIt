@@ -34,7 +34,7 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
         do {
-            isFavorite = try interactor.isFavorite(by: viewModel.id)
+            isFavorite = try interactor.isFavorite(by: viewModel.uuid)
             view?.setFavorite(state: isFavorite)
         } catch {
             presentStorageError()
@@ -43,7 +43,7 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func viewDidAppear() {
         do {
-            isFavorite = try interactor.isFavorite(by: viewModel.id)
+            isFavorite = try interactor.isFavorite(by: viewModel.uuid)
             view?.setFavorite(state: isFavorite)
         } catch {
             presentStorageError()

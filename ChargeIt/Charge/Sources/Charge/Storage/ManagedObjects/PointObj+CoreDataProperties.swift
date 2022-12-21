@@ -27,6 +27,7 @@ extension PointObj {
     @NSManaged public var uuid: UUID
     @NSManaged public var connections: NSSet
     @NSManaged public var urls: NSSet
+    @NSManaged public var serverID: Int32
 
 }
 
