@@ -81,7 +81,8 @@ final class PreferenceSideSheet: UIView {
         return control
     }()
     
-    lazy var offsetLayoutGuide: UILayoutGuide = UILayoutGuide()
+    lazy var offsetLayoutGuide = UILayoutGuide()
+    private lazy var containerLayoutGuide = UILayoutGuide()
     
     private lazy var radiusSliderLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
 
@@ -99,14 +100,19 @@ final class PreferenceSideSheet: UIView {
         addLayoutGuide(offsetLayoutGuide)
         layoutOffsetGuide()
         
+        addLayoutGuide(containerLayoutGuide)
+        containerLayoutGuide.snp.makeConstraints { make in
+            make.top.bottom.equalTo(layoutMarginsGuide)
+            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
+            make.right.equalTo(panSurface.snp.left).offset(-15)
+        }
+        
         addSubview(radiusLabel)
         addSubview(radiusSlider)
         addSubview(radiusValueLabel)
         addLayoutGuide(radiusSliderLayoutGuide)
         radiusSliderLayoutGuide.snp.makeConstraints { make in
-            make.top.equalTo(layoutMarginsGuide)
-            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
-            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.top.left.right.equalTo(containerLayoutGuide)
         }
         radiusSliderLayoutGuide.layoutViews()
         radiusValueLabel.snp.makeConstraints { make in
@@ -116,15 +122,13 @@ final class PreferenceSideSheet: UIView {
         addSubview(countryLabel)
         countryLabel.snp.makeConstraints { make in
             make.top.equalTo(radiusSliderLayoutGuide.snp.bottom).offset(15)
-            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
-            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.left.right.equalTo(containerLayoutGuide)
         }
         
         addSubview(countryRestrictionControl)
         countryRestrictionControl.snp.makeConstraints { make in
             make.top.equalTo(countryLabel.snp.bottom).offset(10)
-            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
-            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.left.right.equalTo(containerLayoutGuide)
         }
         
         countryRestrictionControl.selectedSegmentIndex = 0
@@ -132,16 +136,13 @@ final class PreferenceSideSheet: UIView {
         addSubview(usageTypeLabel)
         usageTypeLabel.snp.makeConstraints { make in
             make.top.equalTo(countryRestrictionControl.snp.bottom).offset(15)
-            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
-            make.right.equalTo(panSurface.snp.left).offset(-15)
+            make.left.right.equalTo(containerLayoutGuide)
         }
         
         addSubview(usageTypeControl)
         usageTypeControl.snp.makeConstraints { make in
             make.top.equalTo(usageTypeLabel.snp.bottom).offset(10)
-            make.left.equalTo(offsetLayoutGuide.snp.right).offset(15)
-            make.right.equalTo(panSurface.snp.left).offset(-15)
-            make.bottom.equalTo(layoutMarginsGuide)
+            make.left.right.bottom.equalTo(containerLayoutGuide)
         }
         
         usageTypeControl.selectedSegmentIndex = 0
