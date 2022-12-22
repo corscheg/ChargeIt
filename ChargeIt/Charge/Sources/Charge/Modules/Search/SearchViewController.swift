@@ -119,7 +119,7 @@ final class SearchViewController: UIViewController {
         
         nearbyButton.addTarget(self, action: #selector(nearbyButtonTapped), for: .touchUpInside)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(expandHideSideSheet))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(panSurfaceTapped))
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(sideSheetTranslationChanged(_:)))
         sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
         sideSheet.panSurface.addGestureRecognizer(panRecognizer)
@@ -138,33 +138,24 @@ final class SearchViewController: UIViewController {
         }
     }
     
-    @objc private func expandHideSideSheet() {
-        if sideSheetVisible {
-            sideSheet.offsetLayoutGuide.snp.removeConstraints()
-            sideSheet.layoutOffsetGuide()
-            sideSheet.panSurface.snp.makeConstraints { make in
-                make.left.equalTo(view.snp.left)
-            }
-        } else {
-            sideSheet.panSurface.snp.removeConstraints()
-            sideSheet.layoutPanSurface()
-            sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
-                make.right.equalTo(view.snp.left)
-            }
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            self.sideSheet.transform = .identity
-            self.view.layoutIfNeeded()
-        }
-        
-        sideSheetVisible.toggle()
+    @objc private func panSurfaceTapped() {
+        expandHideSideSheet()
     }
     
     @objc private func sideSheetTranslationChanged(_ sender: UIPanGestureRecognizer) {
         guard sender.state != .ended else {
-            if abs(sender.translation(in: view).x) > sideSheet.frame.width / 2 {
-                expandHideSideSheet()
+            let velocity = abs(sender.velocity(in: view).x)
+            let position = abs(sender.translation(in: view).x)
+            
+            if position > sideSheet.frame.width / 2 {
+                let completionDuration = (position / sideSheet.frame.width) / velocity * 500
+                expandHideSideSheet(with: completionDuration)
+            } else if velocity > 1000 {
+                let completionDuration = (position / sideSheet.frame.width) / velocity * 4000
+                expandHideSideSheet(with: completionDuration)
+            } else if position / sideSheet.frame.width * velocity > 100 {
+                let completionDuration = (position / sideSheet.frame.width) / velocity * 2000
+                expandHideSideSheet(with: completionDuration)
             } else {
                 UIView.animate(withDuration: 0.2) {
                     self.sideSheet.transform = .identity
@@ -186,6 +177,29 @@ final class SearchViewController: UIViewController {
     
     @objc private func usageTypeValueChanged() {
         presenter.usageTypeIndexChanged(to: sideSheet.usageTypeControl.selectedSegmentIndex)
+    }
+    
+    private func expandHideSideSheet(with duration: TimeInterval = 0.5) {
+        if sideSheetVisible {
+            sideSheet.offsetLayoutGuide.snp.removeConstraints()
+            sideSheet.layoutOffsetGuide()
+            sideSheet.panSurface.snp.makeConstraints { make in
+                make.left.equalTo(view.snp.left)
+            }
+        } else {
+            sideSheet.panSurface.snp.removeConstraints()
+            sideSheet.layoutPanSurface()
+            sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
+                make.right.equalTo(view.snp.left)
+            }
+        }
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [.curveEaseOut]) {
+            self.sideSheet.transform = .identity
+            self.view.layoutIfNeeded()
+        }
+        
+        sideSheetVisible.toggle()
     }
 }
 
