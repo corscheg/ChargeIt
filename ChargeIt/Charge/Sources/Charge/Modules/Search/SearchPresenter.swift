@@ -7,7 +7,6 @@
 
 import Foundation
 import MapKit
-import CoreData
 
 /// Presenter of the Search module.
 final class SearchPresenter {

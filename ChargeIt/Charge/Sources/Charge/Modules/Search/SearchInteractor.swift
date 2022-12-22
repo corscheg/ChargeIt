@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreLocation
-import CoreData
 
 /// Interactor of the Search module.
 final class SearchInteractor: NSObject {

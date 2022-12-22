@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 /// A protocol of the Search module interactor.
 protocol SearchInteractorProtocol {

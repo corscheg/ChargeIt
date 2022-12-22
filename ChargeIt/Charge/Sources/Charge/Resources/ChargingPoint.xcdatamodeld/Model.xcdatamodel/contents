@@ -20,6 +20,11 @@
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="connections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConnectionObj" inverseName="point" inverseEntity="ConnectionObj"/>
         <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLsObj" inverseName="point" inverseEntity="URLsObj"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="uuid"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="URLsObj" representedClassName="URLsObj" syncable="YES">
         <attribute name="url" attributeType="URI"/>

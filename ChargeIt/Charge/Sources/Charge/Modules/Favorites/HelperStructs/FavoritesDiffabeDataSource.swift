@@ -8,7 +8,7 @@
 import UIKit
 
 /// A subclass of `UITableViewDiffableDataSource` necessary for overriding of `UITableViewDataSource` methods.
-class FavoritesDiffabeDataSource: UITableViewDiffableDataSource<FavoritesSection, DetailPointViewModel> {
+final class FavoritesDiffabeDataSource: UITableViewDiffableDataSource<FavoritesSection, DetailPointViewModel> {
     
     // MARK: UITableViewDataSource
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
