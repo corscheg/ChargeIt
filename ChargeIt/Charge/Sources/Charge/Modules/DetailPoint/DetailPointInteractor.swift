@@ -11,7 +11,7 @@ import Foundation
 final class DetailPointInteractor {
     
     // MARK: Public Properties
-    weak var presenter: DetailPointPresenterProtocol?
+    weak var presenter: DetailPointInteractorToPresenterProtocol?
     
     // MARK: Private Properties
     private let storageManager: StorageManager?

@@ -13,7 +13,7 @@ import Kingfisher
 final class DetailPointViewController: UIViewController {
 
     // MARK: Private Properties
-    private let presenter: DetailPointPresenterProtocol
+    private let presenter: DetailPointViewToPresenterProtocol
     private let connectionViewDataSource: DetailPointConnectionsDataSource
     
     // MARK: Visual Components
@@ -171,7 +171,7 @@ final class DetailPointViewController: UIViewController {
     }()
     
     // MARK: Initializers
-    init(presenter: DetailPointPresenterProtocol, dataSource: DetailPointConnectionsDataSource) {
+    init(presenter: DetailPointViewToPresenterProtocol, dataSource: DetailPointConnectionsDataSource) {
         self.presenter = presenter
         self.connectionViewDataSource = dataSource
         super.init(nibName: nil, bundle: nil)

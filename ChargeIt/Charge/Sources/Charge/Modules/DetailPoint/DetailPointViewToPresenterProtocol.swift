@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// A protocol of the Detail Point module presenter.
-protocol DetailPointPresenterProtocol: AnyObject {
+/// A protocol of the Detail Point module presenter for the view..
+protocol DetailPointViewToPresenterProtocol: AnyObject {
     
     /// Notify presenter that view is ready for presentation.
     func viewDidLoad()
@@ -24,10 +24,4 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Notify presenter that check-in button was tapped.
     func checkInTapped()
-    
-    /// Notify presenter that check-in was successful.
-    func checkInSucceeded()
-    
-    /// Notify presenter that check-in failed.
-    func checkInFailed(with error: NetworkingError)
 }

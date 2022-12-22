@@ -28,8 +28,8 @@ final class DetailPointPresenter {
     
 }
 
-// MARK: - DetailPointPresenterProtocol
-extension DetailPointPresenter: DetailPointPresenterProtocol {
+// MARK: - DetailPointViewToPresenterProtocol
+extension DetailPointPresenter: DetailPointViewToPresenterProtocol {
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
@@ -65,6 +65,14 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
         interactor.checkIn(checkIn)
     }
     
+    private func presentStorageError() {
+        view?.showAlert(with: "Unable to access storage")
+    }
+}
+
+// MARK: - DetailPointInteractorToPresenterProtocol
+extension DetailPointPresenter: DetailPointInteractorToPresenterProtocol {
+    
     func checkInSucceeded() {
         DispatchQueue.main.async { [weak self] in
             self?.view?.stopActivityIndication()
@@ -77,9 +85,5 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
             self?.view?.stopActivityIndication()
             self?.view?.showAlert(with: "Check-In failed")
         }
-    }
-    
-    private func presentStorageError() {
-        view?.showAlert(with: "Unable to access storage")
     }
 }
