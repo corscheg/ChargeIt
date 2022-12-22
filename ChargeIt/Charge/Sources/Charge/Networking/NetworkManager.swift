@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  NetworkManager.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 03.12.2022.
@@ -9,10 +9,10 @@ import Foundation
 import CoreLocation
 
 /// A manager used to fetch data from the OpenCharge API.
-final class DataManager {
+final class NetworkManager {
     
     // MARK: Static Properties
-    static let shared = DataManager()
+    static let shared = NetworkManager()
     
     // MARK: Public Properties
     var session: URLSession = URLSession.shared

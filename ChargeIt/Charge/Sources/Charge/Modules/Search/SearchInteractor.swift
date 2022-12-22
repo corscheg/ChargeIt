@@ -16,7 +16,7 @@ final class SearchInteractor: NSObject {
     weak var presenter: SearchPresenterProtocol?
     
     // MARK: Private Properties
-    private let dataManager: DataManager
+    private let dataManager: NetworkManager
     private let locationManager: CLLocationManager
     private let geocoder: CLGeocoder
     private let storageManager = StorageManager.shared
@@ -24,7 +24,7 @@ final class SearchInteractor: NSObject {
     private var parameters: QueryParametersViewModel?
     
     // MARK: Initializers
-    init(dataManager: DataManager, locationManager: CLLocationManager, geocoder: CLGeocoder) {
+    init(dataManager: NetworkManager, locationManager: CLLocationManager, geocoder: CLGeocoder) {
         self.dataManager = dataManager
         self.geocoder = geocoder
         self.locationManager = locationManager
