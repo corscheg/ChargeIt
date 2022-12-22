@@ -77,7 +77,6 @@ extension SearchPresenter: SearchViewToPresenterProtocol {
     
     func itemTapped(at index: Int) {
         let item = points[index]
-        print(item.id)
         
         let detailViewModel = Converter().makeViewModel(from: item) { [weak self, uuid = item.uuid, index] isFavoriteNow in // didTapButton closure
             guard let self else {

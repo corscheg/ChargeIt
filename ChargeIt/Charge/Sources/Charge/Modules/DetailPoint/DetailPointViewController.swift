@@ -151,8 +151,14 @@ final class DetailPointViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 22
         button.backgroundColor = .systemRed
-        button.setImage(UIImage(systemName: "smallcircle.filled.circle"), for: .normal)
-//        button.setImage(nil, for: .disabled)
+        let imageName: String
+        if #available(iOS 15, *) {
+            imageName = "smallcircle.filled.circle"
+        } else {
+            imageName = "smallcircle.fill.circle"
+        }
+        
+        button.setImage(UIImage(systemName: imageName), for: .normal)
         button.imageView?.tintColor = .white
         
         return button
