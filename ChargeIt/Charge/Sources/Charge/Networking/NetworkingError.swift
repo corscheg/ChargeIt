@@ -1,5 +1,5 @@
 //
-//  SearchError.swift
+//  NetworkingError.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 03.12.2022.
@@ -8,31 +8,25 @@
 import Foundation
 
 /// An error that occure during search of the charging points.
-enum SearchError: Error {
+enum NetworkingError: Error {
     case invalidURL
     case badResponse
-    case networkingError
-    case decodingError
-    case locationPermissionNotGranted
-    case locationError
+    case connectionError
+    case codingError
 }
 
 // MARK: - Localized Error
-extension SearchError: LocalizedError {
+extension NetworkingError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidURL:
             return "The request URL was invalid"
         case .badResponse:
             return "The server response was invalid"
-        case .networkingError:
+        case .connectionError:
             return "The networking error occured"
-        case .decodingError:
+        case .codingError:
             return "The data returned by the server was invalid"
-        case .locationPermissionNotGranted:
-            return "Grant the permission for using your location"
-        case .locationError:
-            return "Your location can not be identified"
         }
     }
 }

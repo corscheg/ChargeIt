@@ -18,4 +18,10 @@ protocol DetailPointViewProtocol: AnyObject {
     
     /// Show an alert with the given message.
     func showAlert(with message: String)
+    
+    /// Present the activity indicator.
+    func startActivityIndication()
+    
+    /// Hide the activity indicator.
+    func stopActivityIndication()
 }

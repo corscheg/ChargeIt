@@ -13,9 +13,6 @@ protocol DetailPointPresenterProtocol: AnyObject {
     /// Notify presenter that view is ready for presentation.
     func viewDidLoad()
     
-    /// Notify presenter that view is on the screen.
-    func viewDidAppear()
-    
     /// Notify presenter that favorite button was tapped.
     func favoriteButtonTapped()
     
@@ -24,4 +21,13 @@ protocol DetailPointPresenterProtocol: AnyObject {
     
     /// Dismiss the Detail Point view.
     func dismissButtonTapped()
+    
+    /// Notify presenter that check-in button was tapped.
+    func checkInTapped()
+    
+    /// Notify presenter that check-in was successful.
+    func checkInSucceeded()
+    
+    /// Notify presenter that check-in failed.
+    func checkInFailed(with error: NetworkingError)
 }

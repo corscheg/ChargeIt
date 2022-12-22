@@ -30,7 +30,7 @@ protocol SearchPresenterProtocol: AnyObject {
     func loadNearbyPoints()
     
     /// Provide error to the view.
-    func pointsLoadingFailed(with error: SearchError)
+    func pointsLoadingFailed(with error: Error)
     
     /// Provide new data to the view.
     func pointsLoadingSucceeded(with points: [ChargingPoint])

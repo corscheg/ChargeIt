@@ -102,7 +102,7 @@ final class SearchViewController: UIViewController {
         view.addSubview(sideSheet)
         sideSheet.snp.makeConstraints { make in
             make.bottom.equalTo(nearbyStack.snp.top).offset(-20)
-            make.width.equalToSuperview().multipliedBy(0.8)
+            make.width.equalToSuperview().multipliedBy(0.95)
         }
         
         sideSheet.panSurface.snp.makeConstraints { make in

@@ -55,7 +55,6 @@ final class DetailPointViewController: UIViewController {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = .preferredFont(forTextStyle: .largeTitle)
-        label.text = "Title"
         label.textAlignment = .left
         
         return label
@@ -65,7 +64,6 @@ final class DetailPointViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .headline)
-        label.text = "Address line 1"
         label.textAlignment = .left
         
         return label
@@ -75,7 +73,6 @@ final class DetailPointViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .headline)
-        label.text = "Address line 2"
         label.textAlignment = .left
         
         return label
@@ -140,12 +137,35 @@ final class DetailPointViewController: UIViewController {
         return button
     }()
     
+    private lazy var mapsStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.spacing = 15
+        
+        return stack
+    }()
+    
+    private lazy var checkInButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 22
+        button.backgroundColor = .systemRed
+        button.setImage(UIImage(systemName: "smallcircle.filled.circle"), for: .normal)
+//        button.setImage(nil, for: .disabled)
+        button.imageView?.tintColor = .white
+        
+        return button
+    }()
+    
+    private lazy var activityIndicator = UIActivityIndicatorView()
+    
     private lazy var openMapsButton: UIButton = {
         let button = UIButton()
         button.layer.cornerCurve = .continuous
         button.layer.cornerRadius = 10
         button.backgroundColor = .systemGreen
-        button.setTitle("Open Apple Maps with directions", for: .normal)
+        button.setTitle("Open in Apple Maps", for: .normal)
         
         return button
     }()
@@ -238,12 +258,24 @@ final class DetailPointViewController: UIViewController {
         favoriteStack.addArrangedSubview(favoriteView)
         favoriteStack.addArrangedSubview(favoriteButton)
         
-        scrollView.addSubview(openMapsButton)
-        openMapsButton.snp.makeConstraints { make in
+        scrollView.addSubview(mapsStack)
+        mapsStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(favoriteStack.snp.bottom).offset(20)
             make.height.equalTo(44)
             make.bottom.equalTo(scrollView.contentLayoutGuide)
+        }
+        
+        mapsStack.addArrangedSubview(checkInButton)
+        mapsStack.addArrangedSubview(openMapsButton)
+        
+        checkInButton.snp.makeConstraints { make in
+            make.width.equalTo(openMapsButton.snp.height)
+        }
+        
+        checkInButton.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -254,6 +286,7 @@ final class DetailPointViewController: UIViewController {
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
         dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
+        checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
         
         navigationItem.largeTitleDisplayMode = .never
         
@@ -272,10 +305,6 @@ final class DetailPointViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        presenter.viewDidAppear()
-    }
-    
     // MARK: Actions
     @objc private func favoriteButtonTapped() {
         presenter.favoriteButtonTapped()
@@ -287,6 +316,10 @@ final class DetailPointViewController: UIViewController {
     
     @objc private func dismissButtonTapped() {
         presenter.dismissButtonTapped()
+    }
+    
+    @objc private func checkInButtonTapped() {
+        presenter.checkInTapped()
     }
     
 }
@@ -349,5 +382,15 @@ extension DetailPointViewController: DetailPointViewProtocol {
         let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+    
+    func startActivityIndication() {
+        checkInButton.isEnabled = false
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndication() {
+        checkInButton.isEnabled = true
+        activityIndicator.stopAnimating()
     }
 }

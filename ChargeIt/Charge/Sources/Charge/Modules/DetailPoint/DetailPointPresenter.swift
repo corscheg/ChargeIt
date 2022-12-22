@@ -41,15 +41,6 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
         }
     }
     
-    func viewDidAppear() {
-        do {
-            isFavorite = try interactor.isFavorite(by: viewModel.uuid)
-            view?.setFavorite(state: isFavorite)
-        } catch {
-            presentStorageError()
-        }
-    }
-    
     func favoriteButtonTapped() {
         do {
             try viewModel.didTapFavoriteButton(isFavorite)
@@ -66,6 +57,26 @@ extension DetailPointPresenter: DetailPointPresenterProtocol {
     
     func dismissButtonTapped() {
         router.dismiss()
+    }
+    
+    func checkInTapped() {
+        view?.startActivityIndication()
+        let checkIn = CheckIn(pointID: viewModel.id)
+        interactor.checkIn(checkIn)
+    }
+    
+    func checkInSucceeded() {
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.stopActivityIndication()
+            self?.view?.showAlert(with: "Check-In succeded!")
+        }
+    }
+    
+    func checkInFailed(with error: NetworkingError) {
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.stopActivityIndication()
+            self?.view?.showAlert(with: "Check-In failed")
+        }
     }
     
     private func presentStorageError() {

@@ -30,6 +30,9 @@ final class NetworkManager {
         return components
     }()
     
+    // MARK: Private Properties
+    private let bearerToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0MjU3NiIsIm5vbmNlIjoiODFlMGYxZmEtMjczOC00MDMxLTkyMmEtMDdiMjQ3N2ZiYjUxIiwibmJmIjoxNjcxNTg3NDcwLCJleHAiOjE2NzQyNjU4NzAsImlzcyI6Ik9wZW4gQ2hhcmdlIE1hcCIsImF1ZCI6ImFwaS5vcGVuY2hhcmdlbWFwLmlvIn0.pW7LS8oKZzhxWnoqYxRWwdg1Krru-yVT7aYZDTAAPuk"
+    
     // MARK: Initializers
     private init() { }
     
@@ -40,7 +43,7 @@ final class NetworkManager {
                      in country: String? = nil,
                      maxCount: Int = 100,
                      usageTypes: [Int]? = nil,
-                     completion: @escaping (Result<[ChargingPoint], SearchError>) -> Void) {
+                     completion: @escaping (Result<[ChargingPoint], NetworkingError>) -> Void) {
         var components = baseURL
         components.path.append("/poi")
         components.queryItems?.append(URLQueryItem(name: "latitude", value: location.latitude.description))
@@ -65,7 +68,7 @@ final class NetworkManager {
         
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
-                completion(.failure(.networkingError))
+                completion(.failure(.connectionError))
                 return
             }
             
@@ -75,7 +78,7 @@ final class NetworkManager {
             }
             
             guard let data, let points = try? JSONDecoder().decode([ChargingPoint].self, from: data) else {
-                completion(.failure(.decodingError))
+                completion(.failure(.codingError))
                 return
             }
             
@@ -83,5 +86,46 @@ final class NetworkManager {
         }
         
         task.resume()
+    }
+    
+    func checkIn(_ check: CheckIn, completion: @escaping (Result<CheckInResponse, NetworkingError>) -> Void) {
+        guard let data = try? JSONEncoder().encode(check) else {
+            completion(.failure(.codingError))
+            return
+        }
+        
+        var components = baseURL
+        components.path = "/comment"
+        
+        guard let url = components.url else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+        request.httpBody = data
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.invalidURL))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(.badResponse))
+                return
+            }
+            
+            guard let data, let checkInResponse = try? JSONDecoder().decode(CheckInResponse.self, from: data) else {
+                completion(.failure(.codingError))
+                return
+            }
+            
+            completion(.success(checkInResponse))
+        }
+        
+        task.resume() 
     }
 }

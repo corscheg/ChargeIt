@@ -50,7 +50,7 @@ extension SearchInteractor: SearchInteractorProtocol {
     
     func loadNearbyPoints(with options: QueryParametersViewModel) {
         guard locationEnabled else {
-            presenter?.pointsLoadingFailed(with: .locationPermissionNotGranted)
+            presenter?.pointsLoadingFailed(with: LocationError.locationPermissionNotGranted)
             return
         }
         parameters = options
@@ -116,12 +116,12 @@ extension SearchInteractor: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
-            presenter?.pointsLoadingFailed(with: .locationError)
+            presenter?.pointsLoadingFailed(with: LocationError.locationError)
             return
         }
         
         guard let parameters else {
-            presenter?.pointsLoadingFailed(with: .invalidURL)
+            presenter?.pointsLoadingFailed(with: NetworkingError.invalidURL)
             return
         }
         
@@ -149,6 +149,6 @@ extension SearchInteractor: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        presenter?.pointsLoadingFailed(with: .locationError)
+        presenter?.pointsLoadingFailed(with: LocationError.locationError)
     }
 }

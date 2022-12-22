@@ -12,4 +12,7 @@ protocol DetailPointInteractorProtocol {
     
     /// Check whether a point with the given UUID is favorite.
     func isFavorite(by id: UUID) throws -> Bool
+    
+    /// Post check-in.
+    func checkIn(_ check: CheckIn)
 }

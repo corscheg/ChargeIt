@@ -14,7 +14,14 @@ final class DetailPointInteractor {
     weak var presenter: DetailPointPresenterProtocol?
     
     // MARK: Private Properties
-    private var storageManager = StorageManager.shared
+    private let storageManager: StorageManager?
+    private let networkManager: NetworkManager
+    
+    // MARK: Initializers
+    init(storageManager: StorageManager?, networkManager: NetworkManager) {
+        self.storageManager = storageManager
+        self.networkManager = networkManager
+    }
 }
 
 // MARK: - DetailPointInteractorProtocol
@@ -25,5 +32,20 @@ extension DetailPointInteractor: DetailPointInteractorProtocol {
         }
         
         return try storageManager.isFavorite(by: id)
+    }
+    
+    func checkIn(_ check: CheckIn) {
+        networkManager.checkIn(check) { [weak self] result in
+            switch result {
+            case .success(let response):
+                if response.status == "OK" && response.description == "OK" {
+                    self?.presenter?.checkInSucceeded()
+                } else {
+                    self?.presenter?.checkInFailed(with: .badResponse)
+                }
+            case .failure(let error):
+                self?.presenter?.checkInFailed(with: error)
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@ final class SearchPresenter {
 }
 
 // MARK: - SearchPresenterProtocol
-extension SearchPresenter: SearchPresenterProtocol {
+extension SearchPresenter: SearchPresenterProtocol {    
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
@@ -75,7 +75,7 @@ extension SearchPresenter: SearchPresenterProtocol {
         interactor.loadNearbyPoints(with: queryParameters)
     }
     
-    func pointsLoadingFailed(with error: SearchError) {
+    func pointsLoadingFailed(with error: Error) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.showError(with: error.localizedDescription)
             self?.view?.unlockRequests()
