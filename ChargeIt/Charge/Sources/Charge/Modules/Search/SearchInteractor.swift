@@ -12,7 +12,7 @@ import CoreLocation
 final class SearchInteractor: NSObject {
     
     // MARK: Public Properties
-    weak var presenter: SearchPresenterProtocol?
+    weak var presenter: SearchInteractorToPresenterProtocol?
     
     // MARK: Private Properties
     private let dataManager: NetworkManager

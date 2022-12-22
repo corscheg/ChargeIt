@@ -34,8 +34,8 @@ final class SearchPresenter {
     }
 }
 
-// MARK: - SearchPresenterProtocol
-extension SearchPresenter: SearchPresenterProtocol {    
+// MARK: - SearchViewToPresenterProtocol
+extension SearchPresenter: SearchViewToPresenterProtocol {    
     
     func viewDidLoad() {
         view?.updateUI(with: viewModel)
@@ -75,6 +75,29 @@ extension SearchPresenter: SearchPresenterProtocol {
         interactor.loadNearbyPoints(with: queryParameters)
     }
     
+    func itemTapped(at index: Int) {
+        let item = points[index]
+        print(item.id)
+        
+        let detailViewModel = Converter().makeViewModel(from: item) { [weak self, uuid = item.uuid, index] isFavoriteNow in // didTapButton closure
+            guard let self else {
+                return
+            }
+            
+            if isFavoriteNow {
+                try self.interactor.delete(by: uuid)
+            } else {
+                let point = self.points[index]
+                try self.interactor.store(point: point)
+            }
+        }
+        
+        router.presentDetail(with: detailViewModel)
+    }
+}
+
+// MARK: - SearchInteractorToPresenterProtocol
+extension SearchPresenter: SearchInteractorToPresenterProtocol {
     func pointsLoadingFailed(with error: Error) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.showError(with: error.localizedDescription)
@@ -145,25 +168,5 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func disableLocation() {
         view?.setLocation(enabled: false)
-    }
-    
-    func itemTapped(at index: Int) {
-        let item = points[index]
-        print(item.id)
-        
-        let detailViewModel = Converter().makeViewModel(from: item) { [weak self, uuid = item.uuid, index] isFavoriteNow in // didTapButton closure
-            guard let self else {
-                return
-            }
-            
-            if isFavoriteNow {
-                try self.interactor.delete(by: uuid)
-            } else {
-                let point = self.points[index]
-                try self.interactor.store(point: point)
-            }
-        }
-        
-        router.presentDetail(with: detailViewModel)
     }
 }

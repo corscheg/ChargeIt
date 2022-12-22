@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A protocol of the Detail Point module presenter for the interactor..
+/// A protocol of the Detail Point module presenter for the interactor.
 protocol DetailPointInteractorToPresenterProtocol: AnyObject {
     
     /// Notify presenter that check-in was successful.

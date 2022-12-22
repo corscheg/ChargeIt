@@ -1,5 +1,5 @@
 //
-//  DetailPointPresenterProtocol.swift
+//  DetailPointViewToPresenterProtocol.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 08.12.2022.

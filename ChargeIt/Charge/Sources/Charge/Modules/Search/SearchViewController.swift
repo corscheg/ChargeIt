@@ -13,7 +13,7 @@ import SnapKit
 final class SearchViewController: UIViewController {
     
     // MARK: Private Properties
-    private let presenter: SearchPresenterProtocol
+    private let presenter: SearchViewToPresenterProtocol
     private var sideSheetVisible = false
     private let hapticsGenerator = UINotificationFeedbackGenerator()
     
@@ -60,7 +60,7 @@ final class SearchViewController: UIViewController {
     }()
     
     // MARK: Initializers
-    init(presenter: SearchPresenterProtocol) {
+    init(presenter: SearchViewToPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
         
