@@ -11,11 +11,11 @@ import UIKit
 final class ControlGroupLayoutGuide: UILayoutGuide {
     
     // MARK: Private Properties
-    private let label: UILabel
+    private let label: ControlLabel
     private let control: UIView
     
     // MARK: Initializers
-    init(label: UILabel, control: UIView) {
+    init(label: ControlLabel, control: UIView) {
         self.label = label
         self.control = control
         super.init()

@@ -31,15 +31,7 @@ final class PreferenceSideSheet: UIView {
         return label
     }()
     
-    lazy var radiusLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.text = "Radius"
-        label.numberOfLines = 1
-        label.textColor = .tertiaryLabel
-        
-        return label
-    }()
+    lazy var radiusLabel = ControlLabel(text: "Radius")
     
     private lazy var radiusStack: UIStackView = {
         let stack = UIStackView()
@@ -72,15 +64,7 @@ final class PreferenceSideSheet: UIView {
     
     private lazy var radiusGroup = ControlGroupLayoutGuide(label: radiusLabel, control: radiusStack)
     
-    private lazy var countryLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.text = "Country"
-        label.numberOfLines = 1
-        label.textColor = .tertiaryLabel
-        
-        return label
-    }()
+    private lazy var countryLabel = ControlLabel(text: "Country")
     
     lazy var countryRestrictionControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Any", "Current"])
@@ -90,15 +74,7 @@ final class PreferenceSideSheet: UIView {
     
     private lazy var countryGroup = ControlGroupLayoutGuide(label: countryLabel, control: countryRestrictionControl)
     
-    private lazy var usageTypeLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.text = "Usage Type"
-        label.numberOfLines = 1
-        label.textColor = .tertiaryLabel
-        
-        return label
-    }()
+    private lazy var usageTypeLabel = ControlLabel(text: "Usage Type")
     
     lazy var usageTypeControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Public", "Any"])
@@ -122,13 +98,14 @@ final class PreferenceSideSheet: UIView {
         addSubview(panSurface)
         layoutPanSurface()
         
+        addLayoutGuide(offsetLayoutGuide)
+        layoutOffsetGuide()
+        
+        
         panSurface.addSubview(preferenceLabel)
         preferenceLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
-        addLayoutGuide(offsetLayoutGuide)
-        layoutOffsetGuide()
         
         addLayoutGuide(containerLayoutGuide)
         containerLayoutGuide.snp.makeConstraints { make in
