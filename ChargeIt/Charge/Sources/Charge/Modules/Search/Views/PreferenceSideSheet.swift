@@ -20,7 +20,7 @@ final class PreferenceSideSheet: UIView {
         return view
     }()
     
-    lazy var preferenceLabel: UILabel = {
+    private lazy var preferenceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.numberOfLines = 1
@@ -39,6 +39,16 @@ final class PreferenceSideSheet: UIView {
         label.textColor = .tertiaryLabel
         
         return label
+    }()
+    
+    private lazy var radiusStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 10
+        
+        return stack
     }()
     
     lazy var radiusSlider: UISlider = {
@@ -60,7 +70,9 @@ final class PreferenceSideSheet: UIView {
         return label
     }()
     
-    lazy var countryLabel: UILabel = {
+    private lazy var radiusGroup = ControlGroupLayoutGuide(label: radiusLabel, control: radiusStack)
+    
+    private lazy var countryLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.text = "Country"
@@ -76,7 +88,9 @@ final class PreferenceSideSheet: UIView {
         return control
     }()
     
-    lazy var usageTypeLabel: UILabel = {
+    private lazy var countryGroup = ControlGroupLayoutGuide(label: countryLabel, control: countryRestrictionControl)
+    
+    private lazy var usageTypeLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.text = "Usage Type"
@@ -92,10 +106,10 @@ final class PreferenceSideSheet: UIView {
         return control
     }()
     
+    private lazy var usageTypeGroup = ControlGroupLayoutGuide(label: usageTypeLabel, control: usageTypeControl)
+    
     lazy var offsetLayoutGuide = UILayoutGuide()
     private lazy var containerLayoutGuide = UILayoutGuide()
-    
-    private lazy var radiusSliderLayoutGuide = SliderGroupLayoutGuide(label: radiusLabel, slider: radiusSlider, valueLabel: radiusValueLabel)
 
     // MARK: Initializers
     override init(frame: CGRect) {
@@ -124,43 +138,36 @@ final class PreferenceSideSheet: UIView {
         }
         
         addSubview(radiusLabel)
-        addSubview(radiusSlider)
-        addSubview(radiusValueLabel)
-        addLayoutGuide(radiusSliderLayoutGuide)
-        radiusSliderLayoutGuide.snp.makeConstraints { make in
+        addSubview(radiusStack)
+        radiusStack.addArrangedSubview(radiusSlider)
+        radiusStack.addArrangedSubview(radiusValueLabel)
+        addLayoutGuide(radiusGroup)
+        radiusGroup.snp.makeConstraints { make in
             make.top.left.right.equalTo(containerLayoutGuide)
         }
-        radiusSliderLayoutGuide.layoutViews()
+        radiusGroup.layoutViews()
         radiusValueLabel.snp.makeConstraints { make in
             make.width.equalTo("500 km".width(withHeight: radiusValueLabel.frame.height, font: radiusValueLabel.font))
         }
         
         addSubview(countryLabel)
-        countryLabel.snp.makeConstraints { make in
-            make.top.equalTo(radiusSliderLayoutGuide.snp.bottom).offset(15)
-            make.left.right.equalTo(containerLayoutGuide)
-        }
-        
         addSubview(countryRestrictionControl)
-        countryRestrictionControl.snp.makeConstraints { make in
-            make.top.equalTo(countryLabel.snp.bottom).offset(10)
+        addLayoutGuide(countryGroup)
+        countryGroup.snp.makeConstraints { make in
+            make.top.equalTo(radiusGroup.snp.bottom).offset(15)
             make.left.right.equalTo(containerLayoutGuide)
         }
-        
+        countryGroup.layoutViews()
         countryRestrictionControl.selectedSegmentIndex = 0
         
         addSubview(usageTypeLabel)
-        usageTypeLabel.snp.makeConstraints { make in
-            make.top.equalTo(countryRestrictionControl.snp.bottom).offset(15)
-            make.left.right.equalTo(containerLayoutGuide)
-        }
-        
         addSubview(usageTypeControl)
-        usageTypeControl.snp.makeConstraints { make in
-            make.top.equalTo(usageTypeLabel.snp.bottom).offset(10)
+        addLayoutGuide(usageTypeGroup)
+        usageTypeGroup.snp.makeConstraints { make in
+            make.top.equalTo(countryGroup.snp.bottom).offset(15)
             make.left.right.bottom.equalTo(containerLayoutGuide)
         }
-        
+        usageTypeGroup.layoutViews()
         usageTypeControl.selectedSegmentIndex = 0
     }
     
