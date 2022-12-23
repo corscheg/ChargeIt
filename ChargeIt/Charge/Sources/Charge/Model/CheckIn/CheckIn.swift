@@ -13,10 +13,7 @@ struct CheckIn {
 }
 
 // MARK: - Codable
-extension CheckIn: Codable { }
-
-// MARK: - CodingKeys
-extension CheckIn {
+extension CheckIn: Codable {
     enum CodingKeys: String, CodingKey {
         case pointID = "chargePointID"
     }

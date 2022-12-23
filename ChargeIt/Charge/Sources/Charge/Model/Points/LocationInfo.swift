@@ -22,16 +22,14 @@ struct LocationInfo {
     let addressFirst: String?
     let addressSecond: String?
     let title: String?
+    
     var coordinates: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 
 // MARK: - Codable
-extension LocationInfo: Codable { }
-
-// MARK: - CodingKeys
-extension LocationInfo {
+extension LocationInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case latitude = "Latitude"
         case longitude = "Longitude"

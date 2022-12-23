@@ -20,10 +20,7 @@ struct ChargingPoint {
 }
 
 // MARK: - Codable
-extension ChargingPoint: Codable { }
-
-// MARK: - CodingKeys
-extension ChargingPoint {
+extension ChargingPoint: Codable {
     enum CodingKeys: String, CodingKey {
         case uuid = "UUID"
         case id = "ID"

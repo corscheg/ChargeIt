@@ -1,5 +1,5 @@
 //
-//  Level.swift
+//  ConnectionType.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 07.12.2022.
@@ -7,34 +7,35 @@
 
 import Foundation
 
-/// A struct representing possibility of fast charge.
-struct Level {
+/// A struct that represents a connector type.
+struct ConnectionType {
     
     // MARK: Public Properties
     let id: Int
     let title: String
-    let fastChargeCapable: Bool
+    let formalName: String?
+    let discontinued: Bool?
+    let obsolete: Bool?
 }
 
 // MARK: - Codable
-extension Level: Codable { }
-
-// MARK: - CodingKeys
-extension Level {
+extension ConnectionType: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "ID"
         case title = "Title"
-        case fastChargeCapable = "IsFastChargeCapable"
+        case formalName = "FormalName"
+        case discontinued = "IsDiscontinued"
+        case obsolete = "IsObsolete"
     }
 }
 
 // MARK: - Hashable
-extension Level: Hashable {
+extension ConnectionType: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
-    static func ==(lhs: Level, rhs: Level) -> Bool {
+    static func ==(lhs: ConnectionType, rhs: ConnectionType) -> Bool {
         lhs.id == rhs.id
     }
 }

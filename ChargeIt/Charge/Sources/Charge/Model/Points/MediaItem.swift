@@ -15,10 +15,7 @@ struct MediaItem {
 }
 
 // MARK: - Codable
-extension MediaItem: Codable { }
-
-// MARK: CodingKeys
-extension MediaItem {
+extension MediaItem: Codable {
     enum CodingKeys: String, CodingKey {
         case url = "ItemURL"
     }

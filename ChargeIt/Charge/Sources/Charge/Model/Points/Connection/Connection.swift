@@ -17,10 +17,7 @@ struct Connection {
 }
 
 // MARK: - Codable
-extension Connection: Codable { }
-
-// MARK: - CodingKeys
-extension Connection {
+extension Connection: Codable {
     enum CodingKeys: String, CodingKey {
         case type = "ConnectionType"
         case level = "Level"

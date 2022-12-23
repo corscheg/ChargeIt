@@ -16,10 +16,7 @@ struct CurrentType {
 }
 
 // MARK: - Codable
-extension CurrentType: Codable { }
-
-// MARK: CodingKeys
-extension CurrentType {
+extension CurrentType: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "ID"
         case title = "Title"
