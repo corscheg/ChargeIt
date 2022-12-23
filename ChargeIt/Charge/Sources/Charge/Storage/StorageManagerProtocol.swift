@@ -16,4 +16,6 @@ protocol StorageManagerProtocol {
     func delete(by id: UUID) throws -> Bool
     
     func allPoints() throws -> [PointObj]
+    
+    func deleteAll() throws
 }

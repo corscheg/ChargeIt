@@ -6,16 +6,20 @@
 //
 
 import Foundation
+import UIKit
 
 /// Use this struct to build the Favorites module.
 struct SettingsBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build() -> SettingsViewController {
-        let interactor = SettingsInteractor()
+        let storageManager = StorageManager.shared
+        let hapticsGenerator = UINotificationFeedbackGenerator()
+        
+        let interactor = SettingsInteractor(storageManager: storageManager)
         let router = SettingsRouter()
         let presenter = SettingsPresenter(router: router, interactor: interactor)
-        let view = SettingsViewController(presenter: presenter)
+        let view = SettingsViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)
         
         presenter.view = view
         router.view = view

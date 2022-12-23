@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Settings module interactor.
 protocol SettingsInteractorProtocol {
     
+    /// Request deletion of all favorite points.
+    func deleteAll() throws
 }

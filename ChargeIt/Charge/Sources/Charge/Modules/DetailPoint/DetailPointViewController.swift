@@ -18,10 +18,13 @@ final class DetailPointViewController: UIViewController {
     // MARK: Private Properties
     private let connectionViewDataSource = DetailPointConnectionsDataSource()
     private let checkInButtonTransitionOptions: UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
-    private let hapticsGenerator: HapticsGeneratorProtocol
+    
+    // MARK: Public Properties
+    let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Visual Components
     private lazy var detailPointView = DetailPointView()
+    var alert: AlertView?
     
     // MARK: Initializers
     init(presenter: DetailPointViewToPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
@@ -139,57 +142,6 @@ extension DetailPointViewController: DetailPointViewProtocol {
         detailPointView.favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
     }
     
-    func showErrorAlert(with message: String) {
-        hapticsGenerator.prepare()
-        guard detailPointView.alert == nil else {
-            hapticsGenerator.notificationOccurred(.error)
-            return
-        }
-        
-        detailPointView.alert = AlertView(success: false, message: message)
-        presentAlert()
-        hapticsGenerator.notificationOccurred(.error)
-    }
-    
-    func showSuccessAlert(with message: String) {
-        hapticsGenerator.prepare()
-        guard detailPointView.alert == nil else {
-            hapticsGenerator.notificationOccurred(.success)
-            return
-        }
-        
-        detailPointView.alert = AlertView(success: true, message: message)
-        presentAlert()
-        hapticsGenerator.notificationOccurred(.success)
-    }
-    
-    private func presentAlert() {
-        guard let alert = detailPointView.alert else {
-            return
-        }
-        
-        alert.alpha = 0
-        view.addSubview(alert)
-        alert.layoutInSuperview()
-        
-        UIView.animate(withDuration: 0.5) {
-            alert.alpha = 0.9
-        }
-    }
-    
-    func hideAlert() {
-        guard let alert = detailPointView.alert else {
-            return
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            alert.alpha = 0
-        } completion: { _ in
-            alert.removeFromSuperview()
-            self.detailPointView.alert = nil
-        }
-    }
-    
     func startActivityIndication() {
         detailPointView.checkInButton.isEnabled = false
         
@@ -220,3 +172,6 @@ extension DetailPointViewController: DetailPointViewProtocol {
         }
     }
 }
+
+// MARK: - Alertable
+extension DetailPointViewController: Alertable { }

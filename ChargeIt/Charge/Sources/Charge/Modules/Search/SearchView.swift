@@ -54,8 +54,6 @@ final class SearchView: UIView {
         return sheet
     }()
     
-    var alert: AlertView?
-    
     // MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)

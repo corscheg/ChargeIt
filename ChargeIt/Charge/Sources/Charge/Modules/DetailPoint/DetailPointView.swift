@@ -176,8 +176,6 @@ final class DetailPointView: UIView {
         return button
     }()
     
-    var alert: AlertView?
-    
     // MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -24,5 +24,23 @@ final class SettingsPresenter {
 
 // MARK: - SettingsPresenterProtocol
 extension SettingsPresenter: SettingsPresenterProtocol {
+    func requestAllDelete() {
+        view?.presentConfirmationDialog()
+    }
     
+    func deletionConfirmed() {
+        do {
+            try interactor.deleteAll()
+            view?.showSuccessAlert(with: "Favorites cleared")
+        } catch {
+            view?.showErrorAlert(with: "Storage error occurred")
+        }
+        hideAlertAfterDelay()
+    }
+    
+    private func hideAlertAfterDelay() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.view?.hideAlert()
+        }
+    }
 }

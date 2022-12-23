@@ -23,10 +23,10 @@ protocol SearchViewProtocol: AnyObject {
     func updateRadius(with radius: Int)
     
     /// Present the given error.
-    func showError(with message: String)
+    func showErrorAlert(with message: String?)
     
     /// Hide the presented error.
-    func hideError()
+    func hideAlert()
     
     /// Choose whether user can perform location search.
     func setLocation(enabled: Bool)

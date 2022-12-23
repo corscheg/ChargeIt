@@ -99,12 +99,12 @@ extension SearchPresenter: SearchViewToPresenterProtocol {
 extension SearchPresenter: SearchInteractorToPresenterProtocol {
     func pointsLoadingFailed(with error: Error) {
         DispatchQueue.main.async { [weak self] in
-            self?.view?.showError(with: error.localizedDescription)
+            self?.view?.showErrorAlert(with: error.localizedDescription)
             self?.view?.unlockRequests()
             self?.view?.stopActivityIndication()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.view?.hideError()
+                self?.view?.hideAlert()
             }
         }
     }

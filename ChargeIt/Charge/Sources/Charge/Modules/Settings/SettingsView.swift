@@ -9,11 +9,20 @@ import UIKit
 
 /// Visual components of the Settings module.
 final class SettingsView: UIView {
+    
+    // MARK: Visual Components
+    lazy var tableView: UITableView = {
+        let table = UITableView()
+        
+        return table
+    }()
 
     // MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemBackground
+        
+        addAndLayoutSubviews()
     }
     
     convenience init() {
@@ -22,6 +31,14 @@ final class SettingsView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Private Methods
+    private func addAndLayoutSubviews() {
+        addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
 }

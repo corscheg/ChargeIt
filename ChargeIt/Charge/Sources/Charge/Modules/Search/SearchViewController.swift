@@ -16,11 +16,12 @@ final class SearchViewController: UIViewController {
     private let presenter: SearchViewToPresenterProtocol
     private var sideSheetVisible = false
     
-    // MARK: Private Properties
-    private let hapticsGenerator: HapticsGeneratorProtocol
+    // MARK: Public Properties
+    let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Visual Components
     private lazy var searchView = SearchView()
+    var alert: AlertView?
     
     // MARK: Initializers
     init(presenter: SearchViewToPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
@@ -153,42 +154,6 @@ extension SearchViewController: SearchViewProtocol {
         searchView.map.setRegion(viewModel.region, animated: true)
     }
     
-    func showError(with message: String) {
-        hapticsGenerator.prepare()
-        if searchView.alert != nil {
-            return
-        }
-        
-        searchView.alert = AlertView(success: false, message: message)
-        guard let alert = searchView.alert else {
-            hapticsGenerator.notificationOccurred(.error)
-            return
-        }
-        
-        alert.alpha = 0
-        view.addSubview(alert)
-        alert.layoutInSuperview()
-        
-        UIView.animate(withDuration: 0.5) {
-            alert.alpha = 0.9
-        }
-        
-        hapticsGenerator.notificationOccurred(.error)
-    }
-    
-    func hideError() {
-        guard let alert = searchView.alert else {
-            return
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            alert.alpha = 0
-        } completion: { _ in
-            alert.removeFromSuperview()
-            self.searchView.alert = nil
-        }
-    }
-    
     func setLocation(enabled: Bool) {
         searchView.nearbyButton.isEnabled = enabled
         searchView.nearbyButton.setTitle(enabled ? "Find nearby" : "Enable location services", for: .disabled)
@@ -254,3 +219,6 @@ extension SearchViewController: MKMapViewDelegate {
         mapView.deselectAnnotation(view.annotation, animated: true)
     }
 }
+
+// MARK: - Alertable
+extension SearchViewController: Alertable { }

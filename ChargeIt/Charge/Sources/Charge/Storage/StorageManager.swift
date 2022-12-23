@@ -106,6 +106,16 @@ final class StorageManager: StorageManagerProtocol {
         }
     }
     
+    func deleteAll() throws {
+        let all = try allPoints()
+        
+        for point in all {
+            container.viewContext.delete(point)
+        }
+        
+        try saveContext()
+    }
+    
     // MARK: Private Methods
     private func saveContext() throws {
         if container.viewContext.hasChanges {

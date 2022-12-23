@@ -17,10 +17,10 @@ protocol DetailPointViewProtocol: AnyObject {
     func setFavorite(state: Bool)
     
     /// Show an error alert with the given message.
-    func showErrorAlert(with message: String)
+    func showErrorAlert(with message: String?)
     
     /// Show a success alert with the given message.
-    func showSuccessAlert(with message: String)
+    func showSuccessAlert(with message: String?)
     
     /// Hide the presented alert.
     func hideAlert()
