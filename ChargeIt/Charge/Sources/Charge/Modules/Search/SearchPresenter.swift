@@ -139,7 +139,7 @@ extension SearchPresenter: SearchInteractorToPresenterProtocol {
         viewModel.locations = []
         
         pointArray.forEach {
-            let coordinates = $0.location.coordinates
+            let coordinates = CLLocationCoordinate2D(latitude: $0.location.latitude, longitude: $0.location.longitude)
             viewModel.locations.append(coordinates)
             
             minLatitude = min(minLatitude, coordinates.latitude)

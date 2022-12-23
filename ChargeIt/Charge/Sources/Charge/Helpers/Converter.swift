@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-/// A struct containing methods that convert different app objects into each other.
+/// A struct containing methods that convert different app objects into `DetailPointViewModel`s.
 struct Converter {
     
     // MARK: Public Methods
@@ -62,8 +62,8 @@ struct Converter {
             locationTitle: model.location.title,
             connections: connections,
             imageURLs: urls,
-            latitude: model.location.coordinates.latitude,
-            longitude: model.location.coordinates.longitude,
+            latitude: model.location.latitude,
+            longitude: model.location.longitude,
             didTapFavoriteButton: didTapButton
         )
         
@@ -109,7 +109,7 @@ struct Converter {
             urls.append(url.url)
         }
         
-        return DetailPointViewModel(
+        let viewModel = DetailPointViewModel(
             uuid: object.uuid,
             id: Int(object.serverID),
             approximateLocation: approximateLocation,
@@ -122,6 +122,8 @@ struct Converter {
             longitude: object.longitude,
             didTapFavoriteButton: didTapButton
         )
+        
+        return viewModel
     }
     
 }

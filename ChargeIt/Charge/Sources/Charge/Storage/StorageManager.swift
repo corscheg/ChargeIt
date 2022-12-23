@@ -45,8 +45,8 @@ final class StorageManager {
         pointObj.town = point.location.town
         pointObj.state = point.location.state
         pointObj.country = point.location.country.code
-        pointObj.latitude = point.location.coordinates.latitude
-        pointObj.longitude = point.location.coordinates.longitude
+        pointObj.latitude = point.location.latitude
+        pointObj.longitude = point.location.longitude
         pointObj.locationTitle = point.location.title
         
         Set(point.connections).forEach {

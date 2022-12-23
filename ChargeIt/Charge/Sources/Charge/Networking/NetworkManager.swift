@@ -66,24 +66,7 @@ final class NetworkManager {
         
         let request = URLRequest(url: url)
         
-        let task = session.dataTask(with: request) { data, response, error in
-            if error != nil {
-                completion(.failure(.connectionError))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                completion(.failure(.badResponse))
-                return
-            }
-            
-            guard let data, let points = try? JSONDecoder().decode([ChargingPoint].self, from: data) else {
-                completion(.failure(.codingError))
-                return
-            }
-            
-            completion(.success(points))
-        }
+        let task = dataTask(with: request, completion: completion)
         
         task.resume()
     }
@@ -107,9 +90,16 @@ final class NetworkManager {
         request.addValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
         request.httpBody = data
         
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = dataTask(with: request, completion: completion)
+        
+        task.resume() 
+    }
+    
+    // MARK: Private Methods
+    private func dataTask<T: Codable>(with request: URLRequest, completion: @escaping (Result<T, NetworkingError>) -> Void) -> URLSessionDataTask {
+        session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completion(.failure(.invalidURL))
+                completion(.failure(.connectionError))
                 return
             }
             
@@ -118,14 +108,12 @@ final class NetworkManager {
                 return
             }
             
-            guard let data, let checkInResponse = try? JSONDecoder().decode(CheckInResponse.self, from: data) else {
+            guard let data, let decoded = try? JSONDecoder().decode(T.self, from: data) else {
                 completion(.failure(.codingError))
                 return
             }
             
-            completion(.success(checkInResponse))
+            completion(.success(decoded))
         }
-        
-        task.resume() 
     }
 }

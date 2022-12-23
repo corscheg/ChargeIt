@@ -6,14 +6,9 @@
 //
 
 import Foundation
-import MapKit
 
 /// A struct representing a location.
 struct LocationInfo {
-    
-    // MARK: Private Properties
-    private let latitude: Double
-    private let longitude: Double
     
     // MARK: Public Properties
     let country: Country
@@ -22,10 +17,8 @@ struct LocationInfo {
     let addressFirst: String?
     let addressSecond: String?
     let title: String?
-    
-    var coordinates: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
+    let latitude: Double
+    let longitude: Double
 }
 
 // MARK: - Codable

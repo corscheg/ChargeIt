@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreLocation
 
 /// A struct representing one charging point.
 struct ChargingPoint {
