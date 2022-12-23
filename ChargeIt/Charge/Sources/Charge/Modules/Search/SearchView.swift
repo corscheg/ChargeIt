@@ -60,6 +60,19 @@ final class SearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        addAndLayoutSubviews()
+    }
+    
+    convenience init() {
+        self.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Private Methods
+    private func addAndLayoutSubviews() {
         addSubview(map)
         map.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(safeAreaLayoutGuide)
@@ -94,15 +107,5 @@ final class SearchView: UIView {
             make.left.equalTo(snp.left)
         }
     }
-    
-    convenience init() {
-        self.init(frame: .zero)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
     
 }

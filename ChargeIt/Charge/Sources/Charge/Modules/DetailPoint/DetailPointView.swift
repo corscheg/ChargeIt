@@ -183,6 +183,19 @@ final class DetailPointView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         
+        addAndLayoutSubviews()
+    }
+    
+    convenience init() {
+        self.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Private Methods
+    private func addAndLayoutSubviews() {
         addSubview(dismissButton)
         dismissButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(10)
@@ -204,7 +217,7 @@ final class DetailPointView: UIView {
             make.top.equalTo(scrollView.contentLayoutGuide)
             make.height.equalTo(imagesScroll.contentLayoutGuide)
         }
-
+        
         imagesScroll.addSubview(imagesStack)
         imagesStack.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
@@ -272,13 +285,4 @@ final class DetailPointView: UIView {
             make.center.equalToSuperview()
         }
     }
-    
-    convenience init() {
-        self.init(frame: .zero)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }

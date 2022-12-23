@@ -23,10 +23,7 @@ final class FavoritesView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         
-        addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        addAndLayoutSubviews()
     }
     
     convenience init() {
@@ -35,6 +32,14 @@ final class FavoritesView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Private Methods
+    private func addAndLayoutSubviews() {
+        addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
 }
