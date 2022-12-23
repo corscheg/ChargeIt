@@ -18,48 +18,7 @@ final class SearchViewController: UIViewController {
     private let hapticsGenerator = UINotificationFeedbackGenerator()
     
     // MARK: Visual Components
-    private lazy var map: MKMapView = MKMapView()
-    
-    private lazy var nearbyButton: UIButton = {
-        let button: UIButton
-        button = UIButton(type: .custom)
-        button.backgroundColor = .systemOrange.withAlphaComponent(0.5)
-        button.layer.cornerRadius = 10
-        button.layer.cornerCurve = .continuous
-        
-        button.setTitle("Find Nearby", for: .normal)
-        button.setTitle("Enable Location Services", for: .disabled)
-        button.isEnabled = false
-        
-        return button
-    }()
-    
-    private lazy var nearbyStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = 10
-        stack.distribution = .equalSpacing
-        stack.alignment = .fill
-        
-        return stack
-    }()
-    
-    private lazy var activityIndicator: ExtendedActivityView = {
-        let indicator = ExtendedActivityView()
-        indicator.isHidden = true
-        indicator.alpha = 0
-        indicator.transform = CGAffineTransform(scaleX: 1, y: 0.5)
-        
-        return indicator
-    }()
-    
-    private lazy var sideSheet: PreferenceSideSheet = {
-        let sheet = PreferenceSideSheet()
-        
-        return sheet
-    }()
-    
-    private var alert: AlertView?
+    private lazy var searchView = SearchView()
     
     // MARK: Initializers
     init(presenter: SearchViewToPresenterProtocol) {
@@ -75,59 +34,24 @@ final class SearchViewController: UIViewController {
     
     // MARK: UIViewController
     override func loadView() {
-        view = UIView()
-        
-        view.addSubview(map)
-        map.snp.makeConstraints { make in
-            make.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.top.equalToSuperview()
-        }
-        
-        map.addSubview(nearbyStack)
-        nearbyStack.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(10)
-            make.centerX.equalToSuperview()
-        }
-        
-        nearbyStack.addArrangedSubview(activityIndicator)
-        activityIndicator.transform = activityIndicator.transform.concatenating(CGAffineTransform(translationX: activityIndicator.frame.width, y: 0))
-        
-        nearbyStack.addArrangedSubview(nearbyButton)
-        nearbyButton.snp.makeConstraints { make in
-            make.height.equalTo(44)
-        }
-        
-        nearbyButton.titleLabel?.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(20)
-        }
-        
-        view.addSubview(sideSheet)
-        sideSheet.snp.makeConstraints { make in
-            make.bottom.equalTo(nearbyStack.snp.top).offset(-20)
-            make.width.equalToSuperview().multipliedBy(0.95)
-        }
-        
-        sideSheet.panSurface.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left)
-        }
-         
+        view = searchView         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        map.delegate = self
-        map.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "point")
+        searchView.map.delegate = self
+        searchView.map.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "point")
         
-        nearbyButton.addTarget(self, action: #selector(nearbyButtonTapped), for: .touchUpInside)
+        searchView.nearbyButton.addTarget(self, action: #selector(nearbyButtonTapped), for: .touchUpInside)
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(panSurfaceTapped))
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(sideSheetTranslationChanged(_:)))
-        sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
-        sideSheet.panSurface.addGestureRecognizer(panRecognizer)
-        sideSheet.radiusSlider.addTarget(self, action: #selector(radiusSliderValueChanged), for: .valueChanged)
-        sideSheet.countryRestrictionControl.addTarget(self, action: #selector(countryRestrictionValueChanged), for: .valueChanged)
-        sideSheet.usageTypeControl.addTarget(self, action: #selector(usageTypeValueChanged), for: .valueChanged)
+        searchView.sideSheet.panSurface.addGestureRecognizer(tapRecognizer)
+        searchView.sideSheet.panSurface.addGestureRecognizer(panRecognizer)
+        searchView.sideSheet.radiusSlider.addTarget(self, action: #selector(radiusSliderValueChanged), for: .valueChanged)
+        searchView.sideSheet.countryRestrictionControl.addTarget(self, action: #selector(countryRestrictionValueChanged), for: .valueChanged)
+        searchView.sideSheet.usageTypeControl.addTarget(self, action: #selector(usageTypeValueChanged), for: .valueChanged)
         
         presenter.viewDidLoad()
     }
@@ -149,55 +73,55 @@ final class SearchViewController: UIViewController {
             let velocity = abs(sender.velocity(in: view).x)
             let position = abs(sender.translation(in: view).x)
             
-            if position > sideSheet.frame.width / 2 {
-                let completionDuration = (position / sideSheet.frame.width) / velocity * 500
+            if position > searchView.sideSheet.frame.width / 2 {
+                let completionDuration = (position / searchView.sideSheet.frame.width) / velocity * 500
                 expandHideSideSheet(with: completionDuration)
             } else if velocity > 1000 {
-                let completionDuration = (position / sideSheet.frame.width) / velocity * 4000
+                let completionDuration = (position / searchView.sideSheet.frame.width) / velocity * 4000
                 expandHideSideSheet(with: completionDuration)
-            } else if position / sideSheet.frame.width * velocity > 100 {
-                let completionDuration = (position / sideSheet.frame.width) / velocity * 2000
+            } else if position / searchView.sideSheet.frame.width * velocity > 100 {
+                let completionDuration = (position / searchView.sideSheet.frame.width) / velocity * 2000
                 expandHideSideSheet(with: completionDuration)
             } else {
                 UIView.animate(withDuration: 0.2) {
-                    self.sideSheet.transform = .identity
+                    self.searchView.sideSheet.transform = .identity
                 }
             }
             return
         }
         
-        sideSheet.transform = CGAffineTransform(translationX: sender.translation(in: view).x, y: 0)
+        searchView.sideSheet.transform = CGAffineTransform(translationX: sender.translation(in: view).x, y: 0)
     }
     
     @objc private func radiusSliderValueChanged() {
-        presenter.radiusChanged(value: sideSheet.radiusSlider.value)
+        presenter.radiusChanged(value: searchView.sideSheet.radiusSlider.value)
     }
     
     @objc private func countryRestrictionValueChanged() {
-        presenter.countryRestrictionIndexChanged(to: sideSheet.countryRestrictionControl.selectedSegmentIndex)
+        presenter.countryRestrictionIndexChanged(to: searchView.sideSheet.countryRestrictionControl.selectedSegmentIndex)
     }
     
     @objc private func usageTypeValueChanged() {
-        presenter.usageTypeIndexChanged(to: sideSheet.usageTypeControl.selectedSegmentIndex)
+        presenter.usageTypeIndexChanged(to: searchView.sideSheet.usageTypeControl.selectedSegmentIndex)
     }
     
     private func expandHideSideSheet(with duration: TimeInterval = 0.5) {
         if sideSheetVisible {
-            sideSheet.offsetLayoutGuide.snp.removeConstraints()
-            sideSheet.layoutOffsetGuide()
-            sideSheet.panSurface.snp.makeConstraints { make in
+            searchView.sideSheet.offsetLayoutGuide.snp.removeConstraints()
+            searchView.sideSheet.layoutOffsetGuide()
+            searchView.sideSheet.panSurface.snp.makeConstraints { make in
                 make.left.equalTo(view.snp.left)
             }
         } else {
-            sideSheet.panSurface.snp.removeConstraints()
-            sideSheet.layoutPanSurface()
-            sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
+            searchView.sideSheet.panSurface.snp.removeConstraints()
+            searchView.sideSheet.layoutPanSurface()
+            searchView.sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
                 make.right.equalTo(view.snp.left)
             }
         }
         
         UIView.animate(withDuration: duration, delay: 0.0, options: [.curveEaseOut]) {
-            self.sideSheet.transform = .identity
+            self.searchView.sideSheet.transform = .identity
             self.view.layoutIfNeeded()
         }
         
@@ -209,28 +133,28 @@ final class SearchViewController: UIViewController {
 extension SearchViewController: SearchViewProtocol {
     func updateUI(with viewModel: SearchViewModel) {
         hapticsGenerator.prepare()
-        map.removeAnnotations(map.annotations)
+        searchView.map.removeAnnotations(searchView.map.annotations)
         
         for (index, location) in viewModel.locations.enumerated() {
             let annotation = IdentifiablePlacemark(coordinate: location, id: index)
-            map.addAnnotation(annotation)
+            searchView.map.addAnnotation(annotation)
         }
         
         if !viewModel.locations.isEmpty {
             hapticsGenerator.notificationOccurred(.success)
         }
         
-        map.setRegion(viewModel.region, animated: true)
+        searchView.map.setRegion(viewModel.region, animated: true)
     }
     
     func showError(with message: String) {
         hapticsGenerator.prepare()
-        if alert != nil {
+        if searchView.alert != nil {
             return
         }
         
-        alert = AlertView(success: false, message: message)
-        guard let alert else {
+        searchView.alert = AlertView(success: false, message: message)
+        guard let alert = searchView.alert else {
             hapticsGenerator.notificationOccurred(.error)
             return
         }
@@ -247,7 +171,7 @@ extension SearchViewController: SearchViewProtocol {
     }
     
     func hideError() {
-        guard let alert else {
+        guard let alert = searchView.alert else {
             return
         }
         
@@ -255,45 +179,45 @@ extension SearchViewController: SearchViewProtocol {
             alert.alpha = 0
         } completion: { _ in
             alert.removeFromSuperview()
-            self.alert = nil
+            self.searchView.alert = nil
         }
     }
     
     func setLocation(enabled: Bool) {
-        nearbyButton.isEnabled = enabled
-        nearbyButton.setTitle(enabled ? "Find nearby" : "Enable location services", for: .disabled)
-        nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
+        searchView.nearbyButton.isEnabled = enabled
+        searchView.nearbyButton.setTitle(enabled ? "Find nearby" : "Enable location services", for: .disabled)
+        searchView.nearbyButton.backgroundColor = searchView.nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
     }
     
     func updateRadius(with radius: Int) {
-        sideSheet.radiusValueLabel.text = "\(radius) km"
+        searchView.sideSheet.radiusValueLabel.text = "\(radius) km"
     }
     
     func startActivityIndication() {
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
-            self.activityIndicator.isHidden = false
-            self.activityIndicator.transform = .identity
+            self.searchView.activityIndicator.isHidden = false
+            self.searchView.activityIndicator.transform = .identity
         }
         
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut]) {
-            self.activityIndicator.alpha = 1
+            self.searchView.activityIndicator.alpha = 1
         }
     }
     
     func stopActivityIndication() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut]) {
-            self.activityIndicator.isHidden = true
-            self.activityIndicator.alpha = 0
-            self.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5).concatenating(CGAffineTransform(translationX: self.activityIndicator.frame.width, y: 0))
+            self.searchView.activityIndicator.isHidden = true
+            self.searchView.activityIndicator.alpha = 0
+            self.searchView.activityIndicator.transform = CGAffineTransform(scaleX: 1, y: 0.5).concatenating(CGAffineTransform(translationX: self.searchView.activityIndicator.frame.width, y: 0))
         }
     }
     
     func lockRequests() {
-        nearbyButton.isEnabled = false
+        searchView.nearbyButton.isEnabled = false
     }
     
     func unlockRequests() {
-        nearbyButton.isEnabled = true
+        searchView.nearbyButton.isEnabled = true
     }
 }
 
