@@ -16,8 +16,14 @@ protocol DetailPointViewProtocol: AnyObject {
     /// Set the favorite button to the appropriate state.
     func setFavorite(state: Bool)
     
-    /// Show an alert with the given message.
-    func showAlert(with message: String)
+    /// Show an error alert with the given message.
+    func showErrorAlert(with message: String)
+    
+    /// Show an success alert with the given message.
+    func showSuccessAlert(with message: String)
+    
+    /// Hide the presented alert.
+    func hideAlert()
     
     /// Present the activity indicator.
     func startActivityIndication()

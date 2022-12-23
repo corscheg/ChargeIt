@@ -66,7 +66,14 @@ extension DetailPointPresenter: DetailPointViewToPresenterProtocol {
     }
     
     private func presentStorageError() {
-        view?.showAlert(with: "Unable to access storage")
+        view?.showErrorAlert(with: "Unable to access storage")
+        hideAlertAfterDelay()
+    }
+    
+    private func hideAlertAfterDelay() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.view?.hideAlert()
+        }
     }
 }
 
@@ -76,14 +83,16 @@ extension DetailPointPresenter: DetailPointInteractorToPresenterProtocol {
     func checkInSucceeded() {
         DispatchQueue.main.async { [weak self] in
             self?.view?.stopActivityIndication()
-            self?.view?.showAlert(with: "Check-In succeded!")
+            self?.view?.showSuccessAlert(with: "Check-In succeded!")
+            self?.hideAlertAfterDelay()
         }
     }
     
     func checkInFailed(with error: NetworkingError) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.stopActivityIndication()
-            self?.view?.showAlert(with: "Check-In failed")
+            self?.view?.showErrorAlert(with: "Check-In failed")
+            self?.hideAlertAfterDelay()
         }
     }
 }

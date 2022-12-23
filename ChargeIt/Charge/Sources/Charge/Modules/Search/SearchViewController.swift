@@ -59,6 +59,8 @@ final class SearchViewController: UIViewController {
         return sheet
     }()
     
+    private var alert: AlertView?
+    
     // MARK: Initializers
     init(presenter: SearchViewToPresenterProtocol) {
         self.presenter = presenter
@@ -223,10 +225,38 @@ extension SearchViewController: SearchViewProtocol {
     
     func showError(with message: String) {
         hapticsGenerator.prepare()
-        let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        if alert != nil {
+            return
+        }
+        
+        alert = AlertView(success: false, message: message)
+        guard let alert else {
+            hapticsGenerator.notificationOccurred(.error)
+            return
+        }
+        
+        alert.alpha = 0
+        view.addSubview(alert)
+        alert.layoutInSuperview()
+        
+        UIView.animate(withDuration: 0.5) {
+            alert.alpha = 0.9
+        }
+        
         hapticsGenerator.notificationOccurred(.error)
-        self.present(ac, animated: true)
+    }
+    
+    func hideError() {
+        guard let alert else {
+            return
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            alert.alpha = 0
+        } completion: { _ in
+            alert.removeFromSuperview()
+            self.alert = nil
+        }
     }
     
     func setLocation(enabled: Bool) {

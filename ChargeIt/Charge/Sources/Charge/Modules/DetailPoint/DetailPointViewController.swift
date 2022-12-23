@@ -182,6 +182,8 @@ final class DetailPointViewController: UIViewController {
         return button
     }()
     
+    private var alert: AlertView?
+    
     // MARK: Initializers
     init(presenter: DetailPointViewToPresenterProtocol, dataSource: DetailPointConnectionsDataSource) {
         self.presenter = presenter
@@ -390,10 +392,41 @@ extension DetailPointViewController: DetailPointViewProtocol {
         favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
     }
     
-    func showAlert(with message: String) {
-        let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+    func showErrorAlert(with message: String) {
+        alert = AlertView(success: false, message: message)
+        presentAlert()
+    }
+    
+    func showSuccessAlert(with message: String) {
+        alert = AlertView(success: true, message: message)
+        presentAlert()
+    }
+    
+    private func presentAlert() {
+        guard let alert else {
+            return
+        }
+        
+        alert.alpha = 0
+        view.addSubview(alert)
+        alert.layoutInSuperview()
+        
+        UIView.animate(withDuration: 0.5) {
+            alert.alpha = 0.9
+        }
+    }
+    
+    func hideAlert() {
+        guard let alert else {
+            return
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            alert.alpha = 0
+        } completion: { _ in
+            alert.removeFromSuperview()
+            self.alert = nil
+        }
     }
     
     func startActivityIndication() {
