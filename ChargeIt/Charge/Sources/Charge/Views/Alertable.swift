@@ -40,6 +40,7 @@ extension Alertable {
         alert.alpha = 0
         view.addSubview(alert)
         alert.layoutInSuperview()
+        hapticsGenerator.notificationOccurred(.success)
         
         UIView.animate(withDuration: 0.5) {
             alert.alpha = 0.9
@@ -63,6 +64,7 @@ extension Alertable {
         alert.alpha = 0
         view.addSubview(alert)
         alert.layoutInSuperview()
+        hapticsGenerator.notificationOccurred(.error)
         
         UIView.animate(withDuration: 0.5) {
             alert.alpha = 0.9
