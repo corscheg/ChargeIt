@@ -64,15 +64,12 @@ extension SearchInteractor: SearchInteractorProtocol {
         try storageManager.add(point: point)
     }
     
-    @discardableResult
-    func delete(by id: UUID) throws -> Bool {
+    func delete(by id: UUID) throws {
         guard let storageManager else {
             throw StorageError.internalError
         }
         
-        let result = try storageManager.delete(by: id)
-        
-        return result
+        try storageManager.delete(by: id)
     }
     
     func isFavorite(by id: UUID) throws -> Bool {

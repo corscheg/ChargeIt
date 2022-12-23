@@ -368,13 +368,13 @@ extension DetailPointViewController: DetailPointViewProtocol {
                     make.height.equalTo(imageView.snp.width).multipliedBy(ratio)
                 }
                 
+                let screenRatio = ratio > 1 ? 1 : ratio
                 
                 if self.imagesScroll.isHidden {
                     self.imagesScroll.isHidden = false
                     
                     self.imagesStack.snp.makeConstraints { make in
-                        make.height.equalTo(self.view.snp.width).multipliedBy(ratio)
-                        make.height.lessThanOrEqualTo(self.view.snp.height).dividedBy(2).priority(800)
+                        make.height.equalTo(self.view.snp.width).multipliedBy(screenRatio)
                     }
                     
                     UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
@@ -394,22 +394,24 @@ extension DetailPointViewController: DetailPointViewProtocol {
     }
     
     func showErrorAlert(with message: String) {
+        hapticsGenerator.prepare()
         guard alert == nil else {
+            hapticsGenerator.notificationOccurred(.error)
             return
         }
         
-        hapticsGenerator.prepare()
         alert = AlertView(success: false, message: message)
         presentAlert()
         hapticsGenerator.notificationOccurred(.error)
     }
     
     func showSuccessAlert(with message: String) {
+        hapticsGenerator.prepare()
         guard alert == nil else {
+            hapticsGenerator.notificationOccurred(.success)
             return
         }
         
-        hapticsGenerator.prepare()
         alert = AlertView(success: true, message: message)
         presentAlert()
         hapticsGenerator.notificationOccurred(.success)
