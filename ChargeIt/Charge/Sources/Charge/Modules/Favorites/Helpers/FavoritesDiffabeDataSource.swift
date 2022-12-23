@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// A subclass of `UITableViewDiffableDataSource` necessary for overriding of `UITableViewDataSource` methods.
+/// A subclass of `UITableViewDiffableDataSource` necessary for overriding `UITableViewDataSource` methods.
 final class FavoritesDiffabeDataSource: UITableViewDiffableDataSource<FavoritesSection, DetailPointViewModel> {
     
     // MARK: UITableViewDataSource

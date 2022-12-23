@@ -43,7 +43,8 @@ final class NetworkManager: NetworkManagerProtocol {
                      in country: String? = nil,
                      maxCount: Int = 100,
                      usageTypes: [Int]? = nil,
-                     completion: @escaping (Result<[ChargingPoint], NetworkingError>) -> Void) {
+                     completion: @escaping (Result<[ChargingPoint], NetworkingError>) -> Void
+    ) {
         var components = baseURL
         components.path.append("/poi")
         components.queryItems?.append(URLQueryItem(name: "latitude", value: latitude.description))

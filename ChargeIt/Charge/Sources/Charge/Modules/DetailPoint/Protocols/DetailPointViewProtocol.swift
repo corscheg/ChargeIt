@@ -19,7 +19,7 @@ protocol DetailPointViewProtocol: AnyObject {
     /// Show an error alert with the given message.
     func showErrorAlert(with message: String)
     
-    /// Show an success alert with the given message.
+    /// Show a success alert with the given message.
     func showSuccessAlert(with message: String)
     
     /// Hide the presented alert.

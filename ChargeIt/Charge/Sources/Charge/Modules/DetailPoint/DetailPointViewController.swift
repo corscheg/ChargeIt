@@ -28,8 +28,6 @@ final class DetailPointViewController: UIViewController {
         self.presenter = presenter
         self.hapticsGenerator = hapticsGenerator
         super.init(nibName: nil, bundle: nil)
-        
-        modalPresentationStyle = .popover
     }
     
     required init?(coder: NSCoder) {

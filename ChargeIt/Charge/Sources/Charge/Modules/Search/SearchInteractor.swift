@@ -28,10 +28,10 @@ final class SearchInteractor: NSObject {
         self.storageManager = storageManager
         self.locationManager = locationManager
         self.geocoder = geocoder
-        self.locationManager.distanceFilter = 10
         super.init()
         
-        locationManager.delegate = self
+        self.locationManager.distanceFilter = 10
+        self.locationManager.delegate = self
     }
     
     // MARK: Private Methods
