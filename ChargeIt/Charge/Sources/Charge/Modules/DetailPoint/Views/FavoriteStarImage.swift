@@ -1,5 +1,5 @@
 //
-//  FavoriteView.swift
+//  FavoriteStarImage.swift
 //  
 //
 //  Created by Александр Казак-Казакевич on 12.12.2022.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// A view for representing favorite state.
-final class FavoriteView: UIView {
+final class FavoriteStarImage: UIView {
     
     // MARK: Private Properties
     private let favorite = UIImage(systemName: "star.fill")

@@ -128,7 +128,7 @@ final class DetailPointViewController: UIViewController {
         return stack
     }()
     
-    private lazy var favoriteView = FavoriteView()
+    private lazy var favoriteView = FavoriteStarImage()
     
     private lazy var favoriteButton: UIButton = {
         let button = UIButton()

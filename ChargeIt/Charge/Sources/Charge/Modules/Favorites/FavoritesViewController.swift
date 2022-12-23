@@ -15,17 +15,12 @@ final class FavoritesViewController: UIViewController {
     private let tableManager: FavoritesTableManager
     
     // MARK: Visual Components
-    private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .systemBackground
-        
-        return tableView
-    }()
+    private var favoritesView = FavoritesView()
     
     // MARK: Initializers
     init(presenter: FavoritesPresenterProtocol) {
         self.presenter = presenter
-        self.tableManager = FavoritesTableManager(tableView: tableView)
+        self.tableManager = FavoritesTableManager(tableView: favoritesView.tableView)
         
         super.init(nibName: nil, bundle: nil)
         tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
@@ -38,13 +33,7 @@ final class FavoritesViewController: UIViewController {
     
     // MARK: UIViewController
     override func loadView() {
-        view = UIView()
-        view.backgroundColor = .systemBackground
-        
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        view = favoritesView
     }
     
     override func viewDidLoad() {
@@ -52,7 +41,7 @@ final class FavoritesViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        tableView.delegate = self
+        favoritesView.tableView.delegate = self
         
         presenter.viewDidLoad()
     }
