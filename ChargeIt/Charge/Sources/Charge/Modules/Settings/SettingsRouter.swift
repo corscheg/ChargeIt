@@ -10,7 +10,7 @@ import Foundation
 /// Router of the Settings module.
 final class SettingsRouter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var view: SettingsViewProtocol?
 }
 

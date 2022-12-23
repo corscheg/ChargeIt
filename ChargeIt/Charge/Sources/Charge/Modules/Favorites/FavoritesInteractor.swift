@@ -10,11 +10,11 @@ import Foundation
 /// Interactor of the Favorites module.
 final class FavoritesInteractor {
     
+    // MARK: VIPER
+    weak var presenter: FavoritesPresenterProtocol?
+    
     // MARK: Private Properties
     private let storageManager: StorageManager?
-    
-    // MARK: Public Properties
-    weak var presenter: FavoritesPresenterProtocol?
     
     // MARK: Initializers
     init(storageManager: StorageManager?) {

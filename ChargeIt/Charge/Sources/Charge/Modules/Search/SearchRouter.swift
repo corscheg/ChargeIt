@@ -11,7 +11,7 @@ import UIKit
 /// Router of the Search module.
 final class SearchRouter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var view: SearchViewProtocol?
 }
 

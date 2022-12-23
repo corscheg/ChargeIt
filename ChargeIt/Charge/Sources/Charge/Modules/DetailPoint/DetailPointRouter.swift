@@ -11,7 +11,7 @@ import UIKit
 /// Router of the Detail Point search module.
 final class DetailPointRouter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var view: DetailPointViewProtocol?
 }
 

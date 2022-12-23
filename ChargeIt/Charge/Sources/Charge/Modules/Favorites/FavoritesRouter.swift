@@ -11,7 +11,7 @@ import UIKit
 /// Router of the Favorites module.
 final class FavoritesRouter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var view: FavoritesViewProtocol?
 }
 

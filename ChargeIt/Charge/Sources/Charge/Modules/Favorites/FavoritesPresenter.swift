@@ -10,13 +10,13 @@ import Foundation
 /// Presenter of the Favorites module.
 final class FavoritesPresenter {
     
-    // MARK: Private Properties
+    // MARK: VIPER
     private let interactor: FavoritesInteractor
     private let router: FavoritesRouter
-    private var viewModels: [DetailPointViewModel] = []
-    
-    // MARK: Public Properties
     weak var view: FavoritesViewProtocol?
+    
+    // MARK: Private Properties
+    private var viewModels: [DetailPointViewModel] = []
     
     // MARK: Initializers
     init(interactor: FavoritesInteractor, router: FavoritesRouter) {
@@ -24,6 +24,7 @@ final class FavoritesPresenter {
         self.router = router
     }
     
+    // MARK: Private Methods
     private func loadFavorites() {
         do {
             let favoritesObj = try interactor.allFavorites()

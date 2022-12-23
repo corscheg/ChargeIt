@@ -10,7 +10,7 @@ import Foundation
 /// Interactor of the Detail Point module.
 final class DetailPointInteractor {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var presenter: DetailPointInteractorToPresenterProtocol?
     
     // MARK: Private Properties

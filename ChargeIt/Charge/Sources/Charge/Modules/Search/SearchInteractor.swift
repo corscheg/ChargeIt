@@ -11,7 +11,7 @@ import CoreLocation
 /// Interactor of the Search module.
 final class SearchInteractor: NSObject {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var presenter: SearchInteractorToPresenterProtocol?
     
     // MARK: Private Properties

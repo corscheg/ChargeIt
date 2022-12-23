@@ -10,8 +10,10 @@ import UIKit
 /// View of the Settings module.
 final class SettingsViewController: UIViewController {
 
-    // MARK: Private Properties
+    // MARK: VIPER
     private let presenter: SettingsPresenterProtocol
+    
+    // MARK: Private Properties
     private let settingsView = SettingsView()
     
     // MARK: Initializers

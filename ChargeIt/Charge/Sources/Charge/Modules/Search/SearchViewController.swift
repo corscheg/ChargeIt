@@ -12,9 +12,11 @@ import SnapKit
 /// View of the Search Module.
 final class SearchViewController: UIViewController {
     
-    // MARK: Private Properties
+    // MARK: VIPER
     private let presenter: SearchViewToPresenterProtocol
     private var sideSheetVisible = false
+    
+    // MARK: Private Properties
     private let hapticsGenerator = UINotificationFeedbackGenerator()
     
     // MARK: Visual Components
@@ -56,7 +58,33 @@ final class SearchViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
-    // MARK: Actions
+    // MARK: Private Methods
+    private func expandHideSideSheet(with duration: TimeInterval = 0.5) {
+        if sideSheetVisible {
+            searchView.sideSheet.offsetLayoutGuide.snp.removeConstraints()
+            searchView.sideSheet.layoutOffsetGuide()
+            searchView.sideSheet.panSurface.snp.makeConstraints { make in
+                make.left.equalTo(view.snp.left)
+            }
+        } else {
+            searchView.sideSheet.panSurface.snp.removeConstraints()
+            searchView.sideSheet.layoutPanSurface()
+            searchView.sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
+                make.right.equalTo(view.snp.left)
+            }
+        }
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [.curveEaseOut]) {
+            self.searchView.sideSheet.transform = .identity
+            self.view.layoutIfNeeded()
+        }
+        
+        sideSheetVisible.toggle()
+    }
+}
+
+// MARK: - Actions
+extension SearchViewController {
     @objc private func nearbyButtonTapped() {
         presenter.loadNearbyPoints()
         if sideSheetVisible {
@@ -103,29 +131,6 @@ final class SearchViewController: UIViewController {
     
     @objc private func usageTypeValueChanged() {
         presenter.usageTypeIndexChanged(to: searchView.sideSheet.usageTypeControl.selectedSegmentIndex)
-    }
-    
-    private func expandHideSideSheet(with duration: TimeInterval = 0.5) {
-        if sideSheetVisible {
-            searchView.sideSheet.offsetLayoutGuide.snp.removeConstraints()
-            searchView.sideSheet.layoutOffsetGuide()
-            searchView.sideSheet.panSurface.snp.makeConstraints { make in
-                make.left.equalTo(view.snp.left)
-            }
-        } else {
-            searchView.sideSheet.panSurface.snp.removeConstraints()
-            searchView.sideSheet.layoutPanSurface()
-            searchView.sideSheet.offsetLayoutGuide.snp.makeConstraints { make in
-                make.right.equalTo(view.snp.left)
-            }
-        }
-        
-        UIView.animate(withDuration: duration, delay: 0.0, options: [.curveEaseOut]) {
-            self.searchView.sideSheet.transform = .identity
-            self.view.layoutIfNeeded()
-        }
-        
-        sideSheetVisible.toggle()
     }
 }
 

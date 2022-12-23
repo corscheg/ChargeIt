@@ -10,11 +10,9 @@ import Foundation
 /// Presenter of the Settings module.
 final class SettingsPresenter {
     
-    // MARK: Private Properties
-    private let router: SettingsRouterProtocol
+    // MARK: VIPER
     private let interactor: SettingsInteractorProtocol
-    
-    // MARK: Public Properties
+    private let router: SettingsRouterProtocol
     weak var view: SettingsViewProtocol?
     
     // MARK: Initializers

@@ -55,6 +55,7 @@ final class ConnectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Public Methods
     func set(viewModel: DetailPointViewModel.ConnectionViewModel) {
         type.set(title: viewModel.type)
         fastChargeCapableView.set(available: viewModel.fastChargeCapable)

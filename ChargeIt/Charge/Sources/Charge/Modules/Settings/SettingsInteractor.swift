@@ -10,7 +10,7 @@ import Foundation
 /// Interactor of the Search module.
 final class SettingsInteractor {
     
-    // MARK: Public Properties
+    // MARK: VIPER
     weak var presenter: SettingsPresenterProtocol?
 }
 

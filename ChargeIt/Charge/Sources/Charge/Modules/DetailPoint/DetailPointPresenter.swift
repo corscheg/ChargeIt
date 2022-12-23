@@ -10,12 +10,12 @@ import Foundation
 /// Presenter of the Detail Point module.
 final class DetailPointPresenter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
+    private let interactor: DetailPointInteractorProtocol
+    private let router: DetailPointRouterProtocol
     weak var view: DetailPointViewProtocol?
     
     // MARK: Private Properties
-    private let router: DetailPointRouterProtocol
-    private let interactor: DetailPointInteractorProtocol
     private var viewModel: DetailPointViewModel
     private var isFavorite: Bool = false
     

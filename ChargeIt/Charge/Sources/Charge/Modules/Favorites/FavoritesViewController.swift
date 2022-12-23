@@ -10,8 +10,10 @@ import UIKit
 /// View of the Favorites module.
 final class FavoritesViewController: UIViewController {
 
-    // MARK: Private Properties
+    // MARK: VIPER
     private let presenter: FavoritesPresenterProtocol
+    
+    // MARK: Private Properties
     private let tableManager: FavoritesTableManager
     
     // MARK: Visual Components

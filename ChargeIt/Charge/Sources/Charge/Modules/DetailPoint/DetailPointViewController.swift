@@ -12,8 +12,10 @@ import Kingfisher
 /// View of the Detail Point module.
 final class DetailPointViewController: UIViewController {
 
-    // MARK: Private Properties
+    // MARK: VIPER
     private let presenter: DetailPointViewToPresenterProtocol
+    
+    // MARK: Private Properties
     private let connectionViewDataSource: DetailPointConnectionsDataSource
     private let checkInButtonTransitionOptions: UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
     private let hapticsGenerator = UINotificationFeedbackGenerator()
@@ -64,8 +66,10 @@ final class DetailPointViewController: UIViewController {
         
         presenter.viewDidLoad()
     }
-    
-    // MARK: Actions
+}
+
+// MARK: - Actions
+extension DetailPointViewController {
     @objc private func favoriteButtonTapped() {
         presenter.favoriteButtonTapped()
     }
@@ -81,7 +85,6 @@ final class DetailPointViewController: UIViewController {
     @objc private func checkInButtonTapped() {
         presenter.checkInTapped()
     }
-    
 }
 
 // MARK: - DetailPointViewProtocol

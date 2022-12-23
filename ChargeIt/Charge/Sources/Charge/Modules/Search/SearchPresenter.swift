@@ -11,12 +11,12 @@ import MapKit
 /// Presenter of the Search module.
 final class SearchPresenter {
     
-    // MARK: Public Properties
+    // MARK: VIPER
+    private let interactor: SearchInteractorProtocol
+    private let router: SearchRouterProtocol
     weak var view: SearchViewProtocol?
     
     // MARK: Private Properties
-    private let router: SearchRouterProtocol
-    private let interactor: SearchInteractorProtocol
     private var viewModel: SearchViewModel = SearchViewModel(
         locations: [],
         region: MKCoordinateRegion(
