@@ -63,17 +63,7 @@ final class FastChargingView: UIView {
     }
     
     // MARK: Public Methods
-    func set(available: Bool?) {
-        guard let available else {
-            image.image = UIImage(systemName: "questionmark")
-            image.tintColor = .systemYellow
-            
-            label.text = "Unknown"
-            label.textColor = .systemYellow
-            
-            return
-        }
-        
+    func set(available: Bool) {        
         if available {
             image.image = UIImage(systemName: "checkmark.circle")
             image.tintColor = .systemGreen

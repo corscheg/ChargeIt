@@ -27,6 +27,7 @@ final class SearchInteractor: NSObject {
         self.dataManager = dataManager
         self.geocoder = geocoder
         self.locationManager = locationManager
+        self.locationManager.distanceFilter = 10
         super.init()
         
         locationManager.delegate = self
@@ -41,6 +42,10 @@ final class SearchInteractor: NSObject {
             case .success(let points):
                 self?.presenter?.pointsLoadingSucceeded(with: points)
             }
+            
+            // Comment on this line placed in
+            // locationManager(_:didUpdateLocations) delegate method.
+            self?.locationManager.delegate = self
         }
     }
 }
@@ -112,6 +117,11 @@ extension SearchInteractor: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
+        
+        // The workaround is needed because the method sometimes is called
+        // twice after a single request.
+        manager.delegate = nil
         guard let location = locations.first else {
             presenter?.pointsLoadingFailed(with: LocationError.locationError)
             return

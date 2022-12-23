@@ -42,7 +42,7 @@ extension DetailPointViewModel {
         // MARK: Public Properties
         let type: String
         let level: String?
-        let fastChargeCapable: Bool?
+        let fastChargeCapable: Bool
         let current: Current
     }
 }

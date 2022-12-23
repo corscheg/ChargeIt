@@ -27,7 +27,7 @@ struct Converter {
             return DetailPointViewModel.ConnectionViewModel(
                 type: $0.type.title,
                 level: $0.level?.title,
-                fastChargeCapable: $0.level?.fastChargeCapable,
+                fastChargeCapable: $0.level?.fastChargeCapable ?? false,
                 current: current
             )
         }

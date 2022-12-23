@@ -74,7 +74,7 @@ final class SearchViewController: UIViewController {
             let position = abs(sender.translation(in: view).x)
             
             if position > searchView.sideSheet.frame.width / 2 {
-                let completionDuration = (position / searchView.sideSheet.frame.width) / velocity * 500
+                let completionDuration = min((position / searchView.sideSheet.frame.width) / velocity * 500, 0.7)
                 expandHideSideSheet(with: completionDuration)
             } else if velocity > 1000 {
                 let completionDuration = (position / searchView.sideSheet.frame.width) / velocity * 4000
