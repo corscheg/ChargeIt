@@ -394,6 +394,10 @@ extension DetailPointViewController: DetailPointViewProtocol {
     }
     
     func showErrorAlert(with message: String) {
+        guard alert == nil else {
+            return
+        }
+        
         hapticsGenerator.prepare()
         alert = AlertView(success: false, message: message)
         presentAlert()
@@ -401,6 +405,10 @@ extension DetailPointViewController: DetailPointViewProtocol {
     }
     
     func showSuccessAlert(with message: String) {
+        guard alert == nil else {
+            return
+        }
+        
         hapticsGenerator.prepare()
         alert = AlertView(success: true, message: message)
         presentAlert()
