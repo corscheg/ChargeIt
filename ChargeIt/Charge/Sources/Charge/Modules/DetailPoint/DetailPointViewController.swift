@@ -16,17 +16,17 @@ final class DetailPointViewController: UIViewController {
     private let presenter: DetailPointViewToPresenterProtocol
     
     // MARK: Private Properties
-    private let connectionViewDataSource: DetailPointConnectionsDataSource
+    private let connectionViewDataSource = DetailPointConnectionsDataSource()
     private let checkInButtonTransitionOptions: UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
-    private let hapticsGenerator = UINotificationFeedbackGenerator()
+    private let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Visual Components
     private lazy var detailPointView = DetailPointView()
     
     // MARK: Initializers
-    init(presenter: DetailPointViewToPresenterProtocol, dataSource: DetailPointConnectionsDataSource) {
+    init(presenter: DetailPointViewToPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
         self.presenter = presenter
-        self.connectionViewDataSource = dataSource
+        self.hapticsGenerator = hapticsGenerator
         super.init(nibName: nil, bundle: nil)
         
         modalPresentationStyle = .popover

@@ -14,10 +14,10 @@ final class FavoritesInteractor {
     weak var presenter: FavoritesPresenterProtocol?
     
     // MARK: Private Properties
-    private let storageManager: StorageManager?
+    private let storageManager: StorageManagerProtocol?
     
     // MARK: Initializers
-    init(storageManager: StorageManager?) {
+    init(storageManager: StorageManagerProtocol?) {
         self.storageManager = storageManager
     }
 }

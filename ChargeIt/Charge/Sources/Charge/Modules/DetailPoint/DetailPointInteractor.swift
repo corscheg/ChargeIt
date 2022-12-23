@@ -14,11 +14,11 @@ final class DetailPointInteractor {
     weak var presenter: DetailPointInteractorToPresenterProtocol?
     
     // MARK: Private Properties
-    private let storageManager: StorageManager?
-    private let networkManager: NetworkManager
+    private let storageManager: StorageManagerProtocol?
+    private let networkManager: NetworkManagerProtocol
     
     // MARK: Initializers
-    init(storageManager: StorageManager?, networkManager: NetworkManager) {
+    init(storageManager: StorageManagerProtocol?, networkManager: NetworkManagerProtocol) {
         self.storageManager = storageManager
         self.networkManager = networkManager
     }

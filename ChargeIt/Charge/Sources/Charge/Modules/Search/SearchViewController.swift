@@ -17,14 +17,15 @@ final class SearchViewController: UIViewController {
     private var sideSheetVisible = false
     
     // MARK: Private Properties
-    private let hapticsGenerator = UINotificationFeedbackGenerator()
+    private let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Visual Components
     private lazy var searchView = SearchView()
     
     // MARK: Initializers
-    init(presenter: SearchViewToPresenterProtocol) {
+    init(presenter: SearchViewToPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
         self.presenter = presenter
+        self.hapticsGenerator = hapticsGenerator
         super.init(nibName: nil, bundle: nil)
         
         tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)

@@ -12,7 +12,9 @@ struct FavoritesBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build() -> FavoritesViewController {
-        let interactor = FavoritesInteractor(storageManager: StorageManager.shared)
+        let storageManager = StorageManager.shared
+        
+        let interactor = FavoritesInteractor(storageManager: storageManager)
         let router = FavoritesRouter()
         let presenter = FavoritesPresenter(interactor: interactor, router: router)
         let view = FavoritesViewController(presenter: presenter)

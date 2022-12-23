@@ -6,16 +6,15 @@
 //
 
 import Foundation
-import CoreLocation
 
 /// A manager used to fetch data from the OpenCharge API.
-final class NetworkManager {
+final class NetworkManager: NetworkManagerProtocol {
     
     // MARK: Static Properties
     static let shared = NetworkManager()
     
     // MARK: Public Properties
-    var session: URLSession = URLSession.shared
+    var session: URLSessionProtocol = URLSession.shared
     var baseURL: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"
@@ -38,7 +37,8 @@ final class NetworkManager {
     
     // MARK: Public Methods
     /// Fetch charging points with the given parameters.
-    func fetchPoints(near location: CLLocationCoordinate2D,
+    func fetchPoints(latitude: Double,
+                     longitude: Double,
                      within radius: Int = 20,
                      in country: String? = nil,
                      maxCount: Int = 100,
@@ -46,8 +46,8 @@ final class NetworkManager {
                      completion: @escaping (Result<[ChargingPoint], NetworkingError>) -> Void) {
         var components = baseURL
         components.path.append("/poi")
-        components.queryItems?.append(URLQueryItem(name: "latitude", value: location.latitude.description))
-        components.queryItems?.append(URLQueryItem(name: "longitude", value: location.longitude.description))
+        components.queryItems?.append(URLQueryItem(name: "latitude", value: latitude.description))
+        components.queryItems?.append(URLQueryItem(name: "longitude", value: longitude.description))
         components.queryItems?.append(URLQueryItem(name: "distance", value: radius.description))
         components.queryItems?.append(URLQueryItem(name: "maxresults", value: maxCount.description))
         
@@ -96,7 +96,7 @@ final class NetworkManager {
     }
     
     // MARK: Private Methods
-    private func dataTask<T: Codable>(with request: URLRequest, completion: @escaping (Result<T, NetworkingError>) -> Void) -> URLSessionDataTask {
+    private func dataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, NetworkingError>) -> Void) -> URLSessionDataTask {
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(.connectionError))

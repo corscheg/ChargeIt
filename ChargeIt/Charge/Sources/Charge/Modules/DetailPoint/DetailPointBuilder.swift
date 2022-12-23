@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Use this struct to build the Detail Point module.
 struct DetailPointBuilder {
@@ -13,10 +14,14 @@ struct DetailPointBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build(with viewModel: DetailPointViewModel) -> DetailPointViewController {
-        let interactor = DetailPointInteractor(storageManager: StorageManager.shared, networkManager: NetworkManager.shared)
+        let storageManager = StorageManager.shared
+        let networkManager = NetworkManager.shared
+        let hapticsGenerator = UINotificationFeedbackGenerator()
+        
+        let interactor = DetailPointInteractor(storageManager: storageManager, networkManager: networkManager)
         let router = DetailPointRouter()
         let presenter = DetailPointPresenter(router: router, interactor: interactor, viewModel: viewModel)
-        let view = DetailPointViewController(presenter: presenter, dataSource: DetailPointConnectionsDataSource())
+        let view = DetailPointViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)
         
         presenter.view = view
         router.view = view

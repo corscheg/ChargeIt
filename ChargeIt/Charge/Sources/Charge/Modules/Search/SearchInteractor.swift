@@ -15,18 +15,19 @@ final class SearchInteractor: NSObject {
     weak var presenter: SearchInteractorToPresenterProtocol?
     
     // MARK: Private Properties
-    private let dataManager: NetworkManager
-    private let locationManager: CLLocationManager
-    private let geocoder: CLGeocoder
-    private let storageManager = StorageManager.shared
+    private let networkManager: NetworkManagerProtocol
+    private let storageManager: StorageManagerProtocol?
+    private let locationManager: LocationManagerProtocol
+    private let geocoder: GeocoderProtocol
     private var locationEnabled = false
     private var parameters: QueryParameters?
     
     // MARK: Initializers
-    init(dataManager: NetworkManager, locationManager: CLLocationManager, geocoder: CLGeocoder) {
-        self.dataManager = dataManager
-        self.geocoder = geocoder
+    init(networkManager: NetworkManagerProtocol, storageManager: StorageManagerProtocol?, locationManager: LocationManagerProtocol, geocoder: GeocoderProtocol) {
+        self.networkManager = networkManager
+        self.storageManager = storageManager
         self.locationManager = locationManager
+        self.geocoder = geocoder
         self.locationManager.distanceFilter = 10
         super.init()
         
@@ -34,8 +35,14 @@ final class SearchInteractor: NSObject {
     }
     
     // MARK: Private Methods
-    private func makeQuery(near location: CLLocationCoordinate2D, within radius: Int, in country: String? = nil, maxCount: Int, usageTypes: [Int]?) {
-        dataManager.fetchPoints(near: location, within: radius, in: country, maxCount: maxCount, usageTypes: usageTypes) { [weak self] result in
+    private func makeQuery(
+        near location: CLLocationCoordinate2D,
+        within radius: Int,
+        in country: String? = nil,
+        maxCount: Int,
+        usageTypes: [Int]?
+    ) {
+        networkManager.fetchPoints(latitude: location.latitude, longitude: location.longitude, within: radius, in: country, maxCount: maxCount, usageTypes: usageTypes) { [weak self] result in
             switch result {
             case .failure(let error):
                 self?.presenter?.pointsLoadingFailed(with: error)

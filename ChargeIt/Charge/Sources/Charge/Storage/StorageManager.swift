@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 /// A class for saving points in Core Data.
-final class StorageManager {
+final class StorageManager: StorageManagerProtocol {
     
     // MARK: Static Properties
     static let shared = StorageManager()
