@@ -15,6 +15,7 @@ final class DetailPointViewController: UIViewController {
     // MARK: Private Properties
     private let presenter: DetailPointViewToPresenterProtocol
     private let connectionViewDataSource: DetailPointConnectionsDataSource
+    private let checkInButtonTransitionOptions: UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
     
     // MARK: Visual Components
     private lazy var dismissButton: UIButton = {
@@ -164,7 +165,12 @@ final class DetailPointViewController: UIViewController {
         return button
     }()
     
-    private lazy var activityIndicator = UIActivityIndicatorView()
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.isHidden = true
+        
+        return indicator
+    }()
     
     private lazy var openMapsButton: UIButton = {
         let button = UIButton()
@@ -392,11 +398,31 @@ extension DetailPointViewController: DetailPointViewProtocol {
     
     func startActivityIndication() {
         checkInButton.isEnabled = false
-        activityIndicator.startAnimating()
+        
+        guard let image = checkInButton.imageView else {
+            activityIndicator.startAnimating()
+            return
+        }
+        
+        UIView.transition(with: image, duration: 0.3, options: checkInButtonTransitionOptions) { }
+        
+        UIView.transition(with: activityIndicator, duration: 0.3, options: checkInButtonTransitionOptions) {
+            self.activityIndicator.startAnimating()
+        }
     }
     
     func stopActivityIndication() {
         checkInButton.isEnabled = true
-        activityIndicator.stopAnimating()
+        
+        guard let image = checkInButton.imageView else {
+            activityIndicator.stopAnimating()
+            return
+        }
+        
+        UIView.transition(with: image, duration: 0.3, options: checkInButtonTransitionOptions) { }
+        
+        UIView.transition(with: activityIndicator, duration: 0.3, options: checkInButtonTransitionOptions) {
+            self.activityIndicator.stopAnimating()
+        }
     }
 }
