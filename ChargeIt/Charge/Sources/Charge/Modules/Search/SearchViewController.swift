@@ -235,8 +235,8 @@ extension SearchViewController: SearchViewProtocol {
         nearbyButton.backgroundColor = nearbyButton.backgroundColor?.withAlphaComponent(enabled ? 1.0 : 0.5)
     }
     
-    func updateParameters(with parameters: QueryParametersViewModel) {
-        sideSheet.radiusValueLabel.text = "\(parameters.radius) km"
+    func updateRadius(with radius: Int) {
+        sideSheet.radiusValueLabel.text = "\(radius) km"
     }
     
     func startActivityIndication() {

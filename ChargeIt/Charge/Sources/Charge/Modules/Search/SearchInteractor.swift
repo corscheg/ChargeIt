@@ -20,7 +20,7 @@ final class SearchInteractor: NSObject {
     private let geocoder: CLGeocoder
     private let storageManager = StorageManager.shared
     private var locationEnabled = false
-    private var parameters: QueryParametersViewModel?
+    private var parameters: QueryParameters?
     
     // MARK: Initializers
     init(dataManager: NetworkManager, locationManager: CLLocationManager, geocoder: CLGeocoder) {
@@ -48,7 +48,7 @@ final class SearchInteractor: NSObject {
 // MARK: - SearchInteractorProtocol
 extension SearchInteractor: SearchInteractorProtocol {
     
-    func loadNearbyPoints(with options: QueryParametersViewModel) {
+    func loadNearbyPoints(with options: QueryParameters) {
         guard locationEnabled else {
             presenter?.pointsLoadingFailed(with: LocationError.locationPermissionNotGranted)
             return
