@@ -16,6 +16,7 @@ final class DetailPointViewController: UIViewController {
     private let presenter: DetailPointViewToPresenterProtocol
     private let connectionViewDataSource: DetailPointConnectionsDataSource
     private let checkInButtonTransitionOptions: UIView.AnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
+    private let hapticsGenerator = UINotificationFeedbackGenerator()
     
     // MARK: Visual Components
     private lazy var dismissButton: UIButton = {
@@ -393,13 +394,17 @@ extension DetailPointViewController: DetailPointViewProtocol {
     }
     
     func showErrorAlert(with message: String) {
+        hapticsGenerator.prepare()
         alert = AlertView(success: false, message: message)
         presentAlert()
+        hapticsGenerator.notificationOccurred(.error)
     }
     
     func showSuccessAlert(with message: String) {
+        hapticsGenerator.prepare()
         alert = AlertView(success: true, message: message)
         presentAlert()
+        hapticsGenerator.notificationOccurred(.success)
     }
     
     private func presentAlert() {
