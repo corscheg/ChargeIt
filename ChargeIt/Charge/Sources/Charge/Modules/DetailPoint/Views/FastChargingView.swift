@@ -12,7 +12,12 @@ import SnapKit
 final class FastChargingView: UIView {
     
     // MARK: Visual Components
-    private lazy var image: UIImageView = UIImageView()
+    private lazy var image: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        
+        return image
+    }()
     
     private lazy var label: UILabel = {
         let label = UILabel()

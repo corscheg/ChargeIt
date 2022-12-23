@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 /// A struct containing methods that convert different app objects into `DetailPointViewModel`s.
 struct Converter {

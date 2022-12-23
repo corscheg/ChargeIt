@@ -10,6 +10,23 @@ import SnapKit
 
 /// A view representing a type of the current.
 final class CurrentTypeView: UIView {
+    
+    // MARK: Private Properties
+    private var dcImageName: String = {
+        if #available(iOS 14.2, *) {
+            return "directcurrent"
+        } else {
+            return "line.horizontal.3"
+        }
+    }()
+    
+    private var acImageName: String = {
+        if #available(iOS 15, *) {
+            return "alternatingcurrent"
+        } else {
+            return "waveform"
+        }
+    }()
 
     // MARK: Visual Components
     private lazy var image: UIImageView = UIImageView()
@@ -63,12 +80,12 @@ final class CurrentTypeView: UIView {
     // MARK: Public Methods
     func set(current: Current) {
         switch current {
-        case .ac:
-            label.text = "AC"
-            image.image = UIImage(systemName: "line.3.horizontal")
         case .dc:
             label.text = "DC"
-            image.image = UIImage(systemName: "water.waves")
+            image.image = UIImage(systemName: dcImageName)
+        case .ac:
+            label.text = "AC"
+            image.image = UIImage(systemName: acImageName)
             break
         case .unknown:
             label.text = "Unknown"
