@@ -30,7 +30,9 @@ public final class RootTabBar: UITabBarController {
         let searchView = SearchBuilder.build()
         let favoritesView = FavoritesBuilder.build()
         let favoritesNavigation = UINavigationController(rootViewController: favoritesView)
+        let settingsView = SettingsBuilder.build()
+        let settingsNavigation = UINavigationController(rootViewController: settingsView)
         
-        viewControllers = [searchView, favoritesNavigation]
+        viewControllers = [searchView, favoritesNavigation, settingsNavigation]
     }
 }
