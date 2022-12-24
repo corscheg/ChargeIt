@@ -18,8 +18,6 @@ protocol Alertable: UIViewController {
     func showSuccessAlert(with message: String?)
     
     func showErrorAlert(with message: String?)
-    
-    func hideAlert()
 }
 
 extension Alertable {
@@ -55,9 +53,17 @@ extension Alertable {
         UIView.animate(withDuration: 0.5) {
             alert.alpha = 0.9
         }
+        
+        hideAfterDelay()
     }
     
-    func hideAlert() {
+    private func hideAfterDelay() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.hideAlert()
+        }
+    }
+    
+    private func hideAlert() {
         guard let alert else {
             return
         }

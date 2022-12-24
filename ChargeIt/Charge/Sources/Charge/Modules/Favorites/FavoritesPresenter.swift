@@ -39,13 +39,6 @@ final class FavoritesPresenter {
             view?.set(points: favorites)
         } catch {
             view?.showErrorAlert(with: error.localizedDescription)
-            hideAlertAfterDelay()
-        }
-    }
-    
-    private func hideAlertAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.view?.hideAlert()
         }
     }
 }
@@ -72,7 +65,6 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
             view?.remove(point: deleted)
         } catch {
             view?.showErrorAlert(with: "Unable to delete the point")
-            hideAlertAfterDelay()
         }
     }
 }

@@ -58,7 +58,6 @@ extension SettingsPresenter: SettingsPresenterProtocol {
         } catch {
             view?.showErrorAlert(with: "Storage error occurred")
         }
-        hideAlertAfterDelay()
     }
     
     func maxCountSettingIndexChanged(to index: Int) {
@@ -77,11 +76,5 @@ extension SettingsPresenter: SettingsPresenterProtocol {
         }
         
         interactor.setNewMaxCount(maxCount)
-    }
-    
-    private func hideAlertAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.view?.hideAlert()
-        }
     }
 }

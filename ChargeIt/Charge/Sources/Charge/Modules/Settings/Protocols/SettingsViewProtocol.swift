@@ -21,7 +21,4 @@ protocol SettingsViewProtocol: AnyObject {
     
     /// Show an error alert with the given message.
     func showErrorAlert(with message: String?)
-    
-    /// Hide the presented alert.
-    func hideAlert()
 }

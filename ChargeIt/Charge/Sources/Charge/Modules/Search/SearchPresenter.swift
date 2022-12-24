@@ -102,10 +102,6 @@ extension SearchPresenter: SearchInteractorToPresenterProtocol {
             self?.view?.showErrorAlert(with: error.localizedDescription)
             self?.view?.unlockRequests()
             self?.view?.stopActivityIndication()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                self?.view?.hideAlert()
-            }
         }
     }
     

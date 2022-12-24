@@ -22,9 +22,6 @@ protocol DetailPointViewProtocol: AnyObject {
     /// Show a success alert with the given message.
     func showSuccessAlert(with message: String?)
     
-    /// Hide the presented alert.
-    func hideAlert()
-    
     /// Present the activity indicator.
     func startActivityIndication()
     
