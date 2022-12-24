@@ -12,3 +12,15 @@ enum StorageError: Error {
     case savingFailed
     case internalError
 }
+
+// MARK: - LocalizedError
+extension StorageError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .savingFailed:
+            return "Unable to save"
+        case .internalError:
+            return "Internal Storage error"
+        }
+    }
+}

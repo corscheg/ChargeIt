@@ -13,15 +13,20 @@ final class FavoritesViewController: UIViewController {
     // MARK: VIPER
     private let presenter: FavoritesPresenterProtocol
     
+    // MARK: Public Properties
+    let hapticsGenerator: HapticsGeneratorProtocol
+    
     // MARK: Private Properties
     private let tableManager: FavoritesTableManager
     
     // MARK: Visual Components
     private var favoritesView = FavoritesView()
+    var alert: AlertView?
     
     // MARK: Initializers
-    init(presenter: FavoritesPresenterProtocol) {
+    init(presenter: FavoritesPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
         self.presenter = presenter
+        self.hapticsGenerator = hapticsGenerator
         self.tableManager = FavoritesTableManager(tableView: favoritesView.tableView)
         
         super.init(nibName: nil, bundle: nil)
@@ -62,12 +67,6 @@ extension FavoritesViewController: FavoritesViewProtocol {
     func remove(point: DetailPointViewModel) {
         tableManager.remove(viewModel: point)
     }
-    
-    func showAlert(with message: String) {
-        let ac = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -86,3 +85,6 @@ extension FavoritesViewController: UITableViewDelegate {
         return config
     }
 }
+
+// MARK: - Alertable
+extension FavoritesViewController: Alertable { }

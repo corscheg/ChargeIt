@@ -17,11 +17,12 @@ struct SearchBuilder {
     static func build() -> SearchViewController {
         let networkManager = NetworkManager.shared
         let storageManager = StorageManager.shared
+        let userSettings = UserSettings.shared
         let locationManager = CLLocationManager()
         let geocoder = CLGeocoder()
         let hapticsGenerator = UINotificationFeedbackGenerator()
         
-        let interactor = SearchInteractor(networkManager: networkManager, storageManager: storageManager, locationManager: locationManager, geocoder: geocoder)
+        let interactor = SearchInteractor(networkManager: networkManager, storageManager: storageManager, userSettings: userSettings, locationManager: locationManager, geocoder: geocoder)
         let router = SearchRouter()
         let presenter = SearchPresenter(router: router, interactor: interactor)
         let view = SearchViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)

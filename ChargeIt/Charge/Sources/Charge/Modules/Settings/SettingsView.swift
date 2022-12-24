@@ -12,7 +12,7 @@ final class SettingsView: UIView {
     
     // MARK: Visual Components
     lazy var tableView: UITableView = {
-        let table = UITableView()
+        let table = UITableView(frame: .zero, style: .grouped)
         
         return table
     }()

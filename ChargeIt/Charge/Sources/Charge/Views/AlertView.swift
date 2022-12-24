@@ -24,6 +24,7 @@ final class AlertView: UIView {
     
     private lazy var image: UIImageView = {
         let image = UIImageView()
+        image.contentMode = .scaleAspectFit
         
         return image
     }()

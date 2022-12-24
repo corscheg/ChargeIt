@@ -16,6 +16,10 @@ final class SettingsViewController: UIViewController {
     // MARK: Public Properties
     let hapticsGenerator: HapticsGeneratorProtocol
     
+    // MARK: Private Properties
+    let deleteIdentifier = "deleteAll"
+    let maxCountIdentifier = "maxCountControl"
+    
     // MARK: Visual Components
     private let settingsView = SettingsView()
     var alert: AlertView?
@@ -53,13 +57,27 @@ final class SettingsViewController: UIViewController {
         
         settingsView.tableView.dataSource = self
         settingsView.tableView.delegate = self
-        settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "deleteAll")
+        settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: deleteIdentifier)
+        settingsView.tableView.register(MaxCountTableViewCell.self, forCellReuseIdentifier: maxCountIdentifier)
+        settingsView.tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        presenter.viewDidAppear()
     }
     
 }
 
 // MARK: - SettingsViewProtocol
 extension SettingsViewController: SettingsViewProtocol {
+    func updateUI(with viewModel: SettingsViewModel) {
+        guard let cell = settingsView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? MaxCountTableViewCell else {
+            return
+        }
+        
+        cell.set(selectedIndex: viewModel.maxCountSelectedIndex)
+    }
+    
     func presentConfirmationDialog() {
         let ac = UIAlertController(title: "Are you sure?", message: "You can not undo this action.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -73,7 +91,7 @@ extension SettingsViewController: SettingsViewProtocol {
 // MARK: - UITableViewDataSource
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,8 +101,14 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "deleteAll", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: deleteIdentifier, for: indexPath)
             cell.textLabel?.text = "Clear Favorites"
+            return cell
+        case (1, 0):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: maxCountIdentifier, for: indexPath) as? MaxCountTableViewCell else {
+                fallthrough
+            }
+            cell.delegate = self
             return cell
         default:
             return UITableViewCell()
@@ -98,7 +122,7 @@ extension SettingsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch (indexPath.row, indexPath.section) {
         case (0, 0):
-            presenter.requestAllDelete()
+            presenter.clearFavoritesTapped()
         default:
             break
         }
@@ -107,3 +131,10 @@ extension SettingsViewController: UITableViewDelegate {
 
 // MARK: - Alertable
 extension SettingsViewController: Alertable { }
+
+// MARK: - MaxCountTableViewCellDelegate
+extension SettingsViewController: MaxCountTableViewCellDelegate {
+    func maxCountDidChange(to index: Int) {
+        presenter.maxCountSettingIndexChanged(to: index)
+    }
+}

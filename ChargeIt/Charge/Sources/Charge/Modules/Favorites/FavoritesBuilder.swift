@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Use this struct to build the Favorites module.
 struct FavoritesBuilder {
@@ -13,11 +14,12 @@ struct FavoritesBuilder {
     /// Build the module.
     static func build() -> FavoritesViewController {
         let storageManager = StorageManager.shared
+        let hapticsGenerator = UINotificationFeedbackGenerator()
         
         let interactor = FavoritesInteractor(storageManager: storageManager)
         let router = FavoritesRouter()
         let presenter = FavoritesPresenter(interactor: interactor, router: router)
-        let view = FavoritesViewController(presenter: presenter)
+        let view = FavoritesViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)
         
         presenter.view = view
         router.view = view

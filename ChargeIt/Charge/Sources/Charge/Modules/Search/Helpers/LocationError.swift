@@ -12,3 +12,15 @@ enum LocationError: Error {
     case locationPermissionNotGranted
     case locationError
 }
+
+// MARK: - LocalizedError
+extension LocationError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .locationPermissionNotGranted:
+            return "Grant location permission in Settings"
+        case .locationError:
+            return "Unable to request location"
+        }
+    }
+}

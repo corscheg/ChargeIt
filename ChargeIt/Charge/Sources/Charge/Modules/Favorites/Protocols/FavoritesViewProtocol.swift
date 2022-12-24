@@ -16,6 +16,9 @@ protocol FavoritesViewProtocol: AnyObject {
     /// Remove the given point.
     func remove(point: DetailPointViewModel)
     
-    /// Present an alert with the given message.
-    func showAlert(with message: String)
+    /// Present an error alert with the given message.
+    func showErrorAlert(with message: String?)
+    
+    /// Hide the presented alert.
+    func hideAlert()
 }

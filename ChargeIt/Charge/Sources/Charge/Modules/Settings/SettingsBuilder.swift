@@ -14,9 +14,10 @@ struct SettingsBuilder {
     /// Build the module.
     static func build() -> SettingsViewController {
         let storageManager = StorageManager.shared
+        let userSettings = UserSettings.shared
         let hapticsGenerator = UINotificationFeedbackGenerator()
         
-        let interactor = SettingsInteractor(storageManager: storageManager)
+        let interactor = SettingsInteractor(storageManager: storageManager, userSettings: userSettings)
         let router = SettingsRouter()
         let presenter = SettingsPresenter(router: router, interactor: interactor)
         let view = SettingsViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)

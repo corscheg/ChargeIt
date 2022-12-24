@@ -54,15 +54,7 @@ final class DetailPointViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         if navigationController != nil {
-            detailPointView.dismissButton.isHidden = true
-            detailPointView.dismissButton.snp.updateConstraints { make in
-                make.height.equalTo(0)
-            }
-            
-            detailPointView.favoriteStack.isHidden = true
-            detailPointView.favoriteStack.snp.updateConstraints { make in
-                make.height.equalTo(0)
-            }
+            detailPointView.hideDismissAndFavorite()
         }
         
         presenter.viewDidLoad()
@@ -91,55 +83,12 @@ extension DetailPointViewController {
 // MARK: - DetailPointViewProtocol
 extension DetailPointViewController: DetailPointViewProtocol {
     func updateUI(with viewModel: DetailPointViewModel) {
-        detailPointView.titleLabel.text = viewModel.locationTitle ?? "Unknown"
-        detailPointView.addressFirstlabel.text = viewModel.addressFirst
-        detailPointView.addressSecondLabel.text = viewModel.addressSecond
-        detailPointView.countryLabel.text = viewModel.approximateLocation
         connectionViewDataSource.updateDataSource(with: viewModel.connections)
-        detailPointView.connectionView.reloadData()
-        
-        detailPointView.imagesStack.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-            detailPointView.imagesStack.removeArrangedSubview($0)
-        }
-        
-        viewModel.imageURLs.forEach {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            imageView.kf.setImage(with: $0) { [weak self] result in
-                guard let imageResult = try? result.get(), let self else {
-                    return
-                }
-                
-                let ratio = imageResult.image.size.height / imageResult.image.size.width
-                
-                imageView.snp.makeConstraints { make in
-                    make.height.equalTo(imageView.snp.width).multipliedBy(ratio)
-                }
-                
-                let screenRatio = ratio > 1 ? 1 : ratio
-                
-                if self.detailPointView.imagesScroll.isHidden {
-                    self.detailPointView.imagesScroll.isHidden = false
-                    
-                    self.detailPointView.imagesStack.snp.makeConstraints { make in
-                        make.height.equalTo(self.view.snp.width).multipliedBy(screenRatio)
-                    }
-                    
-                    UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
-                        self.view.layoutIfNeeded()
-                    }
-                }
-                
-                self.detailPointView.imagesStack.addArrangedSubview(imageView)
-            }
-        }
-        
+        detailPointView.updateUI(with: viewModel)
     }
     
     func setFavorite(state: Bool) {
-        detailPointView.favoriteView.set(favorite: state)
-        detailPointView.favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
+        detailPointView.setFavorite(state: state)
     }
     
     func startActivityIndication() {

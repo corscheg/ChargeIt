@@ -15,10 +15,12 @@ final class SettingsInteractor {
     
     // MARK: Private Properties
     private let storageManager: StorageManagerProtocol?
+    private let userSettings: UserSettingsProtocol
     
     // MARK: Initializers
-    init(storageManager: StorageManagerProtocol?) {
+    init(storageManager: StorageManagerProtocol?, userSettings: UserSettingsProtocol) {
         self.storageManager = storageManager
+        self.userSettings = userSettings
     }
 }
 
@@ -30,5 +32,13 @@ extension SettingsInteractor: SettingsInteractorProtocol {
         }
         
         try storageManager.deleteAll()
+    }
+    
+    func maxCount() -> Int {
+        userSettings.maxCount()
+    }
+    
+    func setNewMaxCount(_ maxCount: Int) {
+        userSettings.updateMaxCount(to: maxCount)
     }
 }

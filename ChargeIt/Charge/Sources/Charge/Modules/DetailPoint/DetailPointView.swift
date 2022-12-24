@@ -192,6 +192,69 @@ final class DetailPointView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Public Methods
+    func updateUI(with viewModel: DetailPointViewModel) {
+        titleLabel.text = viewModel.locationTitle ?? "Unknown"
+        addressFirstlabel.text = viewModel.addressFirst
+        addressSecondLabel.text = viewModel.addressSecond
+        countryLabel.text = viewModel.approximateLocation
+        connectionView.reloadData()
+        
+        imagesStack.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+            imagesStack.removeArrangedSubview($0)
+        }
+        
+        viewModel.imageURLs.forEach {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            imageView.kf.setImage(with: $0) { [weak self] result in
+                guard let imageResult = try? result.get(), let self else {
+                    return
+                }
+                
+                let ratio = imageResult.image.size.height / imageResult.image.size.width
+                
+                imageView.snp.makeConstraints { make in
+                    make.height.equalTo(imageView.snp.width).multipliedBy(ratio)
+                }
+                
+                let screenRatio = ratio > 1 ? 1 : ratio
+                
+                if self.imagesScroll.isHidden {
+                    self.imagesScroll.isHidden = false
+                    
+                    self.imagesStack.snp.makeConstraints { make in
+                        make.height.equalTo(self.snp.width).multipliedBy(screenRatio)
+                    }
+                    
+                    UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 10, options: [.curveEaseInOut]) {
+                        self.layoutIfNeeded()
+                    }
+                }
+                
+                self.imagesStack.addArrangedSubview(imageView)
+            }
+        }
+    }
+    
+    func setFavorite(state: Bool) {
+        favoriteView.set(favorite: state)
+        favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
+    }
+    
+    func hideDismissAndFavorite() {
+        dismissButton.isHidden = true
+        dismissButton.snp.updateConstraints { make in
+            make.height.equalTo(0)
+        }
+        
+        favoriteStack.isHidden = true
+        favoriteStack.snp.updateConstraints { make in
+            make.height.equalTo(0)
+        }
+    }
+    
     // MARK: Private Methods
     private func addAndLayoutSubviews() {
         addSubview(dismissButton)

@@ -10,6 +10,9 @@ import Foundation
 /// A protocol of the Settings module view.
 protocol SettingsViewProtocol: AnyObject {
     
+    /// Update the UI with the given View Model.
+    func updateUI(with viewModel: SettingsViewModel)
+    
     /// Present the dialog for deletion confirmation.
     func presentConfirmationDialog()
     

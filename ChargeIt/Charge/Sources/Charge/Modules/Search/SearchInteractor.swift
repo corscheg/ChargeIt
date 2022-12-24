@@ -17,15 +17,17 @@ final class SearchInteractor: NSObject {
     // MARK: Private Properties
     private let networkManager: NetworkManagerProtocol
     private let storageManager: StorageManagerProtocol?
+    private let userSettings: UserSettingsProtocol
     private let locationManager: LocationManagerProtocol
     private let geocoder: GeocoderProtocol
     private var locationEnabled = false
     private var parameters: QueryParameters?
     
     // MARK: Initializers
-    init(networkManager: NetworkManagerProtocol, storageManager: StorageManagerProtocol?, locationManager: LocationManagerProtocol, geocoder: GeocoderProtocol) {
+    init(networkManager: NetworkManagerProtocol, storageManager: StorageManagerProtocol?, userSettings: UserSettingsProtocol, locationManager: LocationManagerProtocol, geocoder: GeocoderProtocol) {
         self.networkManager = networkManager
         self.storageManager = storageManager
+        self.userSettings = userSettings
         self.locationManager = locationManager
         self.geocoder = geocoder
         super.init()
@@ -39,9 +41,10 @@ final class SearchInteractor: NSObject {
         near location: CLLocationCoordinate2D,
         within radius: Int,
         in country: String? = nil,
-        maxCount: Int,
         usageTypes: [Int]?
     ) {
+        let maxCount = userSettings.maxCount()
+        
         networkManager.fetchPoints(latitude: location.latitude, longitude: location.longitude, within: radius, in: country, maxCount: maxCount, usageTypes: usageTypes) { [weak self] result in
             switch result {
             case .failure(let error):
@@ -149,16 +152,16 @@ extension SearchInteractor: CLLocationManagerDelegate {
             
             geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
                 guard error == nil, let placemark = placemarks?.first else {
-                    self?.makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000, usageTypes: usageTypes)
+                    self?.makeQuery(near: location.coordinate, within: parameters.radius, usageTypes: usageTypes)
                     return
                 }
                 
                 let countryISO = placemark.isoCountryCode
                 
-                self?.makeQuery(near: location.coordinate, within: parameters.radius, in: countryISO, maxCount: 10_000, usageTypes: usageTypes)
+                self?.makeQuery(near: location.coordinate, within: parameters.radius, in: countryISO, usageTypes: usageTypes)
             }
         } else {
-            makeQuery(near: location.coordinate, within: parameters.radius, maxCount: 10_000, usageTypes: usageTypes)
+            makeQuery(near: location.coordinate, within: parameters.radius, usageTypes: usageTypes)
         }
     }
     

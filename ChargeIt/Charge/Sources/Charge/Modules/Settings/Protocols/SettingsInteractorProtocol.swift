@@ -12,4 +12,10 @@ protocol SettingsInteractorProtocol {
     
     /// Request deletion of all favorite points.
     func deleteAll() throws
+    
+    /// Request current maximum point count setting.
+    func maxCount() -> Int
+    
+    /// Store new value of maximum point count setting.
+    func setNewMaxCount(_ maxCount: Int)
 }
