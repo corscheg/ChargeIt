@@ -114,6 +114,16 @@ extension SettingsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
     }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard section == 1 else {
+            return nil
+        }
+        
+        let sectionDescription = "Large count of points may cause long-time loading or performance issues, especially on old devices or with poor internet connection. If this setting is less than count of points suitable to the given query options, the closest points will be presented."
+        
+        return sectionDescription
+    }
 }
 
 // MARK: - UITableViewDelegate
