@@ -24,38 +24,24 @@ protocol Alertable: UIViewController {
 
 extension Alertable {
     func showSuccessAlert(with message: String?) {
-        hapticsGenerator.prepare()
-        
-        guard alert == nil else {
-            hapticsGenerator.notificationOccurred(.success)
-            return
-        }
-        
-        alert = AlertView(success: true, message: message)
-        
-        guard let alert else {
-            return
-        }
-        
-        alert.alpha = 0
-        view.addSubview(alert)
-        alert.layoutInSuperview()
-        hapticsGenerator.notificationOccurred(.success)
-        
-        UIView.animate(withDuration: 0.5) {
-            alert.alpha = 0.9
-        }
+        presentAlert(success: true, message: message)
     }
     
     func showErrorAlert(with message: String?) {
+        presentAlert(success: false, message: message)
+    }
+    
+    private func presentAlert(success: Bool, message: String?) {
+        let feedback: UINotificationFeedbackGenerator.FeedbackType = success ? .success : .error
+        
         hapticsGenerator.prepare()
         
         guard alert == nil else {
-            hapticsGenerator.notificationOccurred(.error)
+            hapticsGenerator.notificationOccurred(feedback)
             return
         }
         
-        alert = AlertView(success: false, message: message)
+        alert = AlertView(success: success, message: message)
         
         guard let alert else {
             return
@@ -64,7 +50,7 @@ extension Alertable {
         alert.alpha = 0
         view.addSubview(alert)
         alert.layoutInSuperview()
-        hapticsGenerator.notificationOccurred(.error)
+        hapticsGenerator.notificationOccurred(feedback)
         
         UIView.animate(withDuration: 0.5) {
             alert.alpha = 0.9
