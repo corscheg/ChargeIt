@@ -12,7 +12,7 @@ import SnapKit
 final class CurrentTypeView: UIView {
     
     // MARK: Private Properties
-    private var dcImageName: String = {
+    private let dcImageName: String = {
         if #available(iOS 14.2, *) {
             return "directcurrent"
         } else {
@@ -20,7 +20,7 @@ final class CurrentTypeView: UIView {
         }
     }()
     
-    private var acImageName: String = {
+    private let acImageName: String = {
         if #available(iOS 15, *) {
             return "alternatingcurrent"
         } else {

@@ -59,7 +59,6 @@ final class SettingsViewController: UIViewController {
         settingsView.tableView.delegate = self
         settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: deleteIdentifier)
         settingsView.tableView.register(MaxCountTableViewCell.self, forCellReuseIdentifier: maxCountIdentifier)
-        settingsView.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {

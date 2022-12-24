@@ -18,7 +18,4 @@ protocol SearchInteractorProtocol {
     
     /// Remove a point with the given ID from the persistent storage.
     func delete(by id: UUID) throws
-    
-    /// Determine whether a point with the given ID is stored in the persistent storage.
-    func isFavorite(by id: UUID) throws -> Bool
 }

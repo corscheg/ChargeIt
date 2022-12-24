@@ -86,16 +86,6 @@ extension SearchInteractor: SearchInteractorProtocol {
         
         try storageManager.delete(by: id)
     }
-    
-    func isFavorite(by id: UUID) throws -> Bool {
-        guard let storageManager else {
-            throw StorageError.internalError
-        }
-        
-        let result = try storageManager.isFavorite(by: id)
-        
-        return result
-    }
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -129,7 +119,7 @@ extension SearchInteractor: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         manager.stopUpdatingLocation()
         
-        // The workaround is needed because the method sometimes is called
+        // The workaround is needed because sometimes the method is called
         // twice after a single request.
         manager.delegate = nil
         guard let location = locations.first else {
