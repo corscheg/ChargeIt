@@ -43,7 +43,7 @@ final class SearchInteractor: NSObject {
         in country: String? = nil,
         usageTypes: [Int]?
     ) {
-        let maxCount = userSettings.maxCount()
+        let maxCount = userSettings.maxCount().rawValue
         
         networkManager.fetchPoints(latitude: location.latitude, longitude: location.longitude, within: radius, in: country, maxCount: maxCount, usageTypes: usageTypes) { [weak self] result in
             switch result {

@@ -9,7 +9,7 @@ import Foundation
 
 protocol UserSettingsProtocol {
     
-    func updateMaxCount(to value: Int)
+    func updateMaxCount(to value: MaxCount)
     
-    func maxCount() -> Int
+    func maxCount() -> MaxCount
 }

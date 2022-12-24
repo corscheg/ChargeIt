@@ -32,14 +32,14 @@ extension SettingsPresenter: SettingsPresenterProtocol {
         let newIndex: Int
         
         switch maxCount {
-        case 100:
+        case .oneHundred:
             newIndex = 0
-        case 1000:
+        case .oneThousand:
             newIndex = 1
-        case 10000:
-            newIndex = 3
-        default:
+        case .fiveThousand:
             newIndex = 2
+        case .tenThousand:
+            newIndex = 3
         }
         
         viewModel = SettingsViewModel(maxCountSelectedIndex: newIndex)
@@ -61,16 +61,16 @@ extension SettingsPresenter: SettingsPresenterProtocol {
     }
     
     func maxCountSettingIndexChanged(to index: Int) {
-        let maxCount: Int
+        let maxCount: MaxCount
         switch index {
         case 0:
-            maxCount = 100
+            maxCount = .oneHundred
         case 1:
-            maxCount = 1000
+            maxCount = .oneThousand
         case 2:
-            maxCount = 5000
+            maxCount = .fiveThousand
         case 3:
-            maxCount = 10000
+            maxCount = .tenThousand
         default:
             return
         }

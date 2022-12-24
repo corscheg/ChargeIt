@@ -34,11 +34,11 @@ extension SettingsInteractor: SettingsInteractorProtocol {
         try storageManager.deleteAll()
     }
     
-    func maxCount() -> Int {
+    func maxCount() -> MaxCount {
         userSettings.maxCount()
     }
     
-    func setNewMaxCount(_ maxCount: Int) {
+    func setNewMaxCount(_ maxCount: MaxCount) {
         userSettings.updateMaxCount(to: maxCount)
     }
 }

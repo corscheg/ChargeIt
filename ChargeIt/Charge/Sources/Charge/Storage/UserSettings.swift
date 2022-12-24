@@ -18,22 +18,24 @@ final class UserSettings: UserSettingsProtocol {
     
     // MARK: Private Properties
     private let maxCountKey = "maxCount"
-    private var currentMaxCount: Int
+    private var currentMaxCount: MaxCount
     
     // MARK: Initializers
     private init() {
-        currentMaxCount = userDefaults.integer(forKey: maxCountKey)
-        if currentMaxCount == 0 {
-            currentMaxCount = 5000
+        let setting = userDefaults.integer(forKey: maxCountKey)
+        if let settingMax = MaxCount(rawValue: setting) {
+            currentMaxCount = settingMax
+        } else {
+            currentMaxCount = .fiveThousand
         }
     }
     
-    func maxCount() -> Int {
+    func maxCount() -> MaxCount {
         currentMaxCount
     }
     
-    func updateMaxCount(to value: Int) {
+    func updateMaxCount(to value: MaxCount) {
         currentMaxCount = value
-        userDefaults.set(currentMaxCount, forKey: maxCountKey)
+        userDefaults.set(currentMaxCount.rawValue, forKey: maxCountKey)
     }
 }
