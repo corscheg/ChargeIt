@@ -48,7 +48,7 @@ final class ShimmerLabel: UIView {
         let animation = CABasicAnimation(keyPath: "locations")
         animation.fromValue = [0.0, 0.0, 0.25]
         animation.toValue = [0.75, 1.0, 1.0]
-        animation.duration = 2
+        animation.duration = 4
         animation.repeatCount = .infinity
         
         gradientLayer.add(animation, forKey: nil)
