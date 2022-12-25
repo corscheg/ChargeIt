@@ -29,9 +29,6 @@ final class NetworkManager: NetworkManagerProtocol {
         return components
     }()
     
-    // MARK: Private Properties
-    private let bearerToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0MjU3NiIsIm5vbmNlIjoiODFlMGYxZmEtMjczOC00MDMxLTkyMmEtMDdiMjQ3N2ZiYjUxIiwibmJmIjoxNjcxNTg3NDcwLCJleHAiOjE2NzQyNjU4NzAsImlzcyI6Ik9wZW4gQ2hhcmdlIE1hcCIsImF1ZCI6ImFwaS5vcGVuY2hhcmdlbWFwLmlvIn0.pW7LS8oKZzhxWnoqYxRWwdg1Krru-yVT7aYZDTAAPuk"
-    
     // MARK: Initializers
     private init() { }
     
@@ -72,7 +69,7 @@ final class NetworkManager: NetworkManagerProtocol {
         task.resume()
     }
     
-    func checkIn(_ check: CheckIn, completion: @escaping (Result<CheckInResponse, NetworkingError>) -> Void) {
+    func checkIn(_ check: CheckIn, token: String, completion: @escaping (Result<CheckInResponse, NetworkingError>) -> Void) {
         guard let data = try? JSONEncoder().encode(check) else {
             completion(.failure(.codingError))
             return
@@ -88,12 +85,35 @@ final class NetworkManager: NetworkManagerProtocol {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpBody = data
         
         let task = dataTask(with: request, completion: completion)
         
         task.resume() 
+    }
+    
+    func authenticate(_ credentials: Credentials, completion: @escaping (Result<AuthResponse, NetworkingError>) -> Void) {
+        guard let data = try? JSONEncoder().encode(credentials) else {
+            completion(.failure(.codingError))
+            return
+        }
+        
+        var components = baseURL
+        components.path = "/profile/authenticate"
+        
+        guard let url = components.url else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = data
+        
+        let task = dataTask(with: request, completion: completion)
+        
+        task.resume()
     }
     
     // MARK: Private Methods

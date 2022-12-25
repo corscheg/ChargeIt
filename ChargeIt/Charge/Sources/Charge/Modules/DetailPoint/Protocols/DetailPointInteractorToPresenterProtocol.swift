@@ -14,5 +14,5 @@ protocol DetailPointInteractorToPresenterProtocol: AnyObject {
     func checkInSucceeded()
     
     /// Notify presenter that check-in failed.
-    func checkInFailed(with error: NetworkingError)
+    func checkInFailed(with error: LocalizedError)
 }

@@ -18,5 +18,7 @@ protocol NetworkManagerProtocol {
         completion: @escaping (Result<[ChargingPoint], NetworkingError>) -> Void
     )
     
-    func checkIn(_ check: CheckIn, completion: @escaping (Result<CheckInResponse, NetworkingError>) -> Void)
+    func checkIn(_ check: CheckIn, token: String, completion: @escaping (Result<CheckInResponse, NetworkingError>) -> Void)
+    
+    func authenticate(_ credentials: Credentials, completion: @escaping (Result<AuthResponse, NetworkingError>) -> Void)
 }

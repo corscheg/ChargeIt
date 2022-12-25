@@ -18,4 +18,10 @@ protocol SettingsInteractorProtocol {
     
     /// Store new value of maximum point count setting.
     func setNewMaxCount(_ maxCount: MaxCount)
+    
+    /// Find out whether the user is authorized.
+    func isAuthorized() throws -> Bool
+    
+    /// Sign the user out.
+    func signOut() throws
 }

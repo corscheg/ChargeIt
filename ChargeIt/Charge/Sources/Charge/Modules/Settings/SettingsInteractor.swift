@@ -16,11 +16,13 @@ final class SettingsInteractor {
     // MARK: Private Properties
     private let storageManager: StorageManagerProtocol?
     private let userSettings: UserSettingsProtocol
+    private let keychainManager: KeychainManagerProtocol
     
     // MARK: Initializers
-    init(storageManager: StorageManagerProtocol?, userSettings: UserSettingsProtocol) {
+    init(storageManager: StorageManagerProtocol?, userSettings: UserSettingsProtocol, keychainManager: KeychainManagerProtocol) {
         self.storageManager = storageManager
         self.userSettings = userSettings
+        self.keychainManager = keychainManager
     }
 }
 
@@ -40,5 +42,13 @@ extension SettingsInteractor: SettingsInteractorProtocol {
     
     func setNewMaxCount(_ maxCount: MaxCount) {
         userSettings.updateMaxCount(to: maxCount)
+    }
+    
+    func isAuthorized() throws -> Bool {
+        try keychainManager.loadToken() != nil
+    }
+    
+    func signOut() throws {
+        try keychainManager.deleteToken()
     }
 }

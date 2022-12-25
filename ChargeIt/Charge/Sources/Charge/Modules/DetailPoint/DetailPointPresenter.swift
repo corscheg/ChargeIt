@@ -80,10 +80,18 @@ extension DetailPointPresenter: DetailPointInteractorToPresenterProtocol {
         }
     }
     
-    func checkInFailed(with error: NetworkingError) {
+    func checkInFailed(with error: LocalizedError) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.stopActivityIndication()
-            self?.view?.showErrorAlert(with: "Check-In failed")
+            
+            let message: String
+            
+            if let authError = error as? AuthError {
+                message = authError.localizedDescription
+            } else {
+                message = "Check-In failed"
+            }
+            self?.view?.showErrorAlert(with: message)
         }
     }
 }

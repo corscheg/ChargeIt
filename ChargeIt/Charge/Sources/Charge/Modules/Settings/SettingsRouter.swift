@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Router of the Settings module.
 final class SettingsRouter {
@@ -17,4 +18,13 @@ final class SettingsRouter {
 // MARK: - SettingsRouterProtocol
 extension SettingsRouter: SettingsRouterProtocol {
     
+    func revealAuthScreen() {
+        guard let uiView = view as? UIViewController else {
+            return
+        }
+        
+        let authView = UIViewController()
+        let navigationController = UINavigationController(rootViewController: authView)
+        uiView.present(navigationController, animated: true)
+    }
 }

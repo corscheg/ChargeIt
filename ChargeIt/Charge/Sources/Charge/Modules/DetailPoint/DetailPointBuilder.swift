@@ -16,9 +16,10 @@ struct DetailPointBuilder {
     static func build(with viewModel: DetailPointViewModel) -> DetailPointViewController {
         let storageManager = StorageManager.shared
         let networkManager = NetworkManager.shared
+        let keychainManager = KeychainManager.shared
         let hapticsGenerator = UINotificationFeedbackGenerator()
         
-        let interactor = DetailPointInteractor(storageManager: storageManager, networkManager: networkManager)
+        let interactor = DetailPointInteractor(storageManager: storageManager, networkManager: networkManager, keychainManager: keychainManager)
         let router = DetailPointRouter()
         let presenter = DetailPointPresenter(router: router, interactor: interactor, viewModel: viewModel)
         let view = DetailPointViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)

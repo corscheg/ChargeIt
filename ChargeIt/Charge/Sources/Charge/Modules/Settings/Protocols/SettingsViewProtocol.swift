@@ -14,7 +14,10 @@ protocol SettingsViewProtocol: AnyObject {
     func updateUI(with viewModel: SettingsViewModel)
     
     /// Present the dialog for deletion confirmation.
-    func presentConfirmationDialog()
+    func presentDeletionConfirmationDialog()
+    
+    /// Present the dialog for sign out comfirmation.
+    func presentSignOutConfirmationDialog()
     
     /// Show a success alert with the given message.
     func showSuccessAlert(with message: String?)

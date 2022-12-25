@@ -16,11 +16,13 @@ final class DetailPointInteractor {
     // MARK: Private Properties
     private let storageManager: StorageManagerProtocol?
     private let networkManager: NetworkManagerProtocol
+    private let keychainManager: KeychainManagerProtocol
     
     // MARK: Initializers
-    init(storageManager: StorageManagerProtocol?, networkManager: NetworkManagerProtocol) {
+    init(storageManager: StorageManagerProtocol?, networkManager: NetworkManagerProtocol, keychainManager: KeychainManagerProtocol) {
         self.storageManager = storageManager
         self.networkManager = networkManager
+        self.keychainManager = keychainManager
     }
 }
 
@@ -35,13 +37,18 @@ extension DetailPointInteractor: DetailPointInteractorProtocol {
     }
     
     func checkIn(_ check: CheckIn) {
-        networkManager.checkIn(check) { [weak self] result in
+        guard let token = try? keychainManager.loadToken() else {
+            presenter?.checkInFailed(with: AuthError.notAuthorized)
+            return
+        }
+        networkManager.checkIn(check, token: token) { [weak self] result in
+            
             switch result {
             case .success(let response):
                 if response.status == "OK" && response.description == "OK" {
                     self?.presenter?.checkInSucceeded()
                 } else {
-                    self?.presenter?.checkInFailed(with: .badResponse)
+                    self?.presenter?.checkInFailed(with: NetworkingError.badResponse)
                 }
             case .failure(let error):
                 self?.presenter?.checkInFailed(with: error)

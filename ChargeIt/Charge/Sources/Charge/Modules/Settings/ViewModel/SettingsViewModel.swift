@@ -10,4 +10,5 @@ import Foundation
 /// A struct representing the current Settings view state.
 struct SettingsViewModel {
     let maxCountSelectedIndex: Int
+    let authorized: Bool
 }

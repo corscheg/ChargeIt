@@ -17,7 +17,7 @@ final class SettingsViewController: UIViewController {
     let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Private Properties
-    private let deleteIdentifier = "deleteAll"
+    private let defaultIdentifier = "deleteAll"
     private let maxCountIdentifier = "maxCountControl"
     private let tableViewDataSource: SettingsTableViewDataSource
     
@@ -29,7 +29,7 @@ final class SettingsViewController: UIViewController {
     init(presenter: SettingsPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
         self.presenter = presenter
         self.hapticsGenerator = hapticsGenerator
-        tableViewDataSource = SettingsTableViewDataSource(deleteIdentifier: deleteIdentifier, maxCountIdentifier: maxCountIdentifier)
+        tableViewDataSource = SettingsTableViewDataSource(deleteIdentifier: defaultIdentifier, maxCountIdentifier: maxCountIdentifier)
         super.init(nibName: nil, bundle: nil)
         
         let imageName: String
@@ -60,7 +60,7 @@ final class SettingsViewController: UIViewController {
         tableViewDataSource.maxCountControlDelegate = self
         settingsView.tableView.dataSource = tableViewDataSource
         settingsView.tableView.delegate = self
-        settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: deleteIdentifier)
+        settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: defaultIdentifier)
         settingsView.tableView.register(MaxCountTableViewCell.self, forCellReuseIdentifier: maxCountIdentifier)
     }
     
@@ -77,11 +77,20 @@ extension SettingsViewController: SettingsViewProtocol {
         settingsView.tableView.reloadData()
     }
     
-    func presentConfirmationDialog() {
+    func presentDeletionConfirmationDialog() {
         let ac = UIAlertController(title: "Are you sure?", message: "You can not undo this action.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             self?.presenter.deletionConfirmed()
+        })
+        present(ac, animated: true)
+    }
+    
+    func presentSignOutConfirmationDialog() {
+        let ac = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Sign Out", style: .destructive) { [weak self] _ in
+            self?.presenter.signOutConfirmed()
         })
         present(ac, animated: true)
     }
@@ -91,9 +100,11 @@ extension SettingsViewController: SettingsViewProtocol {
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch (indexPath.row, indexPath.section) {
+        switch (indexPath.section, indexPath.row) {
         case (0, 0):
             presenter.clearFavoritesTapped()
+        case (2, 0):
+            presenter.authButtonTapped()
         default:
             break
         }

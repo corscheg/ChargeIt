@@ -16,7 +16,7 @@ final class SettingsPresenter {
     weak var view: SettingsViewProtocol?
     
     // MARK: Private Properties
-    private var viewModel = SettingsViewModel(maxCountSelectedIndex: 2)
+    private var viewModel = SettingsViewModel(maxCountSelectedIndex: 2, authorized: false)
     
     // MARK: Initializers
     init(router: SettingsRouterProtocol, interactor: SettingsInteractorProtocol) {
@@ -42,13 +42,22 @@ extension SettingsPresenter: SettingsPresenterProtocol {
             newIndex = 3
         }
         
-        viewModel = SettingsViewModel(maxCountSelectedIndex: newIndex)
+        let authorized: Bool
+        
+        do {
+            authorized = try interactor.isAuthorized()
+        } catch {
+            view?.showErrorAlert(with: error.localizedDescription)
+            authorized = false
+        }
+        
+        viewModel = SettingsViewModel(maxCountSelectedIndex: newIndex, authorized: authorized)
         
         view?.updateUI(with: viewModel)
     }
     
     func clearFavoritesTapped() {
-        view?.presentConfirmationDialog()
+        view?.presentDeletionConfirmationDialog()
     }
     
     func deletionConfirmed() {
@@ -57,6 +66,16 @@ extension SettingsPresenter: SettingsPresenterProtocol {
             view?.showSuccessAlert(with: "Favorites cleared")
         } catch {
             view?.showErrorAlert(with: "Storage error occurred")
+        }
+    }
+    
+    func signOutConfirmed() {
+        do {
+            try interactor.signOut()
+            viewModel = SettingsViewModel(maxCountSelectedIndex: viewModel.maxCountSelectedIndex, authorized: false)
+            view?.updateUI(with: viewModel)
+        } catch {
+            view?.showErrorAlert(with: error.localizedDescription)
         }
     }
     
@@ -76,5 +95,13 @@ extension SettingsPresenter: SettingsPresenterProtocol {
         }
         
         interactor.setNewMaxCount(maxCount)
+    }
+    
+    func authButtonTapped() {
+        if viewModel.authorized {
+            view?.presentSignOutConfirmationDialog()
+        } else {
+            router.revealAuthScreen()
+        }
     }
 }

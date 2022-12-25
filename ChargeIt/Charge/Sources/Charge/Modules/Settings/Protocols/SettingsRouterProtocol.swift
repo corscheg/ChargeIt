@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Settings module router.
 protocol SettingsRouterProtocol {
     
+    /// Open the authentication screen.
+    func revealAuthScreen()
 }

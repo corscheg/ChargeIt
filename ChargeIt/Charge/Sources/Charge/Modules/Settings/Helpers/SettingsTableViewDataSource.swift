@@ -12,7 +12,7 @@ final class SettingsTableViewDataSource: NSObject {
     
     // MARK: Private Properties
     private var viewModel: SettingsViewModel?
-    private let deleteIdentifier: String
+    private let defaultIdentifier: String
     private let maxCountIdentifier: String
     
     // MARK: Public Properties
@@ -20,7 +20,7 @@ final class SettingsTableViewDataSource: NSObject {
     
     // MARK: Initializers
     init(deleteIdentifier: String, maxCountIdentifier: String) {
-        self.deleteIdentifier = deleteIdentifier
+        self.defaultIdentifier = deleteIdentifier
         self.maxCountIdentifier = maxCountIdentifier
         super.init()
     }
@@ -34,7 +34,7 @@ final class SettingsTableViewDataSource: NSObject {
 // MARK: - UITableViewDataSource
 extension SettingsTableViewDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,7 +44,7 @@ extension SettingsTableViewDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: deleteIdentifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: defaultIdentifier, for: indexPath)
             cell.textLabel?.text = "Clear Favorites"
             return cell
         case (1, 0):
@@ -53,6 +53,10 @@ extension SettingsTableViewDataSource: UITableViewDataSource {
             }
             cell.set(selectedIndex: viewModel?.maxCountSelectedIndex ?? 0)
             cell.delegate = maxCountControlDelegate
+            return cell
+        case (2, 0):
+            let cell = tableView.dequeueReusableCell(withIdentifier: defaultIdentifier, for: indexPath)
+            cell.textLabel?.text = viewModel?.authorized ?? false ? "Sign Out" : "Sign In"
             return cell
         default:
             return UITableViewCell()
