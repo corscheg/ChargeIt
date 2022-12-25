@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Router of the Auth module.
 final class AuthRouter {
@@ -16,5 +17,11 @@ final class AuthRouter {
 
 // MARK: - AuthRouterProtocol
 extension AuthRouter: AuthRouterProtocol {
-    
+    func dismiss() {
+        guard let uiView = view as? UIViewController else {
+            return
+        }
+        
+        uiView.dismiss(animated: true)
+    }
 }

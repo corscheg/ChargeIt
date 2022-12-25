@@ -10,4 +10,9 @@ import Foundation
 /// A protocol of the Auth module presenter for the interactor.
 protocol AuthInteractorToPresenterProtocol: AnyObject {
     
+    /// Notify presenter that the authentication was successful
+    func authSucceeded()
+    
+    /// Notify presenter that the authentication failed.
+    func authFailed(with error: Error)
 }

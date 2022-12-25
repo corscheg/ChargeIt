@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Auth module router.
 protocol AuthRouterProtocol {
     
+    /// Dismiss the view.
+    func dismiss()
 }

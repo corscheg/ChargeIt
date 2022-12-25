@@ -10,4 +10,6 @@ import Foundation
 /// A protocol of the Auth module interactor.
 protocol AuthInteractorProtocol {
     
+    /// Authorize the user.
+    func authorize(_ credentials: Credentials)
 }

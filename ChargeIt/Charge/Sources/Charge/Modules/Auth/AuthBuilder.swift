@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Use this struct to build the Auth module.
 struct AuthBuilder {
@@ -13,10 +14,14 @@ struct AuthBuilder {
     // MARK: Static Methods
     /// Build the module.
     static func build() -> AuthViewController {
-        let interactor = AuthInteractor()
+        let networkManager = NetworkManager.shared
+        let keychainManager = KeychainManager.shared
+        let hapticsGenerator = UINotificationFeedbackGenerator()
+        
+        let interactor = AuthInteractor(networkManager: networkManager, keychainManager: keychainManager)
         let router = AuthRouter()
         let presenter = AuthPresenter(interactor: interactor, router: router)
-        let view = AuthViewController(presenter: presenter)
+        let view = AuthViewController(presenter: presenter, hapticsGenerator: hapticsGenerator)
         
         presenter.view = view
         router.view = view

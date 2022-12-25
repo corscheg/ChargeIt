@@ -25,6 +25,7 @@ extension SettingsRouter: SettingsRouterProtocol {
         
         let authView = AuthBuilder.build()
         let navigationController = UINavigationController(rootViewController: authView)
+        navigationController.modalPresentationStyle = .fullScreen
         uiView.present(navigationController, animated: true)
     }
 }
