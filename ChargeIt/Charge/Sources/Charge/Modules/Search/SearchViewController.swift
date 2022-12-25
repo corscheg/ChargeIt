@@ -60,6 +60,14 @@ final class SearchViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        searchView.sideSheet.preferenceLabel.stopAnimation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        searchView.sideSheet.preferenceLabel.resumeAnimation()
+    }
+    
     // MARK: Private Methods
     private func expandHideSideSheet(with duration: TimeInterval = 0.5) {
         if sideSheetVisible {

@@ -20,18 +20,7 @@ final class PreferenceSideSheet: UIView {
         return view
     }()
     
-//    private lazy var preferenceLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = .preferredFont(forTextStyle: .caption1)
-//        label.numberOfLines = 1
-//        label.text = "Preferences"
-//        label.transform = CGAffineTransform(rotationAngle: -(.pi / 2))
-//        label.textColor = .secondaryLabel
-//
-//        return label
-//    }()
-    
-    private lazy var preferenceLabel: ShimmerLabel = {
+    lazy var preferenceLabel: ShimmerLabel = {
         let label = ShimmerLabel(text: "Preferences")
         label.transform = CGAffineTransform(rotationAngle: -(.pi / 2))
         

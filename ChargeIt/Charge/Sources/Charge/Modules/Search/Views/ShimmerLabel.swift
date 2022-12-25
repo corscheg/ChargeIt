@@ -32,6 +32,7 @@ final class ShimmerLabel: UIView {
     private let font: UIFont = .preferredFont(forTextStyle: .caption1)
     private let text: String
     private let attributes: [NSAttributedString.Key: AnyObject]
+    private let animation: CABasicAnimation
     
     // MARK: Initializers
     init(frame: CGRect, text: String) {
@@ -41,15 +42,17 @@ final class ShimmerLabel: UIView {
         style.alignment = .center
         attributes = [.font: font, .paragraphStyle: style]
         
-        super.init(frame: frame)
-        
-        layer.addSublayer(gradientLayer)
-        clipsToBounds = true
-        let animation = CABasicAnimation(keyPath: "locations")
+        animation = CABasicAnimation(keyPath: "locations")
         animation.fromValue = [0.0, 0.0, 0.25]
         animation.toValue = [0.75, 1.0, 1.0]
         animation.duration = 4
         animation.repeatCount = .infinity
+        
+        super.init(frame: frame)
+        
+        layer.addSublayer(gradientLayer)
+        clipsToBounds = true
+        
         
         gradientLayer.add(animation, forKey: nil)
         
@@ -82,6 +85,15 @@ final class ShimmerLabel: UIView {
         maskLayer.contents = image.cgImage
         gradientLayer.mask = maskLayer
         
+    }
+    
+    // MARK: Public Methods
+    func stopAnimation() {
+        gradientLayer.removeAllAnimations()
+    }
+    
+    func resumeAnimation() {
+        gradientLayer.add(animation, forKey: nil)
     }
     
 }
