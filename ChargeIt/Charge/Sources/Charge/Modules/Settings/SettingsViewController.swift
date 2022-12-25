@@ -17,8 +17,9 @@ final class SettingsViewController: UIViewController {
     let hapticsGenerator: HapticsGeneratorProtocol
     
     // MARK: Private Properties
-    let deleteIdentifier = "deleteAll"
-    let maxCountIdentifier = "maxCountControl"
+    private let deleteIdentifier = "deleteAll"
+    private let maxCountIdentifier = "maxCountControl"
+    private let tableViewDataSource: SettingsTableViewDataSource
     
     // MARK: Visual Components
     private let settingsView = SettingsView()
@@ -28,6 +29,7 @@ final class SettingsViewController: UIViewController {
     init(presenter: SettingsPresenterProtocol, hapticsGenerator: HapticsGeneratorProtocol) {
         self.presenter = presenter
         self.hapticsGenerator = hapticsGenerator
+        tableViewDataSource = SettingsTableViewDataSource(deleteIdentifier: deleteIdentifier, maxCountIdentifier: maxCountIdentifier)
         super.init(nibName: nil, bundle: nil)
         
         let imageName: String
@@ -37,7 +39,7 @@ final class SettingsViewController: UIViewController {
         } else {
             imageName = "gear"
         }
-        
+                
         tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: imageName), tag: 2)
     }
     
@@ -55,7 +57,8 @@ final class SettingsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        settingsView.tableView.dataSource = self
+        tableViewDataSource.maxCountControlDelegate = self
+        settingsView.tableView.dataSource = tableViewDataSource
         settingsView.tableView.delegate = self
         settingsView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: deleteIdentifier)
         settingsView.tableView.register(MaxCountTableViewCell.self, forCellReuseIdentifier: maxCountIdentifier)
@@ -70,11 +73,8 @@ final class SettingsViewController: UIViewController {
 // MARK: - SettingsViewProtocol
 extension SettingsViewController: SettingsViewProtocol {
     func updateUI(with viewModel: SettingsViewModel) {
-        guard let cell = settingsView.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? MaxCountTableViewCell else {
-            return
-        }
-        
-        cell.set(selectedIndex: viewModel.maxCountSelectedIndex)
+        tableViewDataSource.set(viewModel: viewModel)
+        settingsView.tableView.reloadData()
     }
     
     func presentConfirmationDialog() {
@@ -84,44 +84,6 @@ extension SettingsViewController: SettingsViewProtocol {
             self?.presenter.deletionConfirmed()
         })
         present(ac, animated: true)
-    }
-}
-
-// MARK: - UITableViewDataSource
-extension SettingsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        2
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch (indexPath.section, indexPath.row) {
-        case (0, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: deleteIdentifier, for: indexPath)
-            cell.textLabel?.text = "Clear Favorites"
-            return cell
-        case (1, 0):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: maxCountIdentifier, for: indexPath) as? MaxCountTableViewCell else {
-                fallthrough
-            }
-            cell.delegate = self
-            return cell
-        default:
-            return UITableViewCell()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        guard section == 1 else {
-            return nil
-        }
-        
-        let sectionDescription = "Large count of points may cause long-time loading or performance issues, especially on old devices or with poor internet connection. If this setting is less than count of points suitable to the given query options, the closest points will be presented."
-        
-        return sectionDescription
     }
 }
 
