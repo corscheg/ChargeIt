@@ -48,14 +48,20 @@ final class DetailPointViewController: UIViewController {
         
         detailPointView.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         detailPointView.openMapsButton.addTarget(self, action: #selector(openMapsButtonTapped), for: .touchUpInside)
-        detailPointView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
         detailPointView.checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
         
         navigationItem.largeTitleDisplayMode = .never
         
-        if navigationController != nil {
-            detailPointView.hideDismissAndFavorite()
+        if let navigationController {
+            if navigationController.viewControllers.first === self {
+                let dismissButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissButtonTapped))
+                navigationItem.rightBarButtonItem = dismissButton
+            } else {
+                detailPointView.hideFavorite()
+            }
         }
+        
+        title = "Charging Point"
         
         presenter.viewDidLoad()
     }

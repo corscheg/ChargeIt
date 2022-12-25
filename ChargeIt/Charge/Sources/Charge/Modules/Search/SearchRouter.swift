@@ -23,6 +23,7 @@ extension SearchRouter: SearchRouterProtocol {
         }
         
         let detailView = DetailPointBuilder.build(with: viewModel)
-        uiView.present(detailView, animated: true)
+        let navigationController = UINavigationController(rootViewController: detailView)
+        uiView.present(navigationController, animated: true)
     }
 }

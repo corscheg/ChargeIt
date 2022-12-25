@@ -12,16 +12,6 @@ import SnapKit
 final class DetailPointView: UIView {
 
     // MARK: Visual Components
-    lazy var dismissButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.setTitleColor(.systemOrange, for: .normal)
-        button.setTitle("Done", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        
-        return button
-    }()
-    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         
@@ -243,12 +233,7 @@ final class DetailPointView: UIView {
         favoriteButton.setTitle(state ? "Remove from Favorites" : "Add to Favorites", for: .normal)
     }
     
-    func hideDismissAndFavorite() {
-        dismissButton.isHidden = true
-        dismissButton.snp.updateConstraints { make in
-            make.height.equalTo(0)
-        }
-        
+    func hideFavorite() {
         favoriteStack.isHidden = true
         favoriteStack.snp.updateConstraints { make in
             make.height.equalTo(0)
@@ -257,16 +242,9 @@ final class DetailPointView: UIView {
     
     // MARK: Private Methods
     private func addAndLayoutSubviews() {
-        addSubview(dismissButton)
-        dismissButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(10)
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(44)
-        }
-        
         addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(dismissButton.snp.bottom)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(layoutMarginsGuide).priority(800)
             make.width.equalTo(scrollView.contentLayoutGuide)
