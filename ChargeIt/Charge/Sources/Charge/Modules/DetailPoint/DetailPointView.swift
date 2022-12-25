@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-/// Visual components of the Detail View module.
+/// Visual components of the Detail Point module.
 final class DetailPointView: UIView {
 
     // MARK: Visual Components

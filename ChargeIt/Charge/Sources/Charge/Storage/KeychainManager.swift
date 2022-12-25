@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// A facade for iOS Keychain service.
 final class KeychainManager: KeychainManagerProtocol {
     
     // MARK: Static Properties

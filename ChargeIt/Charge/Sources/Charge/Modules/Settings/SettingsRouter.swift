@@ -23,7 +23,7 @@ extension SettingsRouter: SettingsRouterProtocol {
             return
         }
         
-        let authView = UIViewController()
+        let authView = AuthBuilder.build()
         let navigationController = UINavigationController(rootViewController: authView)
         uiView.present(navigationController, animated: true)
     }

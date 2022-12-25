@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A protocol of the Detail Point module presenter for the view..
+/// A protocol of the Detail Point module presenter for the view.
 protocol DetailPointViewToPresenterProtocol: AnyObject {
     
     /// Notify presenter that view is ready for presentation.

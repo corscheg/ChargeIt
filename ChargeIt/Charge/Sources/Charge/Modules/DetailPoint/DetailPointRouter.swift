@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-/// Router of the Detail Point search module.
+/// Router of the Detail Point module.
 final class DetailPointRouter {
     
     // MARK: VIPER
