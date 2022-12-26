@@ -21,6 +21,8 @@ final class AuthViewController: UIViewController {
         field.spellCheckingType = .no
         field.autocorrectionType = .no
         field.autocapitalizationType = .none
+        field.textContentType = .emailAddress
+        field.keyboardType = .emailAddress
         
         return field
     }()
@@ -33,6 +35,7 @@ final class AuthViewController: UIViewController {
         field.autocorrectionType = .no
         field.autocapitalizationType = .none
         field.isSecureTextEntry = true
+        field.textContentType = .password
         
         return field
     }()
