@@ -58,7 +58,7 @@ final class AlertView: UIView {
         
         addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.edges.equalTo(layoutMarginsGuide).inset(30)
+            make.edges.equalTo(layoutMarginsGuide).inset(15)
         }
         
         stack.addArrangedSubview(image)
@@ -84,7 +84,7 @@ final class AlertView: UIView {
     func layoutInSuperview() {
         snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(2)
+            make.width.equalToSuperview().multipliedBy(0.55)
         }
     }
     

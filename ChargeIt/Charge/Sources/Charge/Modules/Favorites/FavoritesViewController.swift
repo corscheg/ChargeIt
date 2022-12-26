@@ -30,7 +30,7 @@ final class FavoritesViewController: UIViewController {
         self.tableManager = FavoritesTableManager(tableView: favoritesView.tableView)
         
         super.init(nibName: nil, bundle: nil)
-        tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), tag: 1)
         
     }
     

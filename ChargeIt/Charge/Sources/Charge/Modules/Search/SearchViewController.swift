@@ -29,7 +29,7 @@ final class SearchViewController: UIViewController {
         self.hapticsGenerator = hapticsGenerator
         super.init(nibName: nil, bundle: nil)
         
-        tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
     }
     
     required init?(coder: NSCoder) {
