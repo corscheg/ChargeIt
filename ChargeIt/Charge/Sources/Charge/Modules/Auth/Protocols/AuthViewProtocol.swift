@@ -15,4 +15,8 @@ protocol AuthViewProtocol: AnyObject {
     
     /// Present a failure alert with the given message.
     func showErrorAlert(with message: String?)
+    
+    func startActivityIndication()
+    
+    func stopActivityIndication()
 }

@@ -14,7 +14,7 @@ final class AuthViewController: UIViewController {
     private let presenter: AuthViewToPresenterProtocol
     
     // MARK: Visual Components
-    lazy var emailField: UITextField = {
+    private lazy var emailField: UITextField = {
         let field = UITextField()
         field.borderStyle = .roundedRect
         field.placeholder = "Email"
@@ -25,18 +25,19 @@ final class AuthViewController: UIViewController {
         return field
     }()
     
-    lazy var passwordField: UITextField = {
+    private lazy var passwordField: UITextField = {
         let field = UITextField()
         field.borderStyle = .roundedRect
         field.placeholder = "Password"
         field.spellCheckingType = .no
         field.autocorrectionType = .no
         field.autocapitalizationType = .none
+        field.isSecureTextEntry = true
         
         return field
     }()
     
-    lazy var authButton: UIButton = {
+    private lazy var authButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemOrange
         button.layer.cornerCurve = .continuous
@@ -44,6 +45,13 @@ final class AuthViewController: UIViewController {
         button.setTitle("Sign In", for: .normal)
         
         return button
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.alpha = 0
+        
+        return indicator
     }()
     
     var alert: AlertView?
@@ -87,7 +95,8 @@ final class AuthViewController: UIViewController {
     private func addAndLayoutSubviews() {
         view.addSubview(emailField)
         emailField.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.top.equalTo(view.layoutMarginsGuide).offset(20)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
         view.addSubview(passwordField)
@@ -96,9 +105,16 @@ final class AuthViewController: UIViewController {
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make.top.equalTo(passwordField.snp.bottom).offset(10)
+            make.height.equalTo(0)
+            make.centerX.equalToSuperview()
+        }
+        
         view.addSubview(authButton)
         authButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordField.snp.bottom).offset(20)
+            make.top.equalTo(activityIndicator.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.height.equalTo(44)
             make.width.equalTo(100)
@@ -111,6 +127,7 @@ final class AuthViewController: UIViewController {
     }
     
     @objc private func authTapped() {
+        emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         presenter.authTapped()
     }
@@ -118,7 +135,33 @@ final class AuthViewController: UIViewController {
 
 // MARK: - AuthViewProtocol
 extension AuthViewController: AuthViewProtocol {
+    func startActivityIndication() {
+        activityIndicator.startAnimating()
+        activityIndicator.snp.remakeConstraints { make in
+            make.top.equalTo(passwordField.snp.bottom).offset(10)
+            make.height.equalTo(activityIndicator.snp.width)
+            make.centerX.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut]) {
+            self.activityIndicator.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+    }
     
+    func stopActivityIndication() {
+        activityIndicator.stopAnimating()
+        activityIndicator.snp.remakeConstraints { make in
+            make.top.equalTo(passwordField.snp.bottom).offset(10)
+            make.height.equalTo(0)
+            make.centerX.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut]) {
+            self.activityIndicator.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+    }
 }
 
 // MARK: - UITextFieldDelegate

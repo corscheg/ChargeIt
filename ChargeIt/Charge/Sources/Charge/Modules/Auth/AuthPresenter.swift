@@ -39,6 +39,7 @@ extension AuthPresenter: AuthViewToPresenterProtocol {
     }
     
     func authTapped() {
+        view?.startActivityIndication()
         let credentials = Credentials(email: email, password: password)
         interactor.authorize(credentials)
     }
@@ -52,6 +53,7 @@ extension AuthPresenter: AuthViewToPresenterProtocol {
 extension AuthPresenter: AuthInteractorToPresenterProtocol {
     func authSucceeded() {
         DispatchQueue.main.async { [weak self] in
+            self?.view?.stopActivityIndication()
             self?.view?.showSuccessAlert(with: "Authentication successful!")
         }
         
@@ -70,6 +72,7 @@ extension AuthPresenter: AuthInteractorToPresenterProtocol {
         }
         
         DispatchQueue.main.async { [weak self] in
+            self?.view?.stopActivityIndication()
             self?.view?.showErrorAlert(with: message)
         }
     }
