@@ -97,10 +97,10 @@ extension SearchPresenter: SearchViewToPresenterProtocol {
 // MARK: - SearchInteractorToPresenterProtocol
 extension SearchPresenter: SearchInteractorToPresenterProtocol {
     func pointsLoadingFailed(with error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.showErrorAlert(with: error.localizedDescription)
-            self?.view?.unlockRequests()
-            self?.view?.stopActivityIndication()
+        DispatchQueue.main.async {
+            self.view?.showErrorAlert(with: error.localizedDescription)
+            self.view?.unlockRequests()
+            self.view?.stopActivityIndication()
         }
     }
     
@@ -148,11 +148,7 @@ extension SearchPresenter: SearchInteractorToPresenterProtocol {
         
         viewModel.region = MKCoordinateRegion(center: center, span: span)
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            
+        DispatchQueue.main.async {
             self.view?.updateUI(with: self.viewModel)
             self.view?.stopActivityIndication()
             self.view?.unlockRequests()

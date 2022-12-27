@@ -57,8 +57,8 @@ extension Alertable {
     }
     
     private func hideAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.hideAlert()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.hideAlert()
         }
     }
     

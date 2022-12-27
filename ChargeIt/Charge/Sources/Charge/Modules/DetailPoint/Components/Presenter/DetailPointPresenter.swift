@@ -74,15 +74,15 @@ extension DetailPointPresenter: DetailPointViewToPresenterProtocol {
 extension DetailPointPresenter: DetailPointInteractorToPresenterProtocol {
     
     func checkInSucceeded() {
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.stopActivityIndication()
-            self?.view?.showSuccessAlert(with: "Check-In succeded!")
+        DispatchQueue.main.async {
+            self.view?.stopActivityIndication()
+            self.view?.showSuccessAlert(with: "Check-In succeded!")
         }
     }
     
     func checkInFailed(with error: LocalizedError) {
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.stopActivityIndication()
+        DispatchQueue.main.async {
+            self.view?.stopActivityIndication()
             
             let message: String
             
@@ -91,7 +91,7 @@ extension DetailPointPresenter: DetailPointInteractorToPresenterProtocol {
             } else {
                 message = "Check-In failed"
             }
-            self?.view?.showErrorAlert(with: message)
+            self.view?.showErrorAlert(with: message)
         }
     }
 }

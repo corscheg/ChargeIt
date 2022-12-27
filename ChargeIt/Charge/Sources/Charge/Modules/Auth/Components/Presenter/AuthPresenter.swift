@@ -50,13 +50,13 @@ extension AuthPresenter: AuthViewToPresenterProtocol {
 // MARK: - AuthInteractorToPresenterProtocol
 extension AuthPresenter: AuthInteractorToPresenterProtocol {
     func authSucceeded() {
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.stopActivityIndication()
-            self?.view?.showSuccessAlert(with: "Authentication successful!")
+        DispatchQueue.main.async {
+            self.view?.stopActivityIndication()
+            self.view?.showSuccessAlert(with: "Authentication successful!")
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.router.dismiss()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.router.dismiss()
         }
     }
     
@@ -69,9 +69,9 @@ extension AuthPresenter: AuthInteractorToPresenterProtocol {
             message = "Authentication falied"
         }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.stopActivityIndication()
-            self?.view?.showErrorAlert(with: message)
+        DispatchQueue.main.async {
+            self.view?.stopActivityIndication()
+            self.view?.showErrorAlert(with: message)
         }
     }
 }
