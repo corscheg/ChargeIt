@@ -171,7 +171,8 @@ final class DetailPointView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         
-        addAndLayoutSubviews()
+        addSubviews()
+        layout()
     }
     
     convenience init() {
@@ -241,8 +242,30 @@ final class DetailPointView: UIView {
     }
     
     // MARK: Private Methods
-    private func addAndLayoutSubviews() {
+    private func addSubviews() {
         addSubview(scrollView)
+        
+        scrollView.addSubview(imagesScroll)
+        imagesScroll.addSubview(imagesStack)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(addressFirstlabel)
+        scrollView.addSubview(addressSecondLabel)
+        scrollView.addSubview(countryLabel)
+        scrollView.addSubview(connectionView)
+        scrollView.addSubview(favoriteStack)
+        
+        favoriteStack.addArrangedSubview(favoriteView)
+        favoriteStack.addArrangedSubview(favoriteButton)
+        
+        scrollView.addSubview(mapsStack)
+        
+        mapsStack.addArrangedSubview(checkInButton)
+        mapsStack.addArrangedSubview(openMapsButton)
+        
+        checkInButton.addSubview(activityIndicator)
+    }
+    
+    private func layout() {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
@@ -250,61 +273,49 @@ final class DetailPointView: UIView {
             make.width.equalTo(scrollView.contentLayoutGuide)
         }
         
-        scrollView.addSubview(imagesScroll)
         imagesScroll.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.contentLayoutGuide).priority(800)
             make.top.equalTo(scrollView.contentLayoutGuide)
             make.height.equalTo(imagesScroll.contentLayoutGuide)
         }
         
-        imagesScroll.addSubview(imagesStack)
         imagesStack.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.left.right.equalTo(imagesScroll.contentLayoutGuide)
         }
         
-        scrollView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imagesScroll.snp.bottom).offset(15)
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
         }
         
-        scrollView.addSubview(addressFirstlabel)
         addressFirstlabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
         }
         
-        scrollView.addSubview(addressSecondLabel)
         addressSecondLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(addressFirstlabel.snp.bottom).offset(10)
         }
         
-        scrollView.addSubview(countryLabel)
         countryLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(addressSecondLabel.snp.bottom).offset(10)
         }
         
-        scrollView.addSubview(connectionView)
         connectionView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(countryLabel.snp.bottom).offset(20)
             make.height.equalTo(150)
         }
         
-        scrollView.addSubview(favoriteStack)
         favoriteStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(connectionView.snp.bottom).offset(20)
             make.height.equalTo(44)
         }
         
-        favoriteStack.addArrangedSubview(favoriteView)
-        favoriteStack.addArrangedSubview(favoriteButton)
-        
-        scrollView.addSubview(mapsStack)
         mapsStack.snp.makeConstraints { make in
             make.leading.trailing.equalTo(scrollView.layoutMarginsGuide).priority(800)
             make.top.equalTo(favoriteStack.snp.bottom).offset(20)
@@ -312,14 +323,10 @@ final class DetailPointView: UIView {
             make.bottom.equalTo(scrollView.contentLayoutGuide)
         }
         
-        mapsStack.addArrangedSubview(checkInButton)
-        mapsStack.addArrangedSubview(openMapsButton)
-        
         checkInButton.snp.makeConstraints { make in
             make.width.equalTo(openMapsButton.snp.height)
         }
         
-        checkInButton.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }

@@ -81,7 +81,8 @@ final class AuthViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .systemBackground
         
-        addAndLayoutSubviews()
+        addSubviews()
+        layout()
     }
     
     override func viewDidLoad() {
@@ -94,27 +95,30 @@ final class AuthViewController: UIViewController {
     }
     
     // MARK: Private Methods
-    private func addAndLayoutSubviews() {
+    private func addSubviews() {
         view.addSubview(emailField)
+        view.addSubview(passwordField)
+        view.addSubview(activityIndicator)
+        view.addSubview(authButton)
+    }
+    
+    private func layout() {
         emailField.snp.makeConstraints { make in
             make.top.equalTo(view.layoutMarginsGuide).offset(20)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
-        view.addSubview(passwordField)
         passwordField.snp.makeConstraints { make in
             make.top.equalTo(emailField.snp.bottom).offset(15)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
         }
         
-        view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints { make in
             make.top.equalTo(passwordField.snp.bottom).offset(10)
             make.height.equalTo(0)
             make.centerX.equalToSuperview()
         }
         
-        view.addSubview(authButton)
         authButton.snp.makeConstraints { make in
             make.top.equalTo(activityIndicator.snp.bottom).offset(10)
             make.centerX.equalToSuperview()

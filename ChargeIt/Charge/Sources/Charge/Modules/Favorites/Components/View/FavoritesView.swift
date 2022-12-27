@@ -23,7 +23,8 @@ final class FavoritesView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         
-        addAndLayoutSubviews()
+        addSubviews()
+        layout()
     }
     
     convenience init() {
@@ -35,8 +36,11 @@ final class FavoritesView: UIView {
     }
     
     // MARK: Private Methods
-    private func addAndLayoutSubviews() {
+    private func addSubviews() {
         addSubview(tableView)
+    }
+    
+    private func layout() {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

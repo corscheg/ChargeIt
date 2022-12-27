@@ -58,7 +58,8 @@ final class SearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addAndLayoutSubviews()
+        addSubviews()
+        layout()
     }
     
     convenience init() {
@@ -70,23 +71,26 @@ final class SearchView: UIView {
     }
     
     // MARK: Private Methods
-    private func addAndLayoutSubviews() {
+    private func addSubviews() {
         addSubview(map)
+        map.addSubview(nearbyStack)
+        nearbyStack.addArrangedSubview(activityIndicator)
+        activityIndicator.transform = activityIndicator.transform.concatenating(CGAffineTransform(translationX: activityIndicator.frame.width, y: 0))
+        nearbyStack.addArrangedSubview(nearbyButton)
+        addSubview(sideSheet)
+    }
+    
+    private func layout() {
         map.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(safeAreaLayoutGuide)
             make.top.equalToSuperview()
         }
         
-        map.addSubview(nearbyStack)
         nearbyStack.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.centerX.equalToSuperview()
         }
         
-        nearbyStack.addArrangedSubview(activityIndicator)
-        activityIndicator.transform = activityIndicator.transform.concatenating(CGAffineTransform(translationX: activityIndicator.frame.width, y: 0))
-        
-        nearbyStack.addArrangedSubview(nearbyButton)
         nearbyButton.snp.makeConstraints { make in
             make.height.equalTo(44)
         }
@@ -95,7 +99,6 @@ final class SearchView: UIView {
             make.trailing.equalToSuperview().inset(20)
         }
         
-        addSubview(sideSheet)
         sideSheet.snp.makeConstraints { make in
             make.bottom.equalTo(nearbyStack.snp.top).offset(-20)
             make.width.equalToSuperview().multipliedBy(0.95)
