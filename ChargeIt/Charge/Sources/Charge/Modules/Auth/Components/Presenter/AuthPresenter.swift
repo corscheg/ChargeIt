@@ -30,12 +30,10 @@ final class AuthPresenter {
 extension AuthPresenter: AuthViewToPresenterProtocol {
     func emailChanged(to value: String) {
         email = value
-        print(email)
     }
     
     func passwordChanged(to value: String) {
         password = value
-        print(password)
     }
     
     func authTapped() {

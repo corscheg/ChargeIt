@@ -5,7 +5,6 @@
 //  Created by Александр Казак-Казакевич on 02.12.2022.
 //
 
-import Foundation
 import MapKit
 
 /// A protocol of the Search module presenter for the view.

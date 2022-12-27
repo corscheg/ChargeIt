@@ -5,7 +5,6 @@
 //  Created by Александр Казак-Казакевич on 18.12.2022.
 //
 
-import Foundation
 import UIKit
 
 /// A class that handles UITableView in Favorites view.

@@ -5,7 +5,6 @@
 //  Created by Александр Казак-Казакевич on 24.12.2022.
 //
 
-import Foundation
 import UIKit
 
 /// A protocol that lets View Controllers present custom alerts.

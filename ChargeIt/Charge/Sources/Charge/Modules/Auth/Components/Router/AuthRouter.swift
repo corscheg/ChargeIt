@@ -5,7 +5,6 @@
 //  Created by Александр Казак-Казакевич on 26.12.2022.
 //
 
-import Foundation
 import UIKit
 
 /// Router of the Auth module.

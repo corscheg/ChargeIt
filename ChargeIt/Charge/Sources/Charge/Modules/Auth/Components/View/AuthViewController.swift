@@ -23,6 +23,7 @@ final class AuthViewController: UIViewController {
         field.autocapitalizationType = .none
         field.textContentType = .emailAddress
         field.keyboardType = .emailAddress
+        field.delegate = self
         
         return field
     }()
@@ -36,6 +37,7 @@ final class AuthViewController: UIViewController {
         field.autocapitalizationType = .none
         field.isSecureTextEntry = true
         field.textContentType = .password
+        field.delegate = self
         
         return field
     }()
@@ -46,6 +48,7 @@ final class AuthViewController: UIViewController {
         button.layer.cornerCurve = .continuous
         button.layer.cornerRadius = 10
         button.setTitle("Sign In", for: .normal)
+        button.addTarget(self, action: #selector(authTapped), for: .touchUpInside)
         
         return button
     }()
@@ -86,10 +89,6 @@ final class AuthViewController: UIViewController {
         
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissTapped))
         navigationItem.rightBarButtonItem = dismissButton
-        
-        emailField.delegate = self
-        passwordField.delegate = self
-        authButton.addTarget(self, action: #selector(authTapped), for: .touchUpInside)
         
         emailField.becomeFirstResponder()
     }

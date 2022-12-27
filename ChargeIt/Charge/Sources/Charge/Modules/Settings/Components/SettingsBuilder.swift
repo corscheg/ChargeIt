@@ -5,7 +5,6 @@
 //  Created by Александр Казак-Казакевич on 23.12.2022.
 //
 
-import Foundation
 import UIKit
 
 /// Use this struct to build the Favorites module.
